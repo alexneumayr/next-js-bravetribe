@@ -2,5 +2,9 @@ import checkAuth from '@/util/checkAuth';
 
 export default async function page() {
   await checkAuth();
-  return <div className="">This is the home page</div>;
+  return (
+    <div className="">
+      <h1>Home</h1>
+    </div>
+  );
 }
