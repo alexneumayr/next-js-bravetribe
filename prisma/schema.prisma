@@ -32,6 +32,7 @@ model User {
   comments               Comment[]
   Session                Session?
   likes                  Like[]
+  memberSince            DateTime     @default(now())
 }
 
 model Goal {

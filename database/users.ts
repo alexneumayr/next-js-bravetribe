@@ -1,7 +1,10 @@
 import { prisma } from '@/lib/prisma';
 
 export async function getNewestUsersInsecure() {
-  const users = await prisma.user.findMany({ take: 10 });
+  const users = await prisma.user.findMany({
+    orderBy: [{ memberSince: 'desc' }],
+    take: 10,
+  });
   return users;
 }
 
