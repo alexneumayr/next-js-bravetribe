@@ -20,3 +20,12 @@ export const registrationSchema = z
     message: 'Passwords do not match',
     path: ['confirmPasswordMatch'],
   });
+
+export const signinSchema = z.object({
+  username: z.string().min(3, {
+    message: 'Please enter your username',
+  }),
+  password: z.string().min(3, {
+    message: 'Please enter your password',
+  }),
+});

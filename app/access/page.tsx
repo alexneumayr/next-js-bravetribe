@@ -29,6 +29,7 @@ import { useForm } from 'react-hook-form';
 import type { GeneratedIdentifierFlags } from 'typescript';
 import { z } from 'zod';
 import RegisterForm from './RegisterForm';
+import SigninForm from './SigninForm';
 
 export default function AccessPage() {
   const searchParams = useSearchParams();
@@ -46,27 +47,7 @@ export default function AccessPage() {
         </TabsList>
 
         <TabsContent value="signin">
-          <Card>
-            <CardHeader>
-              <CardTitle>Sign in</CardTitle>
-              <CardDescription>
-                Please enter your username and password.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="space-y-1">
-                <Label htmlFor="signin-username">Username</Label>
-                <Input id="signin-username" defaultValue="" />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="signin-password">Password</Label>
-                <Input id="signin-password" type="password" />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button>Sign in</Button>
-            </CardFooter>
-          </Card>
+          <SigninForm />
         </TabsContent>
 
         <TabsContent value="join">
