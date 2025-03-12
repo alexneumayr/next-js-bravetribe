@@ -1,5 +1,5 @@
 import Header from './Header';
-import SidebarLeft from './SidebarLeft';
+import Sidebars from './Sidebars';
 
 export default function Layout({
   children,
@@ -9,7 +9,7 @@ export default function Layout({
   return (
     <>
       <Header />
-      <SidebarLeft>{children}</SidebarLeft>
+      <Sidebars>{children}</Sidebars>
     </>
   );
 }

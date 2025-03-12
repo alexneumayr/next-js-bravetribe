@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react';
 import { SidebarNav } from './components/sidebar-nav';
+import SidebarRight from './SidebarRight';
 
 interface SidebarLeftProps {
   children: ReactNode;
@@ -12,30 +13,31 @@ const sidebarNavItems = [
   },
   {
     title: 'Your goals',
-    href: '/examples/forms/account',
+    href: '/main/goals',
   },
   {
     title: 'Challenge Planner',
-    href: '/examples/forms/appearance',
+    href: '/main/planner',
   },
   {
     title: 'Experiences',
-    href: '/examples/forms/notifications',
+    href: '/main/experiences',
   },
   {
     title: 'Friends',
-    href: '/examples/forms/display',
+    href: '/main/friends',
   },
 ];
 
-export default function SidebarLeft({ children }: SidebarLeftProps) {
+export default function Sidebars({ children }: SidebarLeftProps) {
   return (
-    <div className="space-y-6 p-6 pb-16">
-      <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-12 lg:space-y-0">
+    <div className="space-y-5 p-5 pb-16">
+      <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-5 lg:space-y-0">
         <aside className="lg:w-1/5">
           <SidebarNav items={sidebarNavItems} />
         </aside>
-        <div className="flex-1 lg:max-w-2xl">{children}</div>
+        <div className="flex-1">{children}</div>
+        <SidebarRight />
       </div>
     </div>
   );

@@ -1,5 +1,10 @@
 import { prisma } from '@/lib/prisma';
 
+export async function getNewestUsersInsecure() {
+  const users = await prisma.user.findMany({ take: 10 });
+  return users;
+}
+
 export async function getUser(sessionToken: string) {
   const user = await prisma.session.findUnique({
     where: {
