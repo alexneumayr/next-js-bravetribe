@@ -18,7 +18,7 @@ model User {
   email                  String       @unique
   username               String       @unique
   passwordHash           String
-  role                   String
+  role                   Role         @default(user)
   avatarImage            String?
   gender                 String?
   location               String?
@@ -92,8 +92,8 @@ model Comment {
 
 model Session {
   id              String   @id @default(cuid())
-  token           String
-  expiryTimestamp DateTime
+  token           String   @unique
+  expiryTimestamp DateTime @default(dbgenerated("now() + interval '24 hours'"))
   User            User     @relation(fields: [userId], references: [id])
   userId          String   @unique
 }
@@ -112,4 +112,9 @@ model Template {
   description String
   image       String
   imageAlt    String
+}
+
+enum Role {
+  user
+  admin
 }
