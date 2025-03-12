@@ -78,6 +78,7 @@ const initUsers: Prisma.UserCreateInput[] = [
       "I'm an adventurous traveler who loves meeting new people and experiencing different cultures. I believe that stepping out of my comfort zone is the best way to grow, and I'm excited to be part of a community that shares the same mindset.",
     avatarImage: 'user.jpg',
     gender: 'Woman',
+    location: 'Berlin, Germany',
     goals: {
       createMany: {
         data: [
@@ -102,6 +103,7 @@ const initUsers: Prisma.UserCreateInput[] = [
       "I'm a software engineer who spends too much time behind a screen. I'm here to challenge myself socially and push past my usual comfort zone, especially when it comes to public interactions.",
     avatarImage: 'user.jpg',
     gender: 'Man',
+    location: 'San Francisco, USA',
     goals: {
       createMany: {
         data: [
@@ -126,6 +128,7 @@ const initUsers: Prisma.UserCreateInput[] = [
       "I'm a fitness coach who believes that mental challenges are just as important as physical ones. I love pushing myself in all aspects of life and helping others do the same.",
     avatarImage: 'user.jpg',
     gender: 'Woman',
+    location: 'London, UK',
     goals: {
       createMany: {
         data: [
@@ -149,6 +152,7 @@ const initUsers: Prisma.UserCreateInput[] = [
       "I'm an aspiring stand-up comedian who wants to become more comfortable performing in front of strangers. Every awkward situation is just another funny story waiting to happen.",
     avatarImage: 'user.jpg',
     gender: 'Man',
+    location: 'New York, USA',
     goals: {
       createMany: {
         data: [
@@ -172,6 +176,7 @@ const initUsers: Prisma.UserCreateInput[] = [
       "I'm a photographer who loves capturing human emotions. But when it comes to being in front of the camera myself, I struggle. I'm here to face that fear head-on.",
     avatarImage: 'user.jpg',
     gender: 'Woman',
+    location: 'Sydney, Australia',
     goals: {
       createMany: {
         data: [
@@ -197,6 +202,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     },
     experiences: {
       create: {
+        title: 'Overcoming Hesitation: A Selfie Journey',
         story:
           'I was hesitant at first, but after the first few people agreed, it became fun! Some even made silly faces for the pictures.',
         rating: 5,
@@ -231,6 +237,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     },
     experiences: {
       create: {
+        title: 'From Nervousness to Confidence: Public Speaking',
         story:
           'I was nervous at first, but once I started speaking about tech, I felt more confident. It was empowering to share my knowledge with others.',
         rating: 4,
@@ -265,6 +272,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     },
     experiences: {
       create: {
+        title: 'A Journey of Discovery: Solo Travel',
         story:
           "I visited a country where I didn't speak the language, and despite some challenges, it was an eye-opening experience. I learned so much about myself and the world.",
         rating: 5,
@@ -299,6 +307,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     },
     experiences: {
       create: {
+        title: 'Laughter and Nerves: The Open Mic Experience',
         story:
           "It was nerve-wracking at first, but once the audience laughed, I felt on top of the world. I can't wait to perform again!",
         rating: 5,
@@ -333,6 +342,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     },
     experiences: {
       create: {
+        title: 'Breaking the Ice: Gym Conversations',
         story:
           'At first, I was intimidated, but once I started talking to people, I realized how easy it was to connect with others in the gym.',
         rating: 4,
@@ -411,7 +421,7 @@ const initFriends: Prisma.FriendCreateInput[] = [
 async function main() {
   console.log(`Start seeding...`);
 
-  await prisma.template.deleteMany();
+  await prisma.session.deleteMany();
   await prisma.goal.deleteMany();
   await prisma.comment.deleteMany();
   await prisma.like.deleteMany();

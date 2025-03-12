@@ -68,6 +68,7 @@ model Challenge {
 
 model Experience {
   id          String    @id @default(cuid())
+  title       String
   story       String
   rating      Float
   image       String?
@@ -79,6 +80,7 @@ model Experience {
   userId      String
   comments    Comment[]
   likes       Like[]
+  created_at  DateTime  @default(now())
 }
 
 model Comment {
