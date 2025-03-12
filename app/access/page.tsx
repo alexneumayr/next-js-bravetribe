@@ -17,7 +17,7 @@ export default async function AccessPage() {
 
   // 3. If the sessionToken cookie is valid, redirect to home
   if (session) {
-    redirect('/home');
+    redirect('/main');
   }
 
   // 4. If the sessionToken cookie is invalid or doesn't exist, show the login form

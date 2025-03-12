@@ -5,14 +5,8 @@ export async function getUser(sessionToken: string) {
     where: {
       token: sessionToken,
     },
-    select: {
-      User: {
-        select: {
-          id: true,
-          username: true,
-          email: true,
-        },
-      },
+    include: {
+      User: true,
     },
   });
   return user;
