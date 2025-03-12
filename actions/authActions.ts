@@ -113,7 +113,7 @@ export async function loginUser(
     return { error: { general: 'Username or Password is invalid' } };
   }
 
-  // At this stage we already confirm that the user is who they say they are
+  // At this stage we have already confirmed that the user is who they say they are
   const token = crypto.randomBytes(100).toString('base64');
 
   // Session-Eintrag erstellen
