@@ -1,59 +1,25 @@
-'use client';
-import { registerUser } from '@/actions/authActions';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { registrationSchema } from '@/util/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useSearchParams } from 'next/navigation';
-import { useActionState, useRef } from 'react';
-import { useForm } from 'react-hook-form';
-import type { GeneratedIdentifierFlags } from 'typescript';
-import { z } from 'zod';
-import RegisterForm from './RegisterForm';
-import SigninForm from './SigninForm';
+import { getValidSessionToken } from '@/database/sessions';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import AccessTabs from './AccessTabs';
 
-export default function AccessPage() {
-  const searchParams = useSearchParams();
+export default async function AccessPage() {
+  // 1. Check if the sessionToken cookie exists
+  const cookieStore = await cookies();
 
-  const mode = searchParams.get('mode') || undefined;
-  console.log('Mode', mode);
+  // 1. Get the session token from the cookie
+  const sessionTokenCookie = cookieStore.get('sessionToken');
 
-  return (
-    <div>
-      <h1>Access page</h1>
-      <Tabs defaultValue={mode} className="w-[400px] mx-auto">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="signin">Sign in</TabsTrigger>
-          <TabsTrigger value="join">Join</TabsTrigger>
-        </TabsList>
+  // 2. Check if the sessionToken cookie is still valid
+  const session =
+    sessionTokenCookie &&
+    (await getValidSessionToken(sessionTokenCookie.value));
 
-        <TabsContent value="signin">
-          <SigninForm />
-        </TabsContent>
+  // 3. If the sessionToken cookie is valid, redirect to home
+  if (session) {
+    redirect('/home');
+  }
 
-        <TabsContent value="join">
-          <RegisterForm />
-        </TabsContent>
-      </Tabs>
-    </div>
-  );
+  // 4. If the sessionToken cookie is invalid or doesn't exist, show the login form
+  return <AccessTabs />;
 }

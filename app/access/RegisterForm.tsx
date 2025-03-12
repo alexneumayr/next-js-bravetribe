@@ -12,20 +12,16 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { registrationSchema } from '@/util/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useActionState, useRef } from 'react';
+import { useActionState } from 'react';
 import { useForm } from 'react-hook-form';
-import type { GeneratedIdentifierFlags } from 'typescript';
 import { z } from 'zod';
 
 export default function RegisterForm() {

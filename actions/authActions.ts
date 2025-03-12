@@ -1,158 +1,17 @@
 'use server';
 import crypto from 'node:crypto';
-import { prisma } from '@/lib/prisma';
+import { createSessionInsecure, deleteSession } from '@/database/sessions';
+import {
+  createUserInsecure,
+  getUserByEmailInsecure,
+  getUserByUsernameInsecure,
+  getUserWithPasswordHashInsecure,
+} from '@/database/users';
+import { secureCookieOptions } from '@/util/cookies';
 import { registrationSchema, signinSchema } from '@/util/schemas';
 import type { User } from '@prisma/client';
-import { Prisma } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { cookies } from 'next/headers';
-import { z } from 'zod';
-
-// Session database functions
-
-async function getValidSessionToken(sessionToken: string) {
-  const session = await prisma.session.findUnique({
-    where: {
-      token: sessionToken,
-      expiryTimestamp: { gt: new Date() },
-    },
-    select: {
-      id: true,
-      userId: true,
-      token: true,
-    },
-  });
-  return session;
-}
-
-async function createSessionInsecure(token: string, userId: string) {
-  const session = await prisma.session.create({
-    data: {
-      token: token,
-      userId: userId,
-    },
-    select: {
-      id: true,
-      userId: true,
-      token: true,
-    },
-  });
-
-  await prisma.session.deleteMany({
-    where: {
-      expiryTimestamp: { lt: new Date() },
-    },
-  });
-
-  return session;
-}
-
-async function deleteSession(sessionToken: string) {
-  const session = await prisma.session.delete({
-    where: {
-      token: sessionToken,
-    },
-    select: {
-      userId: true,
-    },
-  });
-  return session;
-}
-
-// User database functions
-
-async function getUser(sessionToken: string) {
-  const user = await prisma.session.findUnique({
-    where: {
-      token: sessionToken,
-    },
-    select: {
-      User: {
-        select: {
-          id: true,
-          username: true,
-          email: true,
-        },
-      },
-    },
-  });
-  return user;
-}
-
-async function getUserByEmailInsecure(email: string) {
-  const user = await prisma.user.findUnique({
-    where: {
-      email: email,
-    },
-    select: {
-      id: true,
-      username: true,
-      email: true,
-    },
-  });
-  return user;
-}
-
-async function getUserByUsernameInsecure(username: string) {
-  const user = await prisma.user.findUnique({
-    where: {
-      username: username,
-    },
-    select: {
-      id: true,
-      username: true,
-      email: true,
-    },
-  });
-  return user;
-}
-
-async function getUserWithPasswordHashInsecure(username: string) {
-  const user = await prisma.user.findUnique({
-    where: {
-      username: username.toLowerCase(),
-    },
-  });
-  return user;
-}
-
-async function createUserInsecure(
-  username: string,
-  email: string,
-  passwordHash: string,
-) {
-  const user = await prisma.user.create({
-    data: {
-      username: username.toLowerCase(),
-      email: email,
-      passwordHash: passwordHash,
-    },
-    select: {
-      id: true,
-      username: true,
-      email: true,
-    },
-  });
-  return user;
-}
-
-// Cookies
-
-const secureCookieOptions = {
-  httpOnly: true,
-  path: '/',
-  maxAge: 60 * 60 * 24, // Expires 24 hours
-  sameSite: 'lax',
-  secure: process.env.NODE_ENV === 'production',
-} as const;
-
-async function getCookie(name: string) {
-  const cookie = (await cookies()).get(name);
-  if (!cookie) {
-    return undefined;
-  }
-  return cookie.value;
-}
 
 type RegisterActionState =
   | { user: Pick<User, 'id' | 'email' | 'username'> }
@@ -301,6 +160,7 @@ export async function loginUser(
   });
 
   // 8. Return the new user information
+
   return { user: { username: userWithPasswordHash.username } };
 }
 
