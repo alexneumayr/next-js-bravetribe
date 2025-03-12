@@ -7,26 +7,11 @@ import {
   getUserByUsernameInsecure,
   getUserWithPasswordHashInsecure,
 } from '@/database/users';
+import type { LoginActionState, RegisterActionState } from '@/types/types';
 import { secureCookieOptions } from '@/util/cookies';
 import { registrationSchema, signinSchema } from '@/util/schemas';
-import type { User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { cookies } from 'next/headers';
-
-type RegisterActionState =
-  | { user: Pick<User, 'id' | 'email' | 'username'> }
-  | {
-      error: {
-        confirmPasswordMatch?: string[];
-        email?: string[];
-        username?: string[];
-        password?: string[];
-        confirmPassword?: string[];
-        general?: string;
-      };
-    };
-
-// Register
 
 export async function registerUser(
   prevState: any,
@@ -92,16 +77,6 @@ export async function registerUser(
 
   return { user: newUser };
 }
-
-type LoginActionState =
-  | { user: Pick<User, 'username'> }
-  | {
-      error: {
-        username?: string[];
-        password?: string[];
-        general?: string;
-      };
-    };
 
 export async function loginUser(
   prevState: any,
