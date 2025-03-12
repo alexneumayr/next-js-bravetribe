@@ -10,6 +10,7 @@ export default function SearchAreaSidebar() {
 
   function handleSearchFormSubmit(event: React.FormEvent) {
     event.preventDefault();
+    setSearchText('');
     const params = new URLSearchParams();
     params.set('text', searchText);
     router.push(`/main/search?${params}`);
