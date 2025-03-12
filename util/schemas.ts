@@ -2,11 +2,9 @@ import { z } from 'zod';
 
 export const registrationSchema = z
   .object({
-    username: z
-      .string()
-      .min(5, {
-        message: 'Please choose a username with minimum 5 characters',
-      }),
+    username: z.string().min(5, {
+      message: 'Please choose a username with minimum 5 characters',
+    }),
     email: z
       .string()
       .email({ message: 'Please type in a correct email address' }),
@@ -16,9 +14,9 @@ export const registrationSchema = z
     }),
     confirmPassword: z
       .string()
-      .min(1, { message: 'Please confirm your password' }),
+      .min(8, { message: 'Please confirm your password' }),
   })
   .refine((data) => data.confirmPassword === data.password, {
     message: 'Passwords do not match',
-    path: ['confirmPassword'],
+    path: ['confirmPasswordMatch'],
   });

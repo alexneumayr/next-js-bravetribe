@@ -120,9 +120,12 @@ export default function RegisterForm() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem className="space-y-1">
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Password Again</FormLabel>
                   <FormMessage>
                     {'error' in state && state.error.confirmPassword}
+                  </FormMessage>
+                  <FormMessage>
+                    {'error' in state && state.error.confirmPasswordMatch}
                   </FormMessage>
                   <FormControl>
                     <Input type="password" {...field} />

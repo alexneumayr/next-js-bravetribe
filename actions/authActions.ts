@@ -158,6 +158,7 @@ type RegisterActionState =
   | { user: Pick<User, 'id' | 'email' | 'username'> }
   | {
       error: {
+        confirmPasswordMatch?: string[];
         email?: string[];
         username?: string[];
         password?: string[];
@@ -177,6 +178,7 @@ export async function registerUser(
     username: formData.get('username'),
     email: formData.get('email'),
     password: formData.get('password'),
+    confirmPassword: formData.get('confirmPassword'),
   });
 
   if (!validatedFields.success) {
