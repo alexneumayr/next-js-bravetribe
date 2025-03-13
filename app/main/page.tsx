@@ -3,6 +3,7 @@ import { Separator } from '@/components/ui/separator';
 import { getNewestExperiencesInsecure } from '@/database/experiences';
 import checkAuth from '@/util/checkAuth';
 import levelNames from '@/util/levelNames';
+import { maxTextLength } from '@/util/maxTextLength';
 import { Heart, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import DisplayStarRating from './components/DisplayStarRating';
@@ -65,7 +66,9 @@ export default async function page() {
                     <h4 className="text-sm font-bold text-secondary">
                       Experience:
                     </h4>
-                    <p className="text-sm font-medium">{experience.story}</p>
+                    <p className="text-sm font-medium">
+                      {maxTextLength(experience.story, 150)}
+                    </p>
                   </div>
                   <div className="flex items-center">
                     <h4 className="text-sm font-bold text-secondary mr-1">
