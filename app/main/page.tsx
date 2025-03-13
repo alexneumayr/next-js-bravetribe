@@ -67,7 +67,7 @@ export default async function page() {
                       Experience:
                     </h4>
                     <p className="text-sm font-medium">
-                      {maxTextLength(experience.story, 150)}
+                      {maxTextLength(experience.story, 200)}
                     </p>
                   </div>
                   <div className="flex items-center">

@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import { Prisma } from '@prisma/client';
 
 export async function getNewestUsersInsecure() {
   const users = await prisma.user.findMany({
@@ -75,4 +76,23 @@ export async function createUserInsecure(
     },
   });
   return user;
+}
+
+export type UserWithExperiences = Prisma.UserGetPayload<{
+  include: { experiences: true };
+}>;
+
+export async function getUsersByTextInsecure(text: string) {
+  if (text) {
+    const users = await prisma.user.findMany({
+      where: {
+        username: { contains: text, mode: 'insensitive' },
+      },
+      include: {
+        experiences: true,
+      },
+      orderBy: [{ memberSince: 'desc' }],
+    });
+    return users;
+  }
 }

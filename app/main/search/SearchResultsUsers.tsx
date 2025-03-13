@@ -1,0 +1,78 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import type { UserWithExperiences } from '@/database/users';
+import levelNames from '@/util/levelNames';
+import Link from 'next/link';
+
+type Props = {
+  users: UserWithExperiences[] | undefined;
+};
+
+export default function SearchResultsUsers({ users }: Props) {
+  console.log('Users', users);
+  return (
+    <div className="w-full">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="">Avatar</TableHead>
+            <TableHead className="">Name</TableHead>
+            <TableHead>Level</TableHead>
+            <TableHead>Gender</TableHead>
+            <TableHead>Location</TableHead>
+            <TableHead className="text-right">Member since</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {Array.isArray(users) &&
+            users.map((user) => {
+              return (
+                <TableRow key={`user-${user.id}`}>
+                  <TableCell className="font-medium">
+                    <Link href={`/main/profile/${user.id}`}>
+                      <Avatar className="w-[65px] h-[65px]">
+                        <AvatarImage src={`${user.avatarImage}`} />
+                        <AvatarFallback>
+                          {user.username.slice(0, 2).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Link>
+                  </TableCell>
+                  <TableCell>
+                    <Link href={`/main/profile/${user.id}`}>
+                      {user.username}
+                    </Link>
+                  </TableCell>
+                  <TableCell>
+                    <Link href={`/main/profile/${user.id}`}>
+                      {levelNames(user.experiences.length)}
+                    </Link>
+                  </TableCell>
+                  <TableCell>
+                    <Link href={`/main/profile/${user.id}`}>{user.gender}</Link>
+                  </TableCell>
+                  <TableCell>
+                    <Link href={`/main/profile/${user.id}`}>
+                      {user.location}
+                    </Link>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Link href={`/main/profile/${user.id}`}>
+                      {user.memberSince.toLocaleDateString()}
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}

@@ -8,7 +8,6 @@ export default function AccessTabs() {
   const searchParams = useSearchParams();
 
   const mode = searchParams.get('mode') || undefined;
-  console.log('Mode', mode);
 
   return (
     <div>
