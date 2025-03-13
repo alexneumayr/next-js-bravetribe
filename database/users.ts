@@ -82,7 +82,11 @@ export type UserWithExperiences = Prisma.UserGetPayload<{
   include: { experiences: true };
 }>;
 
-export async function getUsersByTextInsecure(text: string) {
+export async function getUsersByTextInsecure(
+  text: string,
+  page: number,
+  pageSize: number,
+) {
   if (text) {
     const users = await prisma.user.findMany({
       where: {
@@ -92,8 +96,21 @@ export async function getUsersByTextInsecure(text: string) {
         experiences: true,
       },
       orderBy: [{ memberSince: 'desc' }],
+      take: pageSize,
+      skip: (page - 1) * pageSize,
     });
     return users;
+  }
+}
+
+export async function getAmountOfUsersByTextInsecure(text: string) {
+  if (text) {
+    const count = await prisma.user.count({
+      where: {
+        username: { contains: text, mode: 'insensitive' },
+      },
+    });
+    return count;
   }
 }
 

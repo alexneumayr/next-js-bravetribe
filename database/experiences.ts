@@ -27,7 +27,11 @@ export type ExperienceWithAdditionalDetails = Prisma.ExperienceGetPayload<{
   };
 }>;
 
-export async function getExperiencesByTextInsecure(text: string) {
+export async function getExperiencesByTextInsecure(
+  text: string,
+  page: number,
+  pageSize: number,
+) {
   if (text) {
     const experiences = await prisma.experience.findMany({
       where: {
@@ -54,8 +58,37 @@ export async function getExperiencesByTextInsecure(text: string) {
         comments: true,
         User: { include: { experiences: true } },
       },
+      take: pageSize,
+      skip: (page - 1) * pageSize,
     });
+
     return experiences;
+  }
+}
+
+export async function getAmountOfExperiencesByTextInsecure(text: string) {
+  if (text) {
+    const count = await prisma.experience.count({
+      where: {
+        OR: [
+          {
+            title: { contains: text, mode: 'insensitive' },
+          },
+          {
+            story: { contains: text, mode: 'insensitive' },
+          },
+          {
+            Challenge: {
+              User: {
+                username: { contains: text, mode: 'insensitive' },
+              },
+            },
+          },
+        ],
+      },
+    });
+
+    return count;
   }
 }
 
