@@ -19,7 +19,9 @@ export async function getNewestExperiencesInsecure() {
 export type ExperienceWithAdditionalDetails = Prisma.ExperienceGetPayload<{
   include: {
     Challenge: true;
-    User: true;
+    User: {
+      include: { experiences: true };
+    };
     comments: true;
     likes: true;
   };

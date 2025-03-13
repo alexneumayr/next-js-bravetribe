@@ -12,7 +12,7 @@ type Props = {
   params: Promise<{ userId: string }>;
 };
 
-export default async function ProfilePage(props: Props) {
+export default async function IndividualProfilePage(props: Props) {
   await checkAuth();
   const user = await getUserByIdInsecure((await props.params).userId);
   const chartData = await userExperiencesPerMonth(user?.id || '');
