@@ -18,7 +18,7 @@ export default async function IndividualProfilePage(props: Props) {
   const chartData = await userExperiencesPerMonth(user?.id || '');
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 max-w-[400px]">
       <div className="flex gap-6 items-center">
         <Avatar className="w-[60px] h-[60px]">
           <AvatarImage src={`${user?.avatarImage}`} />
