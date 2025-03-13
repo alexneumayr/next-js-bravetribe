@@ -15,9 +15,7 @@ export default async function SidebarRight() {
         {newestUsers.map((user) => {
           return (
             <Link
-              href={{
-                pathname: `main/user/${user.username.trim().toLowerCase().replace(/\s+/g, '-')}`,
-              }}
+              href={`/main/profiles/${user.id}`}
               className="flex gap-x-2 ml-2"
               key={`user-${user.id}`}
             >
