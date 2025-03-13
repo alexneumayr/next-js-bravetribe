@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { getNewestExperiencesByUserInsecure } from '@/database/experiences';
 import { getUserByIdInsecure } from '@/database/users';
 import checkAuth from '@/util/checkAuth';
 import levelNames from '@/util/levelNames';
@@ -16,6 +17,9 @@ export default async function IndividualProfilePage(props: Props) {
   await checkAuth();
   const user = await getUserByIdInsecure((await props.params).userId);
   const chartData = await userExperiencesPerMonth(user?.id || '');
+  const newestExperienceReports = await getNewestExperiencesByUserInsecure(
+    user?.id || '',
+  );
 
   return (
     <div className="space-y-5 max-w-[400px]">
@@ -61,7 +65,7 @@ export default async function IndividualProfilePage(props: Props) {
         <h2 className="text-base font-semibold">
           Latest experience reports:
           <ul>
-            {user?.experiences.map((experience) => {
+            {newestExperienceReports.map((experience) => {
               return (
                 <li
                   className="list-inside list-['🏅'] text-sm font-medium"

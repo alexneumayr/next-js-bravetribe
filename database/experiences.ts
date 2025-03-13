@@ -79,3 +79,20 @@ export async function getExperiencesFromLast12MonthsByUserIdInsecure(
   });
   return experiences;
 }
+
+export async function getNewestExperiencesByUserInsecure(id: string) {
+  const experiences = await prisma.experience.findMany({
+    where: {
+      userId: id,
+    },
+    orderBy: [{ created_at: 'desc' }],
+    take: 10,
+    include: {
+      Challenge: true,
+      likes: true,
+      comments: true,
+      User: { include: { experiences: true } },
+    },
+  });
+  return experiences;
+}
