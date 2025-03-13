@@ -49,37 +49,43 @@ export default async function IndividualProfilePage(props: Props) {
           Message
         </Button>
       </div>
-      <div>
-        <h2 className="text-sm font-bold">Location: </h2>
-        <p className="text-sm font-medium">{user?.location}</p>
-      </div>
-      <div>
-        <h2 className="text-sm font-bold">About:</h2>
-        <p className="text-sm font-medium">{user?.aboutDescription}</p>
-      </div>
+      {user?.location && (
+        <div>
+          <h2 className="text-sm font-bold">Location: </h2>
+          <p className="text-sm font-medium">{user.location}</p>
+        </div>
+      )}
+      {user?.aboutDescription && (
+        <div>
+          <h2 className="text-sm font-bold">About:</h2>
+          <p className="text-sm font-medium">{user.aboutDescription}</p>
+        </div>
+      )}
       <div>
         <h2 className="text-base font-semibold">Stats:</h2>
         <UserStats chartData={chartData} />
       </div>
-      <div>
-        <h2 className="text-base font-semibold">
-          Latest experience reports:
-          <ul>
-            {newestExperienceReports.map((experience) => {
-              return (
-                <li
-                  className="list-inside list-['🏅'] text-sm font-medium"
-                  key={`experience-${experience.id}`}
-                >
-                  <Link href={`/main/experiences/${experience.id}`}>
-                    {experience.title}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </h2>
-      </div>
+      {newestExperienceReports.length > 0 && (
+        <div>
+          <h2 className="text-base font-semibold">
+            Latest experience reports:
+            <ul>
+              {newestExperienceReports.map((experience) => {
+                return (
+                  <li
+                    className="list-inside list-['🏅'] text-sm font-medium"
+                    key={`experience-${experience.id}`}
+                  >
+                    <Link href={`/main/experiences/${experience.id}`}>
+                      {experience.title}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </h2>
+        </div>
+      )}
     </div>
   );
 }
