@@ -36,7 +36,7 @@ export default function SearchResultsUsers({ users }: Props) {
               return (
                 <TableRow key={`user-${user.id}`}>
                   <TableCell className="font-medium">
-                    <Link href={`/main/profile/${user.id}`}>
+                    <Link href={`/main/profiles/${user.id}`}>
                       <Avatar className="w-[65px] h-[65px]">
                         <AvatarImage src={`${user.avatarImage}`} />
                         <AvatarFallback>
@@ -46,25 +46,27 @@ export default function SearchResultsUsers({ users }: Props) {
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <Link href={`/main/profile/${user.id}`}>
+                    <Link href={`/main/profiles/${user.id}`}>
                       {user.username}
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <Link href={`/main/profile/${user.id}`}>
+                    <Link href={`/main/profiles/${user.id}`}>
                       {levelNames(user.experiences.length)}
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <Link href={`/main/profile/${user.id}`}>{user.gender}</Link>
+                    <Link href={`/main/profiles/${user.id}`}>
+                      {user.gender}
+                    </Link>
                   </TableCell>
                   <TableCell>
-                    <Link href={`/main/profile/${user.id}`}>
+                    <Link href={`/main/profiles/${user.id}`}>
                       {user.location}
                     </Link>
                   </TableCell>
                   <TableCell className="text-right">
-                    <Link href={`/main/profile/${user.id}`}>
+                    <Link href={`/main/profiles/${user.id}`}>
                       {user.memberSince.toLocaleDateString()}
                     </Link>
                   </TableCell>

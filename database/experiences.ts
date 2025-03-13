@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
+import { DateTime } from 'luxon';
 
 export async function getNewestExperiencesInsecure() {
   const experiences = await prisma.experience.findMany({
@@ -18,15 +19,13 @@ export async function getNewestExperiencesInsecure() {
 export type ExperienceWithAdditionalDetails = Prisma.ExperienceGetPayload<{
   include: {
     Challenge: true;
-    User: {
-      include: { experiences: true };
-    };
+    User: true;
     comments: true;
     likes: true;
   };
 }>;
 
-export async function getExperiencesByTextInsecure(text: string | undefined) {
+export async function getExperiencesByTextInsecure(text: string) {
   if (text) {
     const experiences = await prisma.experience.findMany({
       where: {
@@ -56,4 +55,25 @@ export async function getExperiencesByTextInsecure(text: string | undefined) {
     });
     return experiences;
   }
+}
+
+export async function getExperiencesFromLast12MonthsByUserIdInsecure(
+  id: string,
+) {
+  const experiences = await prisma.experience.findMany({
+    where: {
+      userId: id,
+      date: {
+        gte: DateTime.now()
+          .endOf('month')
+          .plus({ day: 1 })
+          .minus({ months: 12 })
+          .toISO(),
+      },
+    },
+    orderBy: {
+      date: 'asc',
+    },
+  });
+  return experiences;
 }

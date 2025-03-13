@@ -96,3 +96,17 @@ export async function getUsersByTextInsecure(text: string) {
     return users;
   }
 }
+
+export async function getUserByIdInsecure(id: string) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+    include: {
+      experiences: {
+        include: { Challenge: true },
+      },
+    },
+  });
+  return user;
+}

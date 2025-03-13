@@ -26,6 +26,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.479.0",
+    "luxon": "^3.5.0",
     "next": "15.1.7",
     "pg": "^8.14.0",
     "react": "^19.0.0",
@@ -36,6 +37,7 @@
     "react-simple-star-rating": "^5.1.7",
     "react-star-ratings-eco": "^2.4.4",
     "react-stars": "^2.2.5",
+    "recharts": "^2.15.1",
     "sass": "1.84.0",
     "star-rating-react-ts": "^1.1.4",
     "tailwind-merge": "^3.0.2",
@@ -44,6 +46,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/luxon": "^3.4.2",
     "@types/node": "^20",
     "@types/pg": "^8.11.11",
     "@types/react": "^19",
