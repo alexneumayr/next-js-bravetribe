@@ -31,8 +31,10 @@ export async function getExperiencesByTextInsecure(
   text: string,
   page: number,
   pageSize: number,
+  fromExperiences?: boolean,
+  userId?: string,
 ) {
-  if (text) {
+  if (text || fromExperiences) {
     const experiences = await prisma.experience.findMany({
       where: {
         OR: [
@@ -50,6 +52,7 @@ export async function getExperiencesByTextInsecure(
             },
           },
         ],
+        userId: userId,
       },
       orderBy: [{ created_at: 'desc' }],
       include: {
@@ -66,8 +69,12 @@ export async function getExperiencesByTextInsecure(
   }
 }
 
-export async function getAmountOfExperiencesByTextInsecure(text: string) {
-  if (text) {
+export async function getAmountOfExperiencesByTextInsecure(
+  text: string,
+  fromExperiences?: boolean,
+  userId?: string,
+) {
+  if (text || fromExperiences) {
     const count = await prisma.experience.count({
       where: {
         OR: [
@@ -85,6 +92,7 @@ export async function getAmountOfExperiencesByTextInsecure(text: string) {
             },
           },
         ],
+        userId: userId,
       },
     });
 
