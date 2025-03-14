@@ -43,7 +43,11 @@ export default async function page() {
                   {levelNames(experience.User.experiences.length)}
                 </p>
                 <p className="text-xs font-medium">
-                  {experience.User.experiences.length} challenges
+                  {experience.User.experiences.length}
+                  &nbsp;
+                  {experience.User.experiences.length !== 1
+                    ? 'challenges'
+                    : 'challenge'}
                 </p>
                 <p className="text-xs font-medium">
                   <span className="text-[#8d8d8d]">Gender: </span>
