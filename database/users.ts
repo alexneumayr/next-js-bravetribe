@@ -9,12 +9,12 @@ export async function getNewestUsersInsecure() {
   return users;
 }
 
-export async function getUser(sessionToken: string) {
+export async function getUserBySessionToken(sessionToken: string) {
   const user = await prisma.session.findUnique({
     where: {
       token: sessionToken,
     },
-    include: {
+    select: {
       User: true,
     },
   });

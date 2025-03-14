@@ -7,7 +7,7 @@ export default async function ExperiencesPage({
 }: {
   searchParams: Promise<{ [key: string]: string }>;
 }) {
-  const session = await checkAuth();
+  const user = await checkAuth();
   const currentPage = Number((await searchParams).page) || 1;
   const pageSize = Number((await searchParams).pageSize) || 5;
   const category = (await searchParams).category || '';
@@ -18,7 +18,7 @@ export default async function ExperiencesPage({
       pageSize={pageSize}
       category={category || 'mine'}
       searchParams={await searchParams}
-      userId={session.User.id}
+      userId={user.User.id}
     />
   );
 }
