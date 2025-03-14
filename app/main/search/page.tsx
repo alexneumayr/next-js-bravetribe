@@ -1,10 +1,6 @@
-import {
-  getAmountOfUsersByTextInsecure,
-  getUsersByTextInsecure,
-} from '@/database/users';
 import checkAuth from '@/util/checkAuth';
 import React from 'react';
-import MainContentSearchPage from './MainContentSearchPage';
+import MainSearchContent from './MainSearchContent';
 
 export default async function SearchPage({
   searchParams,
@@ -18,7 +14,7 @@ export default async function SearchPage({
   const category = (await searchParams).category || '';
 
   return (
-    <MainContentSearchPage
+    <MainSearchContent
       currentPage={currentPage}
       pageSize={pageSize}
       searchText={searchText}
