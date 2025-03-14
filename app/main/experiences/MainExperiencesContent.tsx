@@ -7,16 +7,14 @@ import TabButtons from './TabButtons';
 type Props = {
   currentPage: number;
   pageSize: number;
-  searchText: string;
   category: string;
-  searchParams: any;
+  searchParams: { [key: string]: string };
   userId: string;
 };
 
 export default function MainContentSearchPage({
   currentPage,
   pageSize,
-  searchText,
   category,
   searchParams,
   userId,
@@ -25,21 +23,21 @@ export default function MainContentSearchPage({
     <div className="">
       <div className="">
         <h1 className="text-3xl font-bold">Experiences</h1>
-        <SearchArea />
+        <SearchArea searchParams={searchParams} />
       </div>
       <Separator className="my-4" />
       <TabButtons searchParams={searchParams} category={category} />
       <div>
         {category === 'mine' ? (
           <MyExperiences
-            searchText={searchText}
+            searchText={searchParams.text || ''}
             currentPage={currentPage}
             pageSize={pageSize}
             userId={userId}
           />
         ) : (
           <AllExperiences
-            searchText={searchText}
+            searchText={searchParams.text || ''}
             currentPage={currentPage}
             pageSize={pageSize}
           />

@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 
 type Props = {
-  searchParams: string;
+  searchParams: { [key: string]: string };
   category: string;
 };
 

@@ -2,18 +2,21 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function SearchArea() {
-  const searchParams = useSearchParams();
-  const [searchText, setSearchText] = useState(searchParams.get('text') || '');
+type Props = {
+  searchParams: { [key: string]: string };
+};
+
+export default function SearchArea({ searchParams }: Props) {
+  const [searchText, setSearchText] = useState(searchParams.text || '');
   const router = useRouter();
 
   function handleSearchFormSubmit(event: React.FormEvent) {
     event.preventDefault();
     setSearchText('');
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(searchParams);
     params.set('text', searchText);
     router.push(`/main/experiences?${params}`);
   }
