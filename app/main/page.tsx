@@ -15,9 +15,9 @@ export default async function page() {
     <>
       <div className="">
         <h1 className="text-3xl font-bold">Home</h1>
-        <p className="max-w-[500px] text-lg font-medium">
+        <p className="text-lg font-medium">
           Welcome, {user.User.username}! Get inspired by the newest experiences
-          of our members and create your own!
+          of our members and create your own.
         </p>
       </div>
       <Separator className="mt-4" />
