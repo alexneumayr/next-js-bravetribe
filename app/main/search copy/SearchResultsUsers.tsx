@@ -8,27 +8,23 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import {
-  getAmountOfUsersByTextInsecure,
-  getUsersByTextInsecure,
-} from '@/database/users';
+import type { UserWithExperiences } from '@/database/users';
 import levelNames from '@/util/levelNames';
 import Link from 'next/link';
 
 type Props = {
+  users: UserWithExperiences[];
   currentPage: number;
+  resultsCount: number;
   pageSize: number;
-  searchText: string;
 };
 
-export default async function SearchResultsUsers({
+export default function SearchResultsUsers({
+  users,
   currentPage,
+  resultsCount,
   pageSize,
-  searchText,
 }: Props) {
-  const users =
-    (await getUsersByTextInsecure(searchText, currentPage, pageSize)) || [];
-  const resultsCount = (await getAmountOfUsersByTextInsecure(searchText)) || 0;
   return (
     <div>
       {users.length > 0 ? (

@@ -1,4 +1,8 @@
 import {
+  getAmountOfExperiencesByTextInsecure,
+  getExperiencesByTextInsecure,
+} from '@/database/experiences';
+import {
   getAmountOfUsersByTextInsecure,
   getUsersByTextInsecure,
 } from '@/database/users';
@@ -19,7 +23,23 @@ export default async function SearchPage({
 
   return (
     <MainContentSearchPage
+      experiencesSearchResults={await getExperiencesByTextInsecure(
+        searchText,
+        currentPage,
+        pageSize,
+      )}
+      usersSearchResults={await getUsersByTextInsecure(
+        searchText,
+        currentPage,
+        pageSize,
+      )}
       currentPage={currentPage}
+      experiencesResultsCount={
+        (await getAmountOfExperiencesByTextInsecure(searchText)) || 0
+      }
+      usersResultsCount={
+        (await getAmountOfUsersByTextInsecure(searchText)) || 0
+      }
       pageSize={pageSize}
       searchText={searchText}
       category={category || 'experiences'}

@@ -1,10 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import { Separator } from '@/components/ui/separator';
-import {
-  getAmountOfExperiencesByTextInsecure,
-  getExperiencesByTextInsecure,
-} from '@/database/experiences';
+import type { ExperienceWithAdditionalDetails } from '@/database/experiences';
 import levelNames from '@/util/levelNames';
 import { maxTextLength } from '@/util/maxTextLength';
 import { Heart, MessageSquare } from 'lucide-react';
@@ -12,20 +9,18 @@ import Link from 'next/link';
 import DisplayStarRating from '../components/DisplayStarRating';
 
 type Props = {
+  experiences: ExperienceWithAdditionalDetails[];
   currentPage: number;
+  resultsCount: number;
   pageSize: number;
-  searchText: string;
 };
-export default async function SearchResultsExperiences({
+
+export default function SearchResultsExperiences({
+  experiences,
   currentPage,
+  resultsCount,
   pageSize,
-  searchText,
 }: Props) {
-  const experiences =
-    (await getExperiencesByTextInsecure(searchText, currentPage, pageSize)) ||
-    [];
-  const resultsCount =
-    (await getAmountOfExperiencesByTextInsecure(searchText)) || 0;
   return (
     <div>
       {experiences.length > 0 ? (
