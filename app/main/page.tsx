@@ -16,7 +16,7 @@ export default async function page() {
       <div className="">
         <h1 className="text-3xl font-bold">Home</h1>
         <p className="text-lg font-medium">
-          Welcome, {user.User.username}! Get inspired by the newest experiences
+          Welcome, {user.user.username}! Get inspired by the newest experiences
           of our members and create your own.
         </p>
       </div>
@@ -29,33 +29,33 @@ export default async function page() {
           >
             <div className="flex">
               <Link
-                href={`/main/profiles/${experience.User.id}`}
+                href={`/main/profiles/${experience.user.id}`}
                 className="flex flex-col gap-1 items-center min-w-[150px]"
               >
                 <Avatar className="w-[65px] h-[65px]">
-                  <AvatarImage src={`${experience.User.avatarImage}`} />
+                  <AvatarImage src={`${experience.user.avatarImage}`} />
                   <AvatarFallback>
-                    {experience.User.username.slice(0, 2).toUpperCase()}
+                    {experience.user.username.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                <p className="text-sm font-bold">{experience.User.username}</p>
+                <p className="text-sm font-bold">{experience.user.username}</p>
                 <p className="text-xs font-medium">
-                  {levelNames(experience.User.experiences.length)}
+                  {levelNames(experience.user.experiences.length)}
                 </p>
                 <p className="text-xs font-medium">
-                  {experience.User.experiences.length}
+                  {experience.user.experiences.length}
                   &nbsp;
-                  {experience.User.experiences.length !== 1
+                  {experience.user.experiences.length !== 1
                     ? 'challenges'
                     : 'challenge'}
                 </p>
                 <p className="text-xs font-medium">
                   <span className="text-[#8d8d8d]">Gender: </span>
-                  {experience.User.gender}
+                  {experience.user.gender}
                 </p>
                 <p className="text-xs font-medium text-center">
                   <span className="text-[#8d8d8d]">Location: </span>
-                  {experience.User.location}
+                  {experience.user.location}
                 </p>
               </Link>
               <Link
@@ -66,7 +66,7 @@ export default async function page() {
                   {experience.date.toLocaleString()}
                 </p>
                 <h2 className="text-sm font-medium">
-                  {experience.Challenge.title}
+                  {experience.challenge.title}
                 </h2>
                 <h3 className="text-xl font-bold">{experience.title}</h3>
                 <div>

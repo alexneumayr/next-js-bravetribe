@@ -5,7 +5,7 @@ import { GoalsTable } from './GoalsTable';
 
 export default async function GoalsPage() {
   const session = await checkAuth();
-  const goals = await getGoalsByUserId(session.User.id);
+  const goals = await getGoalsByUserId(session.user.id);
   return (
     <>
       <div className="">

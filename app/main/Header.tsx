@@ -41,9 +41,9 @@ export default async function Header() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Avatar className="w-[60px] h-[60px]">
-                  <AvatarImage src={`${user.User.avatarImage}`} />
+                  <AvatarImage src={`${user.user.avatarImage}`} />
                   <AvatarFallback>
-                    {user.User.username.slice(0, 2).toUpperCase()}
+                    {user.user.username.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
@@ -71,7 +71,7 @@ export default async function Header() {
                 </DialogTitle>
               </DialogHeader>
               <div className="text-center text-lg text-zinc-600">
-                Log out {user.User.username} from BraveTribe?
+                Log out {user.user.username} from BraveTribe?
               </div>
               <DialogFooter>
                 <form

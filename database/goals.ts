@@ -1,26 +1,14 @@
 import { prisma } from '@/lib/prisma';
 
-//
-
-/* export async function getGoalsByUserIdInsecure(id: string) {
-  const goals = await prisma.goal.findMany({
-    where: {
-      userId: id,
-    },
-    orderBy: {
-      created_at: 'desc',
-    },
-  });
-  return goals;
-} */
-
 export async function getGoalsByUserToken(token: string) {
   const goals = await prisma.goal.findMany({
     where: {
-      Users: {
-        Session: {
-          token: token,
-          expiryTimestamp: { gt: new Date() },
+      user: {
+        sessions: {
+          some: {
+            token: token,
+            expiryTimestamp: { gt: new Date() },
+          },
         },
       },
     },

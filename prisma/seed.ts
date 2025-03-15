@@ -68,7 +68,7 @@ const initTemplates: Prisma.TemplateCreateInput[] = [
   },
 ];
 
-const initUsers: Prisma.UserCreateInput[] = [
+const initUsers: Prisma.userCreateInput[] = [
   {
     email: 'sophia.miller@email.com',
     username: 'Sophia M.',
@@ -192,7 +192,7 @@ const initUsers: Prisma.UserCreateInput[] = [
   },
 ];
 
-const initChallenges: Prisma.ChallengeCreateInput[] = [
+const initChallenges: Prisma.challengeCreateInput[] = [
   {
     title: 'Selfie Challenge',
     description:

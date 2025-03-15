@@ -15,7 +15,7 @@ export async function getUserBySessionToken(sessionToken: string) {
       token: sessionToken,
     },
     select: {
-      User: true,
+      user: true,
     },
   });
   return user;
@@ -121,7 +121,7 @@ export async function getUserByIdInsecure(id: string) {
     },
     include: {
       experiences: {
-        include: { Challenge: true },
+        include: { challenge: true },
       },
     },
   });

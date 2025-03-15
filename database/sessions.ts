@@ -16,12 +16,6 @@ export async function getValidSessionToken(sessionToken: string) {
 }
 
 export async function createSessionInsecure(token: string, userId: string) {
-  await prisma.session.deleteMany({
-    where: {
-      expiryTimestamp: { lt: new Date() },
-    },
-  });
-
   const session = await prisma.session.create({
     data: {
       token: token,
@@ -31,6 +25,12 @@ export async function createSessionInsecure(token: string, userId: string) {
       id: true,
       userId: true,
       token: true,
+    },
+  });
+
+  await prisma.session.deleteMany({
+    where: {
+      expiryTimestamp: { lt: new Date() },
     },
   });
 

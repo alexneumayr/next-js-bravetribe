@@ -18,7 +18,7 @@ export default async function ExperiencesPage({
       pageSize={pageSize}
       category={category || 'mine'}
       searchParams={await searchParams}
-      userId={user.User.id}
+      userId={user.user.id}
     />
   );
 }

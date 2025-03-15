@@ -7,10 +7,10 @@ export async function getNewestExperiencesInsecure() {
     orderBy: [{ created_at: 'desc' }],
     take: 10,
     include: {
-      Challenge: true,
+      challenge: true,
       likes: true,
       comments: true,
-      User: { include: { experiences: true } },
+      user: { include: { experiences: true } },
     },
   });
   return experiences;
@@ -18,8 +18,8 @@ export async function getNewestExperiencesInsecure() {
 
 export type ExperienceWithAdditionalDetails = Prisma.ExperienceGetPayload<{
   include: {
-    Challenge: true;
-    User: {
+    challenge: true;
+    user: {
       include: { experiences: true };
     };
     comments: true;
@@ -45,8 +45,8 @@ export async function getExperiencesByTextInsecure(
             story: { contains: text, mode: 'insensitive' },
           },
           {
-            Challenge: {
-              User: {
+            challenge: {
+              user: {
                 username: { contains: text, mode: 'insensitive' },
               },
             },
@@ -56,10 +56,10 @@ export async function getExperiencesByTextInsecure(
       },
       orderBy: [{ created_at: 'desc' }],
       include: {
-        Challenge: true,
+        challenge: true,
         likes: true,
         comments: true,
-        User: { include: { experiences: true } },
+        user: { include: { experiences: true } },
       },
       take: pageSize,
       skip: (page - 1) * pageSize,
@@ -85,8 +85,8 @@ export async function getAmountOfExperiencesByTextInsecure(
             story: { contains: text, mode: 'insensitive' },
           },
           {
-            Challenge: {
-              User: {
+            challenge: {
+              user: {
                 username: { contains: text, mode: 'insensitive' },
               },
             },
@@ -129,10 +129,10 @@ export async function getNewestExperiencesByUserInsecure(id: string) {
     orderBy: [{ created_at: 'desc' }],
     take: 10,
     include: {
-      Challenge: true,
+      challenge: true,
       likes: true,
       comments: true,
-      User: { include: { experiences: true } },
+      user: { include: { experiences: true } },
     },
   });
   return experiences;
