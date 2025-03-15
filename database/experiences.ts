@@ -1,10 +1,10 @@
 import { prisma } from '@/lib/prisma';
-import { Prisma } from '@prisma/client';
+import { type Prisma, type User } from '@prisma/client';
 import { DateTime } from 'luxon';
 
 export async function getNewestExperiencesInsecure() {
   const experiences = await prisma.experience.findMany({
-    orderBy: [{ created_at: 'desc' }],
+    orderBy: [{ createdAt: 'desc' }],
     take: 10,
     include: {
       challenge: true,
@@ -32,7 +32,7 @@ export async function getExperiencesByTextInsecure(
   page: number,
   pageSize: number,
   fromExperiences?: boolean,
-  userId?: string,
+  userId?: User['id'],
 ) {
   if (text || fromExperiences) {
     const experiences = await prisma.experience.findMany({
@@ -54,7 +54,7 @@ export async function getExperiencesByTextInsecure(
         ],
         userId: userId,
       },
-      orderBy: [{ created_at: 'desc' }],
+      orderBy: [{ createdAt: 'desc' }],
       include: {
         challenge: true,
         likes: true,
@@ -72,7 +72,7 @@ export async function getExperiencesByTextInsecure(
 export async function getAmountOfExperiencesByTextInsecure(
   text: string,
   fromExperiences?: boolean,
-  userId?: string,
+  userId?: User['id'],
 ) {
   if (text || fromExperiences) {
     const count = await prisma.experience.count({
@@ -101,7 +101,7 @@ export async function getAmountOfExperiencesByTextInsecure(
 }
 
 export async function getExperiencesFromLast12MonthsByUserIdInsecure(
-  id: string,
+  id: User['id'],
 ) {
   const experiences = await prisma.experience.findMany({
     where: {
@@ -121,12 +121,12 @@ export async function getExperiencesFromLast12MonthsByUserIdInsecure(
   return experiences;
 }
 
-export async function getNewestExperiencesByUserInsecure(id: string) {
+export async function getNewestExperiencesByUserInsecure(id: User['id']) {
   const experiences = await prisma.experience.findMany({
     where: {
       userId: id,
     },
-    orderBy: [{ created_at: 'desc' }],
+    orderBy: [{ createdAt: 'desc' }],
     take: 10,
     include: {
       challenge: true,

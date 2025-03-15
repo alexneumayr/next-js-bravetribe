@@ -42,7 +42,7 @@ model Goal {
   additionalNotes String?
   user            User      @relation(fields: [userId], references: [id])
   userId          String
-  created_at      DateTime  @default(now())
+  createdAt       DateTime  @default(now())
 }
 
 model Friend {
@@ -65,7 +65,7 @@ model Challenge {
   user        User         @relation(fields: [userId], references: [id])
   userId      String
   experiences Experience[]
-  created_at  DateTime     @default(now())
+  createdAt   DateTime     @default(now())
 }
 
 model Experience {
@@ -82,13 +82,13 @@ model Experience {
   userId      String
   comments    Comment[]
   likes       Like[]
-  created_at  DateTime  @default(now())
+  createdAt   DateTime  @default(now())
 }
 
 model Comment {
   id           String     @id @default(cuid())
   content      String
-  created_at   DateTime   @default(now())
+  createdAt    DateTime   @default(now())
   experience   Experience @relation(fields: [experienceId], references: [id])
   experienceId String
   user         User       @relation(fields: [userId], references: [id])
