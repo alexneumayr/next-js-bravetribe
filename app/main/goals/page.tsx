@@ -1,11 +1,18 @@
 import { Separator } from '@/components/ui/separator';
-import { getGoalsByUserId } from '@/database/goals';
-import checkAuth from '@/util/checkAuth';
+import { getGoals } from '@/database/goals';
+import { getValidSession } from '@/database/sessions';
+import { getCookie } from '@/util/cookies';
+import { redirect } from 'next/navigation';
 import { GoalsTable } from './GoalsTable';
 
 export default async function GoalsPage() {
-  const session = await checkAuth();
-  const goals = await getGoalsByUserId(session.user.id);
+  const sessionTokenCookie = await getCookie('sessionToken');
+  const session =
+    sessionTokenCookie && (await getValidSession(sessionTokenCookie));
+  if (!session) {
+    redirect('/access?mode=signin&returnTo=/main/goals');
+  }
+  const goals = await getGoals(session.token);
   return (
     <>
       <div className="">

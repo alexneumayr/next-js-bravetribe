@@ -18,12 +18,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import checkAuth from '@/util/checkAuth';
+import { getUserBySessionToken } from '@/database/users';
+import { getCookie } from '@/util/cookies';
 import { Search } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function Header() {
-  const user = await checkAuth();
+  const sessionTokenCookie = await getCookie('sessionToken');
+  const user =
+    sessionTokenCookie && (await getUserBySessionToken(sessionTokenCookie));
+  if (!user) {
+    return;
+  }
 
   return (
     <header>
@@ -41,9 +47,9 @@ export default async function Header() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Avatar className="w-[60px] h-[60px]">
-                  <AvatarImage src={`${user.user.avatarImage}`} />
+                  <AvatarImage src={`${user.avatarImage}`} />
                   <AvatarFallback>
-                    {user.user.username.slice(0, 2).toUpperCase()}
+                    {user.username.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
@@ -71,7 +77,7 @@ export default async function Header() {
                 </DialogTitle>
               </DialogHeader>
               <div className="text-center text-lg text-zinc-600">
-                Log out {user.user.username} from BraveTribe?
+                Log out {user.username} from BraveTribe?
               </div>
               <DialogFooter>
                 <form

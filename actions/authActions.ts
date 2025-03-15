@@ -9,11 +9,14 @@ import {
 } from '@/database/users';
 import type { LoginActionState, RegisterActionState } from '@/types/types';
 import { secureCookieOptions } from '@/util/cookies';
+import { getSafeReturnToPath } from '@/util/returnPathValidation';
 import { registrationSchema, signinSchema } from '@/util/schemas';
 import bcrypt from 'bcrypt';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export async function registerUser(
+  returnTo: string,
   prevState: any,
   formData: FormData,
 ): Promise<RegisterActionState> {
@@ -58,10 +61,10 @@ export async function registerUser(
     return { error: { general: 'Registration failed' } };
   }
 
-  // 5. Token erstellen, damit der User jetzt auch gleich eingeloggt ist
+  // 5. Token erstellen
   const token = crypto.randomBytes(100).toString('base64');
 
-  // 6. Session-Eintrag erstellen
+  // 6. Session-Eintrag erstellen (weil der User gleich eingeloggt sein soll)
   let session;
   try {
     session = await createSessionInsecure(token, newUser.id);
@@ -75,10 +78,11 @@ export async function registerUser(
     ...secureCookieOptions,
   });
 
-  return { user: newUser };
+  redirect(getSafeReturnToPath(returnTo) || '/main');
 }
 
 export async function loginUser(
+  returnTo: string,
   prevState: any,
   formData: FormData,
 ): Promise<LoginActionState> {
@@ -101,7 +105,6 @@ export async function loginUser(
   if (!userWithPasswordHash) {
     return { error: { general: 'Username or Password is invalid' } };
   }
-  console.log('userWithPasswordHash', userWithPasswordHash);
 
   // 4. Validate the user password by comparing with hashed password
   const isPasswordValid = await bcrypt.compare(
@@ -119,12 +122,8 @@ export async function loginUser(
   // Session-Eintrag erstellen
   let session;
   try {
-    console.log('Token', token);
-    console.log('userWithPasswordHash.id', userWithPasswordHash.id);
-
     session = await createSessionInsecure(token, userWithPasswordHash.id);
   } catch {
-    console.log('session', session);
     return { error: { general: 'Creating session failed' } };
   }
 
@@ -134,9 +133,7 @@ export async function loginUser(
     ...secureCookieOptions,
   });
 
-  // 8. Return the new user information
-
-  return { user: { username: userWithPasswordHash.username } };
+  redirect(getSafeReturnToPath(returnTo) || '/main');
 }
 
 export async function logoutUser() {

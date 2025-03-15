@@ -24,7 +24,11 @@ import { useActionState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-export default function RegisterForm() {
+type Props = {
+  returnTo: string;
+};
+
+export default function RegisterForm({ returnTo }: Props) {
   const form = useForm<z.infer<typeof registrationSchema>>({
     resolver: zodResolver(registrationSchema),
     defaultValues: {
@@ -41,8 +45,10 @@ export default function RegisterForm() {
     },
   };
 
+  const loginUserWithReturnTo = registerUser.bind(null, returnTo);
+
   const [state, formAction, pending] = useActionState(
-    registerUser,
+    loginUserWithReturnTo,
     initialState,
   );
 

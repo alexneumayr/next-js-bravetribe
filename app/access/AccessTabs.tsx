@@ -8,6 +8,7 @@ export default function AccessTabs() {
   const searchParams = useSearchParams();
 
   const mode = searchParams.get('mode') || undefined;
+  const returnTo = searchParams.get('returnTo') || '';
 
   return (
     <div>
@@ -19,11 +20,11 @@ export default function AccessTabs() {
         </TabsList>
 
         <TabsContent value="signin">
-          <SigninForm />
+          <SigninForm returnTo={returnTo} />
         </TabsContent>
 
         <TabsContent value="join">
-          <RegisterForm />
+          <RegisterForm returnTo={returnTo} />
         </TabsContent>
       </Tabs>
     </div>

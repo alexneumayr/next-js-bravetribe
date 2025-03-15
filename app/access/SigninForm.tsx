@@ -24,7 +24,11 @@ import { useActionState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-export default function SigninForm() {
+type Props = {
+  returnTo: string;
+};
+
+export default function SigninForm({ returnTo }: Props) {
   const form = useForm<z.infer<typeof signinSchema>>({
     resolver: zodResolver(signinSchema),
     defaultValues: {
@@ -39,7 +43,12 @@ export default function SigninForm() {
     },
   };
 
-  const [state, formAction, pending] = useActionState(loginUser, initialState);
+  const loginUserWithReturnTo = loginUser.bind(null, returnTo);
+
+  const [state, formAction, pending] = useActionState(
+    loginUserWithReturnTo,
+    initialState,
+  );
 
   return (
     <Card>

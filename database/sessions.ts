@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { type Session, type User } from '@prisma/client';
 
-export async function getValidSessionToken(sessionToken: Session['token']) {
+export async function getValidSession(sessionToken: Session['token']) {
   const session = await prisma.session.findUnique({
     where: {
       token: sessionToken,
@@ -9,8 +9,8 @@ export async function getValidSessionToken(sessionToken: Session['token']) {
     },
     select: {
       id: true,
-      userId: true,
       token: true,
+      userId: true,
     },
   });
   return session;

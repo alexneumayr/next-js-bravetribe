@@ -6,7 +6,12 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 type Props = {
-  searchParams: { [key: string]: string };
+  searchParams: {
+    page?: string;
+    pageSize?: string;
+    category?: string;
+    text?: string;
+  };
 };
 
 export default function SearchArea({ searchParams }: Props) {

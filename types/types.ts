@@ -1,24 +1,31 @@
-import type { User } from '@prisma/client';
+import type { Goal } from '@prisma/client';
 
-export type RegisterActionState =
-  | { user: Pick<User, 'id' | 'email' | 'username'> }
+export type RegisterActionState = {
+  error: {
+    confirmPasswordMatch?: string[];
+    email?: string[];
+    username?: string[];
+    password?: string[];
+    confirmPassword?: string[];
+    general?: string;
+  };
+};
+
+export type LoginActionState = {
+  error: {
+    username?: string[];
+    password?: string[];
+    general?: string;
+  };
+};
+
+export type CreateGoalActionState =
+  | { goal: Pick<Goal, 'title' | 'additionalNotes' | 'deadline'> }
   | {
       error: {
-        confirmPasswordMatch?: string[];
-        email?: string[];
-        username?: string[];
-        password?: string[];
-        confirmPassword?: string[];
-        general?: string;
-      };
-    };
-
-export type LoginActionState =
-  | { user: Pick<User, 'username'> }
-  | {
-      error: {
-        username?: string[];
-        password?: string[];
+        title?: string[];
+        additionalNotes?: string[];
+        deadline?: string[];
         general?: string;
       };
     };

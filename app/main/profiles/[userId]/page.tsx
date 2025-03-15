@@ -1,12 +1,14 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { getNewestExperiencesByUserInsecure } from '@/database/experiences';
+import { getValidSession } from '@/database/sessions';
 import { getUserByIdInsecure } from '@/database/users';
-import checkAuth from '@/util/checkAuth';
+import { getCookie } from '@/util/cookies';
 import levelNames from '@/util/levelNames';
 import { userExperiencesPerMonth } from '@/util/userExperiencesPerMonth';
 import { MessageSquareText, User } from 'lucide-react';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import UserStats from '../../components/UserStats';
 
 type Props = {
@@ -14,8 +16,14 @@ type Props = {
 };
 
 export default async function IndividualProfilePage(props: Props) {
-  await checkAuth();
   const user = await getUserByIdInsecure((await props.params).userId);
+
+  const sessionTokenCookie = await getCookie('sessionToken');
+  const session =
+    sessionTokenCookie && (await getValidSession(sessionTokenCookie));
+  if (!session) {
+    redirect(`/access?mode=signin&returnTo=/main/profiles/${user?.id}`);
+  }
   const chartData = await userExperiencesPerMonth(user?.id || '');
   const newestExperienceReports = await getNewestExperiencesByUserInsecure(
     user?.id || '',

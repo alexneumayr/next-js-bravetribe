@@ -21,7 +21,7 @@ export async function getUserBySessionToken(sessionToken: Session['token']) {
       user: true,
     },
   });
-  return user;
+  return user?.user;
 }
 
 export async function getUserByEmailInsecure(email: User['email']) {

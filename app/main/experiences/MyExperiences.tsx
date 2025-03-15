@@ -31,7 +31,6 @@ export default async function SearchResultsExperiences({
       true,
       userId,
     )) || [];
-  // console.log('UserID from Myexperiences', userId);
   const resultsCount =
     (await getAmountOfExperiencesByTextInsecure(searchText, true)) || 0;
   return (

@@ -1,13 +1,25 @@
-import checkAuth from '@/util/checkAuth';
+import { getUserBySessionToken } from '@/database/users';
+import { getCookie } from '@/util/cookies';
+import { redirect } from 'next/navigation';
 import React from 'react';
 import MainExperiencesContent from './MainExperiencesContent';
 
-export default async function ExperiencesPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string }>;
-}) {
-  const user = await checkAuth();
+type Props = {
+  searchParams: Promise<{
+    page?: string;
+    pageSize?: string;
+    category?: string;
+    text?: string;
+  }>;
+};
+
+export default async function ExperiencesPage({ searchParams }: Props) {
+  const sessionTokenCookie = await getCookie('sessionToken');
+  const user =
+    sessionTokenCookie && (await getUserBySessionToken(sessionTokenCookie));
+  if (!user) {
+    redirect('/access?mode=signin&returnTo=/main/experiences');
+  }
   const currentPage = Number((await searchParams).page) || 1;
   const pageSize = Number((await searchParams).pageSize) || 5;
   const category = (await searchParams).category || '';
@@ -18,7 +30,7 @@ export default async function ExperiencesPage({
       pageSize={pageSize}
       category={category || 'mine'}
       searchParams={await searchParams}
-      userId={user.user.id}
+      userId={user.id}
     />
   );
 }

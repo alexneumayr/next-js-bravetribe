@@ -1,22 +1,29 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { getNewestExperiencesInsecure } from '@/database/experiences';
-import checkAuth from '@/util/checkAuth';
+import { getUserBySessionToken } from '@/database/users';
+import { getCookie } from '@/util/cookies';
 import levelNames from '@/util/levelNames';
 import { maxTextLength } from '@/util/maxTextLength';
 import { Heart, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import DisplayStarRating from './components/DisplayStarRating';
 
 export default async function page() {
-  const user = await checkAuth();
+  const sessionTokenCookie = await getCookie('sessionToken');
+  const user =
+    sessionTokenCookie && (await getUserBySessionToken(sessionTokenCookie));
+  if (!user) {
+    redirect('/');
+  }
   const experiences = await getNewestExperiencesInsecure();
   return (
     <>
       <div className="">
         <h1 className="text-3xl font-bold">Home</h1>
         <p className="text-lg font-medium">
-          Welcome, {user.user.username}! Get inspired by the newest experiences
+          Welcome, {/* user.username */}! Get inspired by the newest experiences
           of our members and create your own.
         </p>
       </div>

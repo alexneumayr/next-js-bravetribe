@@ -1,4 +1,4 @@
-import { getValidSessionToken } from '@/database/sessions';
+import { getValidSession } from '@/database/sessions';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import AccessTabs from './AccessTabs';
@@ -12,8 +12,7 @@ export default async function AccessPage() {
 
   // 2. Check if the sessionToken cookie is still valid
   const session =
-    sessionTokenCookie &&
-    (await getValidSessionToken(sessionTokenCookie.value));
+    sessionTokenCookie && (await getValidSession(sessionTokenCookie.value));
 
   // 3. If the sessionToken cookie is valid, redirect to home
   if (session) {

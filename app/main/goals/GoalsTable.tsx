@@ -1,5 +1,4 @@
 'use client';
-import { logoutUser } from '@/actions/authActions';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -20,6 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { createGoal } from '@/database/goals';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -110,13 +110,9 @@ export function GoalsTable<TData, TValue>({
 
           <Dialog>
             <DialogTrigger>
-              <Button
-                variant="secondary"
-                className="text-secondary-foreground w-[52px] h-[30px] text-xs font-medium"
-                type="button"
-              >
+              <div className="bg-secondary flex items-center justify-center rounded-[5px] text-secondary-foreground w-[52px] h-[30px] text-xs font-medium">
                 New
-              </Button>
+              </div>
             </DialogTrigger>
             <DialogContent className="max-w-[425px]">
               <DialogHeader>
@@ -136,10 +132,7 @@ export function GoalsTable<TData, TValue>({
                 <DatePicker date={date} setDate={setDate} />
               </div>
               <DialogFooter>
-                <form
-                  className="flex justify-around w-full gap-x-2 mt-3"
-                  action={logoutUser}
-                >
+                <form className="flex justify-around w-full gap-x-2 mt-3">
                   <Button className="w-full" type="submit">
                     Logout
                   </Button>

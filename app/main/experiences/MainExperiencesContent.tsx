@@ -8,7 +8,12 @@ type Props = {
   currentPage: number;
   pageSize: number;
   category: string;
-  searchParams: { [key: string]: string };
+  searchParams: {
+    page?: string;
+    pageSize?: string;
+    category?: string;
+    text?: string;
+  };
   userId: string;
 };
 
