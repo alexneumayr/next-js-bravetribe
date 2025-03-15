@@ -1,6 +1,17 @@
 'use client';
+import { logoutUser } from '@/actions/authActions';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Table,
   TableBody,
@@ -26,6 +37,7 @@ import {
 import { ArrowDown, ArrowUp, ChevronsUpDown, Search } from 'lucide-react';
 import { useState } from 'react';
 import AddGoal from './AddGoal';
+import { DatePicker } from './DatePicker';
 
 const columns = [
   {
@@ -57,6 +69,7 @@ export function GoalsTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [showSearch, setShowSearch] = useState(false);
+  const [date, setDate] = useState<Date>();
 
   const table = useReactTable({
     data,
@@ -94,12 +107,51 @@ export function GoalsTable<TData, TValue>({
           >
             <Search className="w-[18px] h-[18px]" />
           </button>
-          <Button
-            variant="secondary"
-            className="text-secondary-foreground w-[52px] h-[30px] text-xs font-medium"
-          >
-            New
-          </Button>
+
+          <Dialog>
+            <DialogTrigger>
+              <Button
+                variant="secondary"
+                className="text-secondary-foreground w-[52px] h-[30px] text-xs font-medium"
+                type="button"
+              >
+                New
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>
+                  <h2 className="font-semibold text-2xl">Add goal</h2>
+                  <p className="text-zinc-500 text-sm font-medium">
+                    Here you can add a new goal.
+                  </p>
+                </DialogTitle>
+              </DialogHeader>
+              <div>
+                <Label htmlFor="goal">Goal</Label>
+                <Input id="goal" />
+              </div>
+              <div>
+                <Label htmlFor="deadline">Deadline</Label>
+                <DatePicker date={date} setDate={setDate} />
+              </div>
+              <DialogFooter>
+                <form
+                  className="flex justify-around w-full gap-x-2 mt-3"
+                  action={logoutUser}
+                >
+                  <Button className="w-full" type="submit">
+                    Logout
+                  </Button>
+                  <DialogClose asChild>
+                    <Button variant="outline" className="w-full" type="button">
+                      Cancel
+                    </Button>
+                  </DialogClose>
+                </form>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
         <div
           className={`relative flex-1 transition-all ${showSearch ? 'block' : 'hidden'}`}
