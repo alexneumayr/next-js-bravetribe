@@ -23,8 +23,8 @@ export default async function page() {
       <div className="">
         <h1 className="text-3xl font-bold">Home</h1>
         <p className="text-lg font-medium">
-          Welcome, {/* user.username */}! Get inspired by the newest experiences
-          of our members and create your own.
+          Welcome, {user.username}! Get inspired by the newest experiences of
+          our members and create your own.
         </p>
       </div>
       <Separator className="mt-4" />
