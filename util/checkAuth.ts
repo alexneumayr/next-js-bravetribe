@@ -16,5 +16,6 @@ export default async function checkAuth() {
     params.set('mode', 'signin');
     redirect(`/access?${params}`);
   }
+
   return user;
 }

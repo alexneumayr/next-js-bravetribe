@@ -13,6 +13,9 @@ export async function getUserBySessionToken(sessionToken: string) {
   const user = await prisma.session.findUnique({
     where: {
       token: sessionToken,
+      expiryTimestamp: {
+        gt: new Date(),
+      },
     },
     select: {
       user: true,
