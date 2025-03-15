@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { Prisma } from '@prisma/client';
+import { Prisma, type Session, type User } from '@prisma/client';
 
 export async function getNewestUsersInsecure() {
   const users = await prisma.user.findMany({
@@ -9,7 +9,7 @@ export async function getNewestUsersInsecure() {
   return users;
 }
 
-export async function getUserBySessionToken(sessionToken: string) {
+export async function getUserBySessionToken(sessionToken: Session['token']) {
   const user = await prisma.session.findUnique({
     where: {
       token: sessionToken,
@@ -24,7 +24,7 @@ export async function getUserBySessionToken(sessionToken: string) {
   return user;
 }
 
-export async function getUserByEmailInsecure(email: string) {
+export async function getUserByEmailInsecure(email: User['email']) {
   const user = await prisma.user.findUnique({
     where: {
       email: email,
@@ -38,7 +38,7 @@ export async function getUserByEmailInsecure(email: string) {
   return user;
 }
 
-export async function getUserByUsernameInsecure(username: string) {
+export async function getUserByUsernameInsecure(username: User['username']) {
   const user = await prisma.user.findUnique({
     where: {
       username: username,
@@ -52,7 +52,9 @@ export async function getUserByUsernameInsecure(username: string) {
   return user;
 }
 
-export async function getUserWithPasswordHashInsecure(username: string) {
+export async function getUserWithPasswordHashInsecure(
+  username: User['username'],
+) {
   const user = await prisma.user.findUnique({
     where: {
       username: username.toLowerCase(),
@@ -62,9 +64,9 @@ export async function getUserWithPasswordHashInsecure(username: string) {
 }
 
 export async function createUserInsecure(
-  username: string,
-  email: string,
-  passwordHash: string,
+  username: User['username'],
+  email: User['email'],
+  passwordHash: User['passwordHash'],
 ) {
   const user = await prisma.user.create({
     data: {
