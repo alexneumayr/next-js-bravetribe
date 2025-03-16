@@ -34,5 +34,5 @@ export const goalSchema = z.object({
   title: z.string().min(3, {
     message: 'Please type in your goal',
   }),
-  deadline: z.coerce.date({ message: 'Please input a date' }),
+  deadline: z.coerce.date(),
 });

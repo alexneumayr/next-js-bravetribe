@@ -70,6 +70,17 @@ type DataTableProps<TData, TValue> = {
   data: Goal[];
 };
 
+type Row = {
+  original: Goal;
+};
+
+const isRowHighlighted = (row: Row) => {
+  const deadline = row.original.deadline;
+  if (deadline) {
+    return deadline > new Date();
+  }
+};
+
 export function GoalsTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
@@ -316,6 +327,7 @@ export function GoalsTable<TData, TValue>({
                 <TableRow
                   key={`row-${row.id}`}
                   data-state={row.getIsSelected() && 'selected'}
+                  className={isRowHighlighted(row) ? 'text-red-500' : ''}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell className="py-4" key={`cell-${cell.id}`}>
