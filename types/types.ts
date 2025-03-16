@@ -20,11 +20,10 @@ export type LoginActionState = {
 };
 
 export type CreateGoalActionState =
-  | { goal: Pick<Goal, 'title' | 'additionalNotes' | 'deadline'> }
+  | { goal: Pick<Goal, 'title' | 'deadline'> }
   | {
       error: {
         title?: string[];
-        additionalNotes?: string[];
         deadline?: string[];
         general?: string;
       };

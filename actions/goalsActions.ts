@@ -10,17 +10,22 @@ export async function createGoalAction(
   formData: FormData,
 ): Promise<CreateGoalActionState> {
   // 1. Formdaten validieren
+  console.log('SA title', formData.get('title'));
+  console.log('SA deadline', formData.get('deadline'));
+  console.log('SA additional', formData.get('additional'));
+
   const validatedFields = goalSchema.safeParse({
     title: formData.get('title'),
-    additionalNotes: formData.get('additionalNotes'),
     deadline: formData.get('deadline'),
   });
 
   if (!validatedFields.success) {
+    console.log('Validation unsuccessful');
     return {
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
+  console.log('Validation successful');
 
   // 3. Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
@@ -37,7 +42,6 @@ export async function createGoalAction(
   const newGoal = await createGoal(sessionToken, {
     title: validatedFields.data.title,
     deadline: new Date(validatedFields.data.deadline),
-    additionalNotes: validatedFields.data.additionalNotes,
   });
 
   if (!newGoal) {
@@ -49,7 +53,6 @@ export async function createGoalAction(
   return {
     goal: {
       title: newGoal.title,
-      additionalNotes: newGoal.additionalNotes,
       deadline: newGoal.deadline,
     },
   };

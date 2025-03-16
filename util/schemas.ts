@@ -34,8 +34,5 @@ export const goalSchema = z.object({
   title: z.string().min(3, {
     message: 'Please type in your goal',
   }),
-  additionalNotes: z.string({ message: 'Notes have incorrect datatype' }),
-  deadline: z.string().datetime({
-    message: 'Deadline must be a correct date',
-  }),
+  deadline: z.coerce.date({ message: 'Please input a date' }),
 });

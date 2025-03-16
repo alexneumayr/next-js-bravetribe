@@ -54,7 +54,7 @@ export async function selectGoalExists(goalId: Goal['id']) {
 
 export async function createGoal(
   sessionToken: Session['token'],
-  newGoal: Pick<Goal, 'title' | 'deadline' | 'additionalNotes'>,
+  newGoal: Pick<Goal, 'title' | 'deadline'>,
 ) {
   const user = await getUserBySessionToken(sessionToken);
   if (!user) {
@@ -64,7 +64,6 @@ export async function createGoal(
     data: {
       title: newGoal.title,
       deadline: newGoal.deadline,
-      additionalNotes: newGoal.additionalNotes,
       userId: user.id,
     },
   });

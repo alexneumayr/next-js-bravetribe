@@ -65,9 +65,6 @@ export default function SigninForm({ returnTo }: Props) {
             {'error' in state && state.error.general && (
               <p className="text-red-500 font-bold ">{state.error.general}</p>
             )}
-            {'user' in state && (
-              <p className="text-green-500 font-bold">Welcome back</p>
-            )}
             <FormField
               control={form.control}
               name="username"
