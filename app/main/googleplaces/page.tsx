@@ -11,13 +11,14 @@ export default function GoogleMapsPage() {
   const [errorMessage, setErrorMessage] = useState('');
 
   async function handleGetCoordinatesButtonClicked() {
-    const { latitude, longitude, error } =
-      await getCoordinatesfromPlaceId(placeId);
-    if (latitude && longitude) {
-      setLat(latitude);
-      setLon(longitude);
-    } else if (error) {
-      setErrorMessage(error);
+    try {
+      const { latitude, longitude } = await getCoordinatesfromPlaceId(placeId);
+      if (latitude && longitude) {
+        setLat(latitude);
+        setLon(longitude);
+      }
+    } catch (error) {
+      setErrorMessage(`Error fetching coordinates - ${String(error)}`);
     }
   }
 
