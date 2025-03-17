@@ -13,10 +13,8 @@ export default function GoogleMapsPage() {
   async function handleGetCoordinatesButtonClicked() {
     try {
       const { latitude, longitude } = await getCoordinatesfromPlaceId(placeId);
-      if (latitude && longitude) {
-        setLat(latitude);
-        setLon(longitude);
-      }
+      setLat(latitude);
+      setLon(longitude);
     } catch (error) {
       setErrorMessage(`Error fetching coordinates - ${String(error)}`);
     }
