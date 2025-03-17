@@ -50,7 +50,11 @@ export default function LocationInput({ setPlaceId, setErrorMessage }: Props) {
         },
       );
       const parsedData: ParsedSuggestionsData = await data.json();
-      setSuggestions(parsedData.suggestions);
+      if (!Boolean(parsedData.suggestions)) {
+        setSuggestions([]);
+      } else {
+        setSuggestions(parsedData.suggestions);
+      }
     } catch (error) {
       setErrorMessage('Error fetching suggestions from Google Places API');
       console.log(error);
@@ -61,7 +65,7 @@ export default function LocationInput({ setPlaceId, setErrorMessage }: Props) {
     if (input) {
       const debouncedfetchSuggestions = debounce(async () => {
         await fetchSuggestions();
-      }, 200);
+      }, 500);
       debouncedfetchSuggestions()?.catch((error) => {
         setErrorMessage('Error fetching suggestions from Google Places API');
         console.log(error);
