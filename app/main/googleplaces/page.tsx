@@ -1,0 +1,47 @@
+'use client';
+import { Button } from '@/components/ui/button';
+import { useState } from 'react';
+import { getCoordinatesfromPlaceId } from './getCoordinationsfromPlaceId';
+import LocationInput from './LocationInput';
+
+export default function GoogleMapsPage() {
+  const [placeId, setPlaceId] = useState('');
+  const [lat, setLat] = useState('');
+  const [lon, setLon] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  async function handleGetCoordinatesButtonClicked() {
+    const { latitude, longitude, error } =
+      await getCoordinatesfromPlaceId(placeId);
+    if (latitude && longitude) {
+      setLat(latitude);
+      setLon(longitude);
+    } else if (error) {
+      setErrorMessage(error);
+    }
+  }
+
+  return (
+    <>
+      {errorMessage && <p className="font-bold text-red-500">{errorMessage}</p>}
+      <LocationInput
+        setPlaceId={setPlaceId}
+        setErrorMessage={setErrorMessage}
+      />
+      {placeId && (
+        <div>
+          <p>Place ID: {placeId}</p>
+          <Button onClick={handleGetCoordinatesButtonClicked}>
+            Get coordinates
+          </Button>
+          {lat && lon && (
+            <div>
+              <p>Lat: {lat}</p>
+              <p>Lon: {lon}</p>
+            </div>
+          )}
+        </div>
+      )}
+    </>
+  );
+}
