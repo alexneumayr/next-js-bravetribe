@@ -35,6 +35,13 @@ export const goalSchema = z.object({
   title: z.string().min(3, {
     message: 'Please type in your goal',
   }),
-  deadline: z.coerce.date(),
+  deadline: z.coerce.date({
+    errorMap: (issue, { defaultError }) => ({
+      message:
+        issue.code === 'invalid_date'
+          ? 'Please choose a correct date'
+          : defaultError,
+    }),
+  }),
   additionalNotes: z.string(),
 });
