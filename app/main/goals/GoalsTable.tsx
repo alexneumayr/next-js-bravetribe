@@ -67,7 +67,7 @@ type Row = {
 const isRowHighlighted = (row: Row) => {
   const deadline = row.original.deadline;
   if (deadline) {
-    return deadline > new Date();
+    return deadline <= new Date();
   }
 };
 
