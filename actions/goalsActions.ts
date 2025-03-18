@@ -4,6 +4,7 @@ import { createGoal } from '@/database/goals';
 import type { CreateGoalActionState } from '@/types/types';
 import { getCookie } from '@/util/cookies';
 import { goalSchema } from '@/util/schemas';
+import { redirect } from 'next/navigation';
 
 export async function createGoalAction(
   prevState: any,
@@ -50,10 +51,5 @@ export async function createGoalAction(
     };
   }
 
-  return {
-    goal: {
-      title: newGoal.title,
-      deadline: newGoal.deadline,
-    },
-  };
+  redirect('/main/goals');
 }

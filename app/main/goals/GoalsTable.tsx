@@ -3,15 +3,6 @@ import { createGoalAction } from '@/actions/goalsActions';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import {
   Form,
   FormControl,
   FormField,
@@ -20,7 +11,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Popover,
   PopoverContent,
@@ -61,7 +51,7 @@ import {
 import { useActionState, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { DatePicker } from './DatePicker';
+import NewGoal from './NewGoal';
 
 const columnHelper = createColumnHelper<Goal>();
 
@@ -87,7 +77,6 @@ export function GoalsTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [showSearch, setShowSearch] = useState(false);
-  const [date, setDate] = useState<Date>();
 
   const columns = useMemo(
     () => [
@@ -201,16 +190,14 @@ export function GoalsTable<TData, TValue>({
                       </FormControl>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(fieldDate) =>
-                          fieldDate > new Date() ||
-                          fieldDate < new Date('1900-01-01')
-                        }
-                        initialFocus
-                      />
+                      <div>
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          initialFocus
+                        />
+                      </div>
                     </PopoverContent>
                   </Popover>
                   <FormMessage />
@@ -237,44 +224,7 @@ export function GoalsTable<TData, TValue>({
           >
             <Search className="w-[18px] h-[18px]" />
           </button>
-          <Dialog>
-            <DialogTrigger>
-              <div className="bg-secondary flex items-center justify-center rounded-[5px] text-secondary-foreground w-[52px] h-[30px] text-xs font-medium">
-                New
-              </div>
-            </DialogTrigger>
-            <DialogContent className="max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>
-                  <p className="font-semibold text-2xl">Add goal</p>
-                  <p className="text-zinc-500 text-sm font-medium">
-                    Here you can add a new goal.
-                  </p>
-                </DialogTitle>
-              </DialogHeader>
-
-              <div>
-                <Label htmlFor="goal">Goal</Label>
-                <Input id="goal" />
-              </div>
-              <div>
-                <Label htmlFor="deadline">Deadline</Label>
-                <DatePicker date={date} setDate={setDate} />
-              </div>
-              <DialogFooter>
-                <form className="flex justify-around w-full gap-x-2 mt-3">
-                  <Button className="w-full" type="submit">
-                    Logout
-                  </Button>
-                  <DialogClose asChild>
-                    <Button variant="outline" className="w-full" type="button">
-                      Cancel
-                    </Button>
-                  </DialogClose>
-                </form>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+          <NewGoal />
         </div>
         <div
           className={`relative flex-1 transition-all ${showSearch ? 'block' : 'hidden'}`}

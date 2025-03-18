@@ -151,6 +151,4 @@ export async function logoutUser() {
     // 3. Delete the session cookie from the browser
     cookieStore.delete(token.name);
   }
-
-  return;
 }
