@@ -1,6 +1,5 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -9,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import type { Goal } from '@prisma/client';
+import type { Challenge } from '@prisma/client';
 import {
   type ColumnFiltersState,
   createColumnHelper,
@@ -21,36 +20,37 @@ import {
   type SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-import { ArrowDown, ArrowUp, ChevronsUpDown, Search } from 'lucide-react';
-import { useMemo, useState } from 'react';
-import NewGoal from './NewGoal';
-import UpdateGoal from './UpdateGoal';
+import { ArrowDown, ArrowUp, ChevronsUpDown } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
 
-const columnHelper = createColumnHelper<Goal>();
+const columnHelper = createColumnHelper<Challenge>();
 
 type DataTableProps = {
-  data: Goal[];
+  data: Challenge[];
+  searchText: string;
 };
 
 type Row = {
-  original: Goal;
+  original: Challenge;
 };
 
 const isRowHighlighted = (row: Row) => {
-  const deadline = row.original.deadline;
-  if (deadline) {
-    return deadline <= new Date();
+  const plannedDate = row.original.plannedDate;
+  if (plannedDate) {
+    return plannedDate <= new Date();
   }
 };
 
-export function GoalsTable({ data }: DataTableProps) {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+export function ChallengesTableTodo({ data, searchText }: DataTableProps) {
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
+    {
+      id: 'isCompleted',
+      value: false,
+    },
+  ]);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [showSearch, setShowSearch] = useState(false);
-  const [selectedGoal, setSelectedGoal] = useState<Omit<
-    Goal,
-    'userId' | 'createdAt'
-  > | null>(null);
+  const router = useRouter();
 
   const columns = useMemo(
     () => [
@@ -59,18 +59,18 @@ export function GoalsTable({ data }: DataTableProps) {
         filterFn: 'includesString',
         cell: (info) => info.getValue(),
       }),
+      columnHelper.accessor('isCompleted', {
+        header: 'isCompleted',
+        filterFn: 'equals',
+        cell: (info) => info.getValue().toString(),
+      }),
       columnHelper.accessor('title', {
-        header: 'Goal',
+        header: 'Challenge name',
         filterFn: 'includesString',
         cell: (info) => info.getValue(),
       }),
-      columnHelper.accessor('additionalNotes', {
-        header: 'Notes',
-        filterFn: 'includesString',
-        cell: (info) => (info.getValue() ? 'Added' : 'None'),
-      }),
-      columnHelper.accessor('deadline', {
-        header: 'Deadline',
+      columnHelper.accessor('plannedDate', {
+        header: 'Planned Date',
         filterFn: 'includesString',
         cell: (info) => info.getValue()?.toLocaleDateString('en-GB'),
       }),
@@ -88,6 +88,7 @@ export function GoalsTable({ data }: DataTableProps) {
     initialState: {
       columnVisibility: {
         id: false,
+        isCompleted: false,
       },
     },
 
@@ -99,38 +100,13 @@ export function GoalsTable({ data }: DataTableProps) {
     onColumnFiltersChange: setColumnFilters,
   });
 
+  useEffect(() => {
+    table.getColumn('title')?.setFilterValue(searchText);
+  }, [searchText, table]);
+
   return (
     <div className="space-y-4">
-      {selectedGoal && (
-        <UpdateGoal goal={selectedGoal} onClose={() => setSelectedGoal(null)} />
-      )}
       <div className="space-y-4">
-        <div className="flex items-center gap-2 justify-end">
-          <h2 className="text-sm font-bold mr-auto">
-            Goal list ({data.length})
-          </h2>
-
-          <button
-            className="hover:bg-zinc-100 rounded-[5px] p-[6px] transition-all"
-            onClick={() => setShowSearch(!showSearch)}
-          >
-            <Search className="w-[18px] h-[18px]" />
-          </button>
-          <NewGoal />
-        </div>
-        <div
-          className={`relative flex-1 transition-all ${showSearch ? 'block' : 'hidden'}`}
-        >
-          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            onChange={(event) =>
-              table.getColumn('title')?.setFilterValue(event.target.value)
-            }
-            value={(table.getColumn('title')?.getFilterValue() ?? '') as string}
-            placeholder="What are you looking for?"
-            className="pl-8 rounded-[5px]"
-          />
-        </div>
         <Table className="">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -170,14 +146,10 @@ export function GoalsTable({ data }: DataTableProps) {
                   key={`row-${row.id}`}
                   data-state={row.getIsSelected() && 'selected'}
                   className={`cursor-pointer ${isRowHighlighted(row) ? 'text-red-500' : ''}`}
-                  onClick={() =>
-                    setSelectedGoal({
-                      id: row.getValue('id'),
-                      title: row.getValue('title'),
-                      additionalNotes: row.getValue('additionalNotes'),
-                      deadline: row.getValue('deadline'),
-                    })
-                  }
+                  onClick={() => {
+                    const id = row.getValue('id');
+                    router.push(`/main/challenges/${id as string}}`);
+                  }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell className="py-4" key={`cell-${cell.id}`}>
@@ -195,7 +167,7 @@ export function GoalsTable({ data }: DataTableProps) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No goals yet.
+                  No challenges yet.
                 </TableCell>
               </TableRow>
             )}

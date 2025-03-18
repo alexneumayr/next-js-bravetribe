@@ -26,3 +26,14 @@ export type GoalActionState = {
     general?: string;
   };
 };
+
+export type ChallengeActionState = {
+  error: {
+    id?: string[];
+    title?: string[];
+    description?: string[];
+    isCompleted?: string[];
+    plannedDate?: string[];
+    general?: string;
+  };
+};

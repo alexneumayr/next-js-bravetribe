@@ -1,21 +1,27 @@
 'use server';
 
-import { createGoal, deleteGoal, updateGoal } from '@/database/goals';
-import type { GoalActionState } from '@/types/types';
+import {
+  createChallenge,
+  deleteChallenge,
+  updateChallenge,
+} from '@/database/challenges';
+import type { ChallengeActionState } from '@/types/types';
 import { getCookie } from '@/util/cookies';
-import { goalSchema } from '@/util/schemas';
+import { challengeSchema } from '@/util/schemas';
 import { redirect } from 'next/navigation';
 
-export async function createGoalAction(
+export async function createChallengeAction(
   prevState: any,
   formData: FormData,
-): Promise<GoalActionState> {
+): Promise<ChallengeActionState> {
   // 1. Formdaten validieren
-  const validatedFields = goalSchema.omit({ id: true }).safeParse({
-    title: formData.get('title'),
-    deadline: formData.get('deadline'),
-    additionalNotes: formData.get('additionalNotes'),
-  });
+  const validatedFields = challengeSchema
+    .omit({ id: true, isCompleted: true })
+    .safeParse({
+      title: formData.get('title'),
+      description: formData.get('description'),
+      plannedDate: formData.get('plannedDate'),
+    });
 
   if (!validatedFields.success) {
     console.log('Validation unsuccessful');
@@ -28,7 +34,7 @@ export async function createGoalAction(
   // 3. Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
 
-  // 4. Create the goal
+  // 4. Create the challenge
 
   if (!sessionToken) {
     return {
@@ -37,31 +43,32 @@ export async function createGoalAction(
   }
 
   // Testen, ob es auch ohne try...catch geht!
-  const newGoal = await createGoal(sessionToken, {
+  const newChallenge = await createChallenge(sessionToken, {
     title: validatedFields.data.title,
-    deadline: new Date(validatedFields.data.deadline),
-    additionalNotes: validatedFields.data.additionalNotes || null,
+    description: validatedFields.data.description,
+    plannedDate: new Date(validatedFields.data.plannedDate),
   });
 
-  if (!newGoal) {
+  if (!newChallenge) {
     return {
-      error: { general: 'Failed to create goal' },
+      error: { general: 'Failed to create challenge' },
     };
   }
 
-  redirect('/main/goals');
+  redirect('/main/challenges');
 }
 
-export async function updateGoalAction(
+export async function updateChallengeAction(
   prevState: any,
   formData: FormData,
-): Promise<GoalActionState> {
+): Promise<ChallengeActionState> {
   // 1. Formdaten validieren
-  const validatedFields = goalSchema.safeParse({
+  const validatedFields = challengeSchema.safeParse({
     id: formData.get('id'),
     title: formData.get('title'),
-    deadline: formData.get('deadline'),
-    additionalNotes: formData.get('additionalNotes'),
+    description: formData.get('description'),
+    plannedDate: formData.get('plannedDate'),
+    isCompleted: formData.get('isCompleted'),
   });
 
   if (!validatedFields.success) {
@@ -75,7 +82,7 @@ export async function updateGoalAction(
   // 3. Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
 
-  // 4. Update the goal
+  // 4. Update the challenge
 
   if (!sessionToken) {
     return {
@@ -84,27 +91,28 @@ export async function updateGoalAction(
   }
 
   // Testen, ob es auch ohne try...catch geht!
-  const updatedGoal = await updateGoal(sessionToken, {
+  const updatedChallenge = await updateChallenge(sessionToken, {
     id: validatedFields.data.id,
     title: validatedFields.data.title,
-    deadline: new Date(validatedFields.data.deadline),
-    additionalNotes: validatedFields.data.additionalNotes || null,
+    description: validatedFields.data.description,
+    plannedDate: new Date(validatedFields.data.plannedDate),
+    isCompleted: validatedFields.data.isCompleted,
   });
 
-  if (!updatedGoal) {
+  if (!updatedChallenge) {
     return {
-      error: { general: 'Failed to update goal' },
+      error: { general: 'Failed to update challenge' },
     };
   }
 
-  redirect('/main/goals');
+  redirect('/main/challenges');
 }
 
-export async function deleteGoalAction(
+export async function deleteChallengeAction(
   prevState: any,
   formData: FormData,
-): Promise<GoalActionState> {
-  const validatedFields = goalSchema.pick({ id: true }).safeParse({
+): Promise<ChallengeActionState> {
+  const validatedFields = challengeSchema.pick({ id: true }).safeParse({
     id: formData.get('id'),
   });
 
@@ -119,7 +127,7 @@ export async function deleteGoalAction(
   // 3. Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
 
-  // 4. Delete the goal
+  // 4. Delete the challenge
 
   if (!sessionToken) {
     return {
@@ -128,13 +136,16 @@ export async function deleteGoalAction(
   }
 
   // Testen, ob es auch ohne try...catch geht!
-  const deletedGoal = await deleteGoal(validatedFields.data.id, sessionToken);
+  const deletedChallenge = await deleteChallenge(
+    validatedFields.data.id,
+    sessionToken,
+  );
 
-  if (!Boolean(deletedGoal)) {
+  if (!Boolean(deletedChallenge)) {
     return {
       error: { general: 'Failed to delete goal' },
     };
   }
 
-  redirect('/main/goals');
+  redirect('/main/challenges');
 }

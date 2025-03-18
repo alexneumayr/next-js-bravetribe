@@ -61,7 +61,7 @@ model Challenge {
   title       String
   description String
   isCompleted Boolean      @default(false)
-  plannedDate DateTime?
+  plannedDate DateTime
   user        User         @relation(fields: [userId], references: [id])
   userId      String
   experiences Experience[]

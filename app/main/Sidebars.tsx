@@ -17,7 +17,7 @@ const sidebarNavItems = [
   },
   {
     title: 'Challenge Planner',
-    href: '/main/planner',
+    href: '/main/challenges',
   },
   {
     title: 'Experiences',

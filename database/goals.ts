@@ -43,15 +43,6 @@ export async function getGoal(
   return goal;
 }
 
-export async function selectGoalExists(goalId: Goal['id']) {
-  const goal = await prisma.goal.count({
-    where: {
-      id: goalId,
-    },
-  });
-  return goal > 0;
-}
-
 export async function createGoal(
   sessionToken: Session['token'],
   newGoal: Pick<Goal, 'title' | 'deadline' | 'additionalNotes'>,
@@ -60,7 +51,7 @@ export async function createGoal(
   if (!user) {
     return null;
   }
-  const goals = await prisma.goal.create({
+  const goal = await prisma.goal.create({
     data: {
       title: newGoal.title,
       deadline: newGoal.deadline,
@@ -68,7 +59,7 @@ export async function createGoal(
       userId: user.id,
     },
   });
-  return goals;
+  return goal;
 }
 
 export async function updateGoal(
@@ -79,7 +70,7 @@ export async function updateGoal(
   if (!user) {
     return null;
   }
-  const goals = await prisma.goal.update({
+  const goal = await prisma.goal.update({
     where: {
       id: updatedGoal.id,
       userId: user.id,
@@ -91,7 +82,7 @@ export async function updateGoal(
       userId: user.id,
     },
   });
-  return goals;
+  return goal;
 }
 
 export async function deleteGoal(

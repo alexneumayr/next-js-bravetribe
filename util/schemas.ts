@@ -45,3 +45,22 @@ export const goalSchema = z.object({
   }),
   additionalNotes: z.string(),
 });
+
+export const challengeSchema = z.object({
+  id: z.string().length(25, { message: 'Incorrect ID transmitted' }),
+  title: z.string().min(3, {
+    message: 'Please type in a challenge title',
+  }),
+  description: z.string().min(3, {
+    message: 'Please type in a challenge description',
+  }),
+  plannedDate: z.coerce.date({
+    errorMap: (issue, { defaultError }) => ({
+      message:
+        issue.code === 'invalid_date'
+          ? 'Please choose a correct date'
+          : defaultError,
+    }),
+  }),
+  isCompleted: z.boolean(),
+});
