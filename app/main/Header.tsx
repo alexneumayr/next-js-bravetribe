@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { getUserBySessionToken } from '@/database/users';
 import { getCookie } from '@/util/cookies';
-import { Search } from 'lucide-react';
+import { CircleUserRound, LogOut, Search, Settings } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function Header() {
@@ -56,14 +56,14 @@ export default async function Header() {
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className="cursor-pointer">
-                      Profile
+                      <CircleUserRound /> Profile
                     </DropdownMenuItem>
                     <DropdownMenuItem className="cursor-pointer">
-                      Settings
+                      <Settings /> Settings
                     </DropdownMenuItem>
                     <DialogTrigger asChild>
                       <DropdownMenuItem className="cursor-pointer">
-                        Logout
+                        <LogOut /> Logout
                       </DropdownMenuItem>
                     </DialogTrigger>
                   </DropdownMenuContent>
