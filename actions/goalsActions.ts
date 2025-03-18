@@ -101,8 +101,6 @@ export async function updateGoalAction(
 
 export async function deleteGoalAction(
   goalId: string,
-  prevState: any,
-  formData: FormData,
 ): Promise<CreateGoalActionState> {
   // 3. Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');

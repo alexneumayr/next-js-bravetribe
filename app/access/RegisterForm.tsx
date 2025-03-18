@@ -1,5 +1,5 @@
 'use client';
-import { registerUser } from '@/actions/authActions';
+import { registerUserAction } from '@/actions/authActions';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -45,7 +45,7 @@ export default function RegisterForm({ returnTo }: Props) {
     },
   };
 
-  const loginUserWithReturnTo = registerUser.bind(null, returnTo);
+  const loginUserWithReturnTo = registerUserAction.bind(null, returnTo);
 
   const [state, formAction, pending] = useActionState(
     loginUserWithReturnTo,

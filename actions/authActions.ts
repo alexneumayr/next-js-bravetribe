@@ -15,9 +15,7 @@ import bcrypt from 'bcrypt';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-// -> Evtl. Actions mit "Action" benennen!
-
-export async function registerUser(
+export async function registerUserAction(
   returnTo: string,
   prevState: any,
   formData: FormData,
@@ -83,7 +81,7 @@ export async function registerUser(
   redirect(getSafeReturnToPath(returnTo) || '/main');
 }
 
-export async function loginUser(
+export async function loginUserAction(
   returnTo: string,
   prevState: any,
   formData: FormData,
@@ -138,7 +136,7 @@ export async function loginUser(
   redirect(getSafeReturnToPath(returnTo) || '/main');
 }
 
-export async function logoutUser() {
+export async function logoutUserAction() {
   // Task: Implement the user logout workflow
   const cookieStore = await cookies();
 

@@ -1,4 +1,4 @@
-import { logoutUser } from '@/actions/authActions';
+import { logoutUserAction } from '@/actions/authActions';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -81,7 +81,7 @@ export default async function Header() {
                   <DialogFooter>
                     <form
                       className="flex justify-around w-full gap-x-2"
-                      action={logoutUser}
+                      action={logoutUserAction}
                     >
                       <Button className="w-full" type="submit">
                         Logout

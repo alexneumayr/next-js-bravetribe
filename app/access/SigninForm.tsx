@@ -1,5 +1,5 @@
 'use client';
-import { loginUser } from '@/actions/authActions';
+import { loginUserAction } from '@/actions/authActions';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -43,7 +43,7 @@ export default function SigninForm({ returnTo }: Props) {
     },
   };
 
-  const loginUserWithReturnTo = loginUser.bind(null, returnTo);
+  const loginUserWithReturnTo = loginUserAction.bind(null, returnTo);
 
   const [state, formAction, pending] = useActionState(
     loginUserWithReturnTo,
