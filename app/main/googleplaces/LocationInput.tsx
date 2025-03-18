@@ -29,6 +29,7 @@ export default function LocationInput({ setPlaceId, setErrorMessage }: Props) {
         text: {
           text: string;
         };
+        types: string[];
       };
     }[];
   };
@@ -53,6 +54,7 @@ export default function LocationInput({ setPlaceId, setErrorMessage }: Props) {
       if (!Boolean(parsedData.suggestions)) {
         setSuggestions([]);
       } else {
+        console.log(parsedData);
         setSuggestions(parsedData.suggestions);
       }
     } catch (error) {
@@ -94,6 +96,24 @@ export default function LocationInput({ setPlaceId, setErrorMessage }: Props) {
     setInput(event.currentTarget.value);
   }
 
+  function selectPlaceIcon(typesList: string[]) {
+    let materialIcon;
+    switch (true) {
+      case typesList.includes('airport'):
+        materialIcon = 'local_airport';
+        break;
+      case typesList.includes('restaurant'):
+        materialIcon = 'restaurant';
+        break;
+      case typesList.includes('store'):
+        materialIcon = 'local_mall';
+        break;
+      default:
+        materialIcon = 'place';
+    }
+    return materialIcon;
+  }
+
   return (
     <div className="space-y-2">
       <Input
@@ -107,18 +127,31 @@ export default function LocationInput({ setPlaceId, setErrorMessage }: Props) {
             <CommandGroup heading="Suggestions">
               {suggestions.length > 0 &&
                 suggestions.map((suggestion) => (
-                  <CommandItem
-                    key={`place-${suggestion.placePrediction.placeId}`}
-                    onSelect={() =>
-                      handleSuggestionSelect(
-                        suggestion.placePrediction.text.text,
-                        suggestion.placePrediction.placeId,
-                      )
-                    }
-                  >
-                    {suggestion.placePrediction.text.text}
-                  </CommandItem>
+                  <div key={`place-${suggestion.placePrediction.placeId}`}>
+                    <CommandItem
+                      onSelect={() =>
+                        handleSuggestionSelect(
+                          suggestion.placePrediction.text.text,
+                          suggestion.placePrediction.placeId,
+                        )
+                      }
+                    >
+                      <div>
+                        <i className="material-icons">
+                          {selectPlaceIcon(suggestion.placePrediction.types)}
+                        </i>
+                      </div>
+                      {suggestion.placePrediction.text.text}
+                    </CommandItem>
+                  </div>
                 ))}
+              <CommandItem className="h-[41px]">
+                <img
+                  className="ml-auto"
+                  src="/logos/powered_by_google_on_white.png"
+                  alt="Powered by Google logo"
+                />
+              </CommandItem>
             </CommandGroup>
           </CommandList>
         </Command>
