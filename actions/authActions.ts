@@ -15,6 +15,8 @@ import bcrypt from 'bcrypt';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
+// -> Evtl. Actions mit "Action" benennen!
+
 export async function registerUser(
   returnTo: string,
   prevState: any,

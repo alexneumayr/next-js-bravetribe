@@ -35,4 +35,5 @@ export const goalSchema = z.object({
     message: 'Please type in your goal',
   }),
   deadline: z.coerce.date(),
+  additionalNotes: z.string().optional().nullable(),
 });

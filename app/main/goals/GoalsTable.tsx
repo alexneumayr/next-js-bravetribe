@@ -29,7 +29,6 @@ import { goalSchema } from '@/util/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { Goal } from '@prisma/client';
 import {
-  type ColumnDef,
   type ColumnFiltersState,
   createColumnHelper,
   flexRender,
@@ -48,15 +47,17 @@ import {
   ChevronsUpDown,
   Search,
 } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useActionState, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import NewGoal from './NewGoal';
+import UpdateGoal from './UpdateGoal';
 
 const columnHelper = createColumnHelper<Goal>();
 
-type DataTableProps<TData, TValue> = {
-  columns: ColumnDef<TData, TValue>[];
+type DataTableProps = {
   data: Goal[];
 };
 
@@ -71,15 +72,19 @@ const isRowHighlighted = (row: Row) => {
   }
 };
 
-export function GoalsTable<TData, TValue>({
-  data,
-}: DataTableProps<TData, TValue>) {
+export function GoalsTable({ data }: DataTableProps) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [showSearch, setShowSearch] = useState(false);
+  const [selectedGoal, setSelectedGoal] = useState(null);
 
   const columns = useMemo(
     () => [
+      columnHelper.accessor('id', {
+        header: 'Id',
+        filterFn: 'includesString',
+        cell: (info) => info.getValue(),
+      }),
       columnHelper.accessor('title', {
         header: 'Goal',
         filterFn: 'includesString',
@@ -88,7 +93,7 @@ export function GoalsTable<TData, TValue>({
       columnHelper.accessor('additionalNotes', {
         header: 'Notes',
         filterFn: 'includesString',
-        cell: (info) => (info.getValue() ? 'View' : 'Add'),
+        cell: (info) => (info.getValue() ? 'Added' : 'None'),
       }),
       columnHelper.accessor('deadline', {
         header: 'Deadline',
@@ -124,6 +129,11 @@ export function GoalsTable<TData, TValue>({
       sorting,
       columnFilters,
     },
+    initialState: {
+      columnVisibility: {
+        id: false,
+      },
+    },
 
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
@@ -135,84 +145,10 @@ export function GoalsTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
+      {selectedGoal && (
+        <UpdateGoal goal={selectedGoal} onClose={() => setSelectedGoal(null)} />
+      )}
       <div className="space-y-4">
-        <Form {...form}>
-          <form action={formAction} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Goal</FormLabel>
-                  <FormControl>
-                    <Input placeholder="I want to fly to the moon" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                  <FormMessage className="">
-                    {'error' in state && state.error.title}
-                  </FormMessage>
-                  <FormMessage className="">
-                    {'error' in state && state.error.deadline}
-                  </FormMessage>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="deadline"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Deadline</FormLabel>
-                  <Input
-                    type="hidden"
-                    {...field}
-                    value={
-                      Boolean(field.value) ? field.value.toISOString() : ''
-                    }
-                  />
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            'w-[240px] pl-3 text-left font-normal',
-                            Boolean(!field.value) && 'text-muted-foreground',
-                          )}
-                        >
-                          {Boolean(field.value) ? (
-                            format(field.value, 'PPP')
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <div>
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          initialFocus
-                        />
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button disabled={pending} type="submit">
-              Submit
-            </Button>
-          </form>
-        </Form>
-        {'error' in state && state.error.general && (
-          <p className="text-red-500 font-bold ">{state.error.general}</p>
-        )}
-
         <div className="flex items-center gap-2 justify-end">
           <h2 className="text-sm font-bold mr-auto">
             Goal list ({data.length})
@@ -277,7 +213,15 @@ export function GoalsTable<TData, TValue>({
                 <TableRow
                   key={`row-${row.id}`}
                   data-state={row.getIsSelected() && 'selected'}
-                  className={isRowHighlighted(row) ? 'text-red-500' : ''}
+                  className={`cursor-pointer ${isRowHighlighted(row) ? 'text-red-500' : ''}`}
+                  onClick={() =>
+                    setSelectedGoal({
+                      id: row.getValue('id'),
+                      title: row.getValue('title'),
+                      additionalNotes: row.getValue('additionalNotes'),
+                      deadline: row.getValue('deadline'),
+                    })
+                  }
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell className="py-4" key={`cell-${cell.id}`}>
