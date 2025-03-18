@@ -90,7 +90,7 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                 <p className="font-semibold text-2xl">Update goal</p>
 
                 <button
-                  className="text-destructive hover:text-red-600 focus:border-none"
+                  className="text-destructive hover:text-red-600   focus:text-red-600 focus:outline-none"
                   onClick={() => setDeleteClicked(true)}
                 >
                   <Trash2 />
@@ -246,7 +246,12 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                   Delete
                 </Button>
                 <DialogClose asChild>
-                  <Button variant="outline" className="w-full" type="button">
+                  <Button
+                    autoFocus
+                    variant="outline"
+                    className="w-full"
+                    type="button"
+                  >
                     Cancel
                   </Button>
                 </DialogClose>
