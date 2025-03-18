@@ -86,11 +86,8 @@ export default function NewGoal() {
                     <Input placeholder="I want to fly to the moon" {...field} />
                   </FormControl>
                   <FormMessage />
-                  <FormMessage className="">
+                  <FormMessage>
                     {'error' in state && state.error.title}
-                  </FormMessage>
-                  <FormMessage className="">
-                    {'error' in state && state.error.deadline}
                   </FormMessage>
                 </FormItem>
               )}
@@ -140,7 +137,9 @@ export default function NewGoal() {
                       </div>
                     </PopoverContent>
                   </Popover>
-                  <FormMessage />
+                  <FormMessage>
+                    {'error' in state && state.error.deadline}
+                  </FormMessage>
                 </FormItem>
               )}
             />
@@ -155,10 +154,7 @@ export default function NewGoal() {
                   </FormControl>
                   <FormMessage />
                   <FormMessage className="">
-                    {'error' in state && state.error.title}
-                  </FormMessage>
-                  <FormMessage className="">
-                    {'error' in state && state.error.deadline}
+                    {'error' in state && state.error.additionalNotes}
                   </FormMessage>
                 </FormItem>
               )}

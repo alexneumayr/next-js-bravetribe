@@ -31,7 +31,7 @@ export const signinSchema = z.object({
 });
 
 export const goalSchema = z.object({
-  id: z.string().length(25),
+  id: z.string().length(25, { message: 'Incorrect ID transmitted' }),
   title: z.string().min(3, {
     message: 'Please type in your goal',
   }),

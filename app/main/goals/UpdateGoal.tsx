@@ -46,7 +46,7 @@ export default function UpdateGoal({ goal, onClose }: Props) {
     },
   };
 
-  const form = useForm<z.infer<typeof goalSchema>>({
+  const updateForm = useForm<z.infer<typeof goalSchema>>({
     resolver: zodResolver(goalSchema),
     defaultValues: {
       title: goal.title,
@@ -92,10 +92,10 @@ export default function UpdateGoal({ goal, onClose }: Props) {
             </DialogTitle>
           </DialogHeader>
 
-          <Form {...form}>
+          <Form {...updateForm}>
             <form action={updateFormAction}>
               <FormField
-                control={form.control}
+                control={updateForm.control}
                 name="title"
                 render={({ field }) => (
                   <FormItem>
@@ -104,17 +104,14 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                       <Input {...field} />
                     </FormControl>
                     <FormMessage />
-                    <FormMessage className="">
+                    <FormMessage>
                       {'error' in updateState && updateState.error.title}
-                    </FormMessage>
-                    <FormMessage className="">
-                      {'error' in updateState && updateState.error.deadline}
                     </FormMessage>
                   </FormItem>
                 )}
               />
               <FormField
-                control={form.control}
+                control={updateForm.control}
                 name="deadline"
                 render={({ field }) => (
                   <FormItem className="flex flex-col mt-4">
@@ -152,12 +149,14 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                         </div>
                       </PopoverContent>
                     </Popover>
-                    <FormMessage />
+                    <FormMessage>
+                      {'error' in updateState && updateState.error.deadline}
+                    </FormMessage>
                   </FormItem>
                 )}
               />
               <FormField
-                control={form.control}
+                control={updateForm.control}
                 name="additionalNotes"
                 render={({ field }) => (
                   <FormItem className="mt-2">
@@ -167,16 +166,14 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                     </FormControl>
                     <FormMessage />
                     <FormMessage className="">
-                      {'error' in deletionState && deletionState.error.title}
-                    </FormMessage>
-                    <FormMessage className="">
-                      {'error' in deletionState && deletionState.error.deadline}
+                      {'error' in updateState &&
+                        updateState.error.additionalNotes}
                     </FormMessage>
                   </FormItem>
                 )}
               />
               <FormField
-                control={form.control}
+                control={updateForm.control}
                 name="id"
                 render={({ field }) => (
                   <FormItem className="hidden">
@@ -240,6 +237,11 @@ export default function UpdateGoal({ goal, onClose }: Props) {
           <DialogFooter>
             <form action={deletionFormAction} className="w-full">
               <input name="id" value={goal.id} type="hidden" />
+              {'error' in deletionState && deletionState.error.id && (
+                <p className="text-red-500 font-bold ">
+                  {deletionState.error.id}
+                </p>
+              )}
               <div className="flex justify-around w-full gap-x-2 mt-6">
                 <Button
                   variant="destructive"
@@ -255,6 +257,11 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                   </Button>
                 </DialogClose>
               </div>
+              {'error' in deletionState && deletionState.error.general && (
+                <p className="text-red-500 font-bold ">
+                  {updateState.error.general}
+                </p>
+              )}
             </form>
           </DialogFooter>
         </DialogContent>
