@@ -115,7 +115,7 @@ export default function NewGoal() {
                           variant="outline"
                           className={cn(
                             'w-full pl-3 text-left font-normal',
-                            Boolean(!field.value) && 'text-muted-foreground',
+                            !Boolean(field.value) && 'text-muted-foreground',
                           )}
                         >
                           {Boolean(field.value) ? (

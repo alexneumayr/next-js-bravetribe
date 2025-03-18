@@ -1,5 +1,3 @@
-import type { Goal } from '@prisma/client';
-
 export type RegisterActionState = {
   error: {
     confirmPasswordMatch?: string[];
@@ -19,14 +17,12 @@ export type LoginActionState = {
   };
 };
 
-export type CreateGoalActionState =
-  | { goal: Omit<Goal, 'userId' | 'createdAt'> }
-  | {
-      error: {
-        id?: string[];
-        title?: string[];
-        deadline?: string[];
-        additionalNotes?: string[];
-        general?: string;
-      };
-    };
+export type GoalActionState = {
+  error: {
+    id?: string[];
+    title?: string[];
+    deadline?: string[];
+    additionalNotes?: string[];
+    general?: string;
+  };
+};

@@ -36,13 +36,13 @@ model User {
 }
 
 model Goal {
-  id              String    @id @default(cuid())
+  id              String   @id @default(cuid())
   title           String
-  deadline        DateTime?
+  deadline        DateTime
   additionalNotes String?
-  user            User      @relation(fields: [userId], references: [id])
+  user            User     @relation(fields: [userId], references: [id])
   userId          String
-  createdAt       DateTime  @default(now())
+  createdAt       DateTime @default(now())
 }
 
 model Friend {

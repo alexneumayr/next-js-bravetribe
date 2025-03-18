@@ -1,21 +1,6 @@
 'use client';
-import { createGoalAction } from '@/actions/goalsActions';
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
 import {
   Table,
   TableBody,
@@ -24,9 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { cn } from '@/lib/utils';
-import { goalSchema } from '@/util/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
 import type { Goal } from '@prisma/client';
 import {
   type ColumnFiltersState,
@@ -39,19 +21,8 @@ import {
   type SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-import { format } from 'date-fns';
-import {
-  ArrowDown,
-  ArrowUp,
-  CalendarIcon,
-  ChevronsUpDown,
-  Search,
-} from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useActionState, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { ArrowDown, ArrowUp, ChevronsUpDown, Search } from 'lucide-react';
+import { useMemo, useState } from 'react';
 import NewGoal from './NewGoal';
 import UpdateGoal from './UpdateGoal';
 
@@ -76,7 +47,10 @@ export function GoalsTable({ data }: DataTableProps) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [showSearch, setShowSearch] = useState(false);
-  const [selectedGoal, setSelectedGoal] = useState(null);
+  const [selectedGoal, setSelectedGoal] = useState<Omit<
+    Goal,
+    'userId' | 'createdAt'
+  > | null>(null);
 
   const columns = useMemo(
     () => [
@@ -102,24 +76,6 @@ export function GoalsTable({ data }: DataTableProps) {
       }),
     ],
     [],
-  );
-
-  const form = useForm<z.infer<typeof goalSchema>>({
-    resolver: zodResolver(goalSchema),
-    defaultValues: {
-      title: '',
-      deadline: undefined,
-    },
-  });
-  const initialState = {
-    error: {
-      general: '',
-    },
-  };
-
-  const [state, formAction, pending] = useActionState(
-    createGoalAction,
-    initialState,
   );
 
   const table = useReactTable({

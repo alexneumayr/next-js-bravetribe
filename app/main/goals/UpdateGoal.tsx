@@ -1,8 +1,4 @@
-import {
-  createGoalAction,
-  deleteGoalAction,
-  updateGoalAction,
-} from '@/actions/goalsActions';
+import { deleteGoalAction, updateGoalAction } from '@/actions/goalsActions';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -12,7 +8,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Form,
@@ -24,7 +19,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { getGoal, selectGoalExists } from '@/database/goals';
 import { cn } from '@/lib/utils';
 import { goalSchema } from '@/util/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -36,13 +30,12 @@ import {
 } from '@radix-ui/react-popover';
 import { format } from 'date-fns';
 import { CalendarIcon, Trash2 } from 'lucide-react';
-import Link from 'next/link';
 import React, { useActionState, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 type Props = {
-  goal: Goal;
+  goal: Omit<Goal, 'userId' | 'createdAt'>;
   onClose: () => void;
 };
 
@@ -63,14 +56,10 @@ export default function UpdateGoal({ goal, onClose }: Props) {
     },
   });
 
-  // const updateGoalActionWithGoalId = updateGoalAction.bind(null, goal.id);
-
   const [updateState, updateFormAction, updatePending] = useActionState(
     updateGoalAction,
     initialState,
   );
-
-  //  const deleteGoalActionWithGoalId = deleteGoalAction.bind(null, goal.id);
 
   const [deletionState, deletionFormAction, deletionPending] = useActionState(
     deleteGoalAction,
@@ -133,9 +122,7 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                     <Input
                       type="hidden"
                       {...field}
-                      value={
-                        Boolean(field.value) ? field.value.toISOString() : ''
-                      }
+                      value={field.value.toISOString()}
                     />
                     <Popover>
                       <PopoverTrigger asChild>
@@ -147,11 +134,7 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                               Boolean(!field.value) && 'text-muted-foreground',
                             )}
                           >
-                            {Boolean(field.value) ? (
-                              format(field.value, 'PPP')
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
+                            {format(field.value, 'PPP')}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
                         </FormControl>

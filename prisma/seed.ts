@@ -85,10 +85,12 @@ const initUsers: Prisma.UserCreateInput[] = [
           {
             title:
               'I want to confidently approach strangers and start conversations.',
+            deadline: '2026-03-18T10:06:10.000Z',
           },
           {
             title:
               "I want to do a solo trip to a country where I don't speak the language.",
+            deadline: '2026-03-18T10:06:10.000Z',
           },
         ],
       },
@@ -110,10 +112,12 @@ const initUsers: Prisma.UserCreateInput[] = [
           {
             title:
               'I want to be able to sing in front of an audience without fear.',
+            deadline: '2026-03-18T10:06:10.000Z',
           },
           {
             title:
               'I want to be more confident when giving technical presentations.',
+            deadline: '2026-03-18T10:06:10.000Z',
           },
         ],
       },
@@ -135,9 +139,11 @@ const initUsers: Prisma.UserCreateInput[] = [
           {
             title:
               'I want to start conversations with random people at the gym.',
+            deadline: '2026-03-18T10:06:10.000Z',
           },
           {
             title: 'I want to try an extreme sport that scares me.',
+            deadline: '2026-03-18T10:06:10.000Z',
           },
         ],
       },
@@ -158,10 +164,12 @@ const initUsers: Prisma.UserCreateInput[] = [
         data: [
           {
             title: 'I want to perform stand-up comedy at an open mic night.',
+            deadline: '2026-03-18T10:06:10.000Z',
           },
           {
             title:
               'I want to confidently start conversations with anyone, anywhere.',
+            deadline: '2026-03-18T10:06:10.000Z',
           },
         ],
       },
@@ -182,9 +190,11 @@ const initUsers: Prisma.UserCreateInput[] = [
         data: [
           {
             title: 'I want to be comfortable taking selfies in public.',
+            deadline: '2026-03-18T10:06:10.000Z',
           },
           {
             title: 'I want to ask strangers if I can take their portraits.',
+            deadline: '2026-03-18T10:06:10.000Z',
           },
         ],
       },

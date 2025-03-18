@@ -1,7 +1,7 @@
 'use server';
 
 import { createGoal, deleteGoal, updateGoal } from '@/database/goals';
-import type { CreateGoalActionState } from '@/types/types';
+import type { GoalActionState } from '@/types/types';
 import { getCookie } from '@/util/cookies';
 import { goalSchema } from '@/util/schemas';
 import { redirect } from 'next/navigation';
@@ -9,7 +9,7 @@ import { redirect } from 'next/navigation';
 export async function createGoalAction(
   prevState: any,
   formData: FormData,
-): Promise<CreateGoalActionState> {
+): Promise<GoalActionState> {
   // 1. Formdaten validieren
   const validatedFields = goalSchema.omit({ id: true }).safeParse({
     title: formData.get('title'),
@@ -40,7 +40,7 @@ export async function createGoalAction(
   const newGoal = await createGoal(sessionToken, {
     title: validatedFields.data.title,
     deadline: new Date(validatedFields.data.deadline),
-    additionalNotes: validatedFields.data.additionalNotes || '',
+    additionalNotes: validatedFields.data.additionalNotes || null,
   });
 
   if (!newGoal) {
@@ -55,7 +55,7 @@ export async function createGoalAction(
 export async function updateGoalAction(
   prevState: any,
   formData: FormData,
-): Promise<CreateGoalActionState> {
+): Promise<GoalActionState> {
   // 1. Formdaten validieren
   const validatedFields = goalSchema.safeParse({
     id: formData.get('id'),
@@ -88,7 +88,7 @@ export async function updateGoalAction(
     id: validatedFields.data.id,
     title: validatedFields.data.title,
     deadline: new Date(validatedFields.data.deadline),
-    additionalNotes: validatedFields.data.additionalNotes || '',
+    additionalNotes: validatedFields.data.additionalNotes || null,
   });
 
   if (!updatedGoal) {
@@ -103,7 +103,7 @@ export async function updateGoalAction(
 export async function deleteGoalAction(
   prevState: any,
   formData: FormData,
-): Promise<CreateGoalActionState> {
+): Promise<GoalActionState> {
   const validatedFields = goalSchema.pick({ id: true }).safeParse({
     id: formData.get('id'),
   });
