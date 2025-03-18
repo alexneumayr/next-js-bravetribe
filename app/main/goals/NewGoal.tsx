@@ -18,6 +18,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { goalSchema } from '@/util/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -44,6 +45,7 @@ export default function NewGoal() {
     defaultValues: {
       title: '',
       deadline: undefined,
+      additionalNotes: '',
     },
   });
 
@@ -139,6 +141,25 @@ export default function NewGoal() {
                     </PopoverContent>
                   </Popover>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="additionalNotes"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormLabel>Additional Notes</FormLabel>
+                  <FormControl>
+                    <Textarea {...field} />
+                  </FormControl>
+                  <FormMessage />
+                  <FormMessage className="">
+                    {'error' in state && state.error.title}
+                  </FormMessage>
+                  <FormMessage className="">
+                    {'error' in state && state.error.deadline}
+                  </FormMessage>
                 </FormItem>
               )}
             />
