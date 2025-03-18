@@ -59,13 +59,14 @@ export default function UpdateGoal({ goal, onClose }: Props) {
       title: goal.title,
       deadline: goal.deadline,
       additionalNotes: goal.additionalNotes || '',
+      id: goal.id,
     },
   });
 
-  const updateGoalActionWithGoalId = updateGoalAction.bind(null, goal.id);
+  // const updateGoalActionWithGoalId = updateGoalAction.bind(null, goal.id);
 
   const [updateState, updateFormAction, updatePending] = useActionState(
-    updateGoalActionWithGoalId,
+    updateGoalAction,
     initialState,
   );
 
@@ -187,6 +188,25 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                     </FormMessage>
                     <FormMessage className="">
                       {'error' in deletionState && deletionState.error.deadline}
+                    </FormMessage>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="id"
+                render={({ field }) => (
+                  <FormItem className="hidden">
+                    <FormLabel>Id (Hidden Field)</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                    <FormMessage className="">
+                      {'error' in updateState && updateState.error.title}
+                    </FormMessage>
+                    <FormMessage className="">
+                      {'error' in updateState && updateState.error.deadline}
                     </FormMessage>
                   </FormItem>
                 )}

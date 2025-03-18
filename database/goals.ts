@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/prisma';
 import { type Goal, type Session } from '@prisma/client';
-import { update } from 'lodash';
 import { getUserBySessionToken } from './users';
 
 export async function getGoals(sessionToken: Session['token']) {
@@ -73,9 +72,8 @@ export async function createGoal(
 }
 
 export async function updateGoal(
-  goalId: string,
   sessionToken: Session['token'],
-  updatedGoal: Pick<Goal, 'title' | 'deadline' | 'additionalNotes'>,
+  updatedGoal: Pick<Goal, 'id' | 'title' | 'deadline' | 'additionalNotes'>,
 ) {
   const user = await getUserBySessionToken(sessionToken);
   if (!user) {
@@ -83,7 +81,7 @@ export async function updateGoal(
   }
   const goals = await prisma.goal.update({
     where: {
-      id: goalId,
+      id: updatedGoal.id,
       userId: user.id,
     },
     data: {
