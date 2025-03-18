@@ -80,7 +80,7 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                 <p className="font-semibold text-2xl">Update goal</p>
 
                 <button
-                  className="text-destructive hover:text-red-600   focus:text-red-600 focus:outline-none"
+                  className="text-destructive hover:text-red-600   focus:text-red-600 focus:outline-none  hover:bg-zinc-100 rounded-[100px] p-3 absolute right-2"
                   onClick={() => setDeleteClicked(true)}
                 >
                   <Trash2 />
