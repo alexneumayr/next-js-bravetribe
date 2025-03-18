@@ -20,11 +20,13 @@ export type LoginActionState = {
 };
 
 export type CreateGoalActionState =
-  | { goal: Pick<Goal, 'title' | 'deadline'> }
+  | { goal: Omit<Goal, 'userId' | 'createdAt'> }
   | {
       error: {
+        id?: string[];
         title?: string[];
         deadline?: string[];
+        additionalNotes?: string[];
         general?: string;
       };
     };

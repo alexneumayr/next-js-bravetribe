@@ -11,7 +11,7 @@ export async function createGoalAction(
   formData: FormData,
 ): Promise<CreateGoalActionState> {
   // 1. Formdaten validieren
-  const validatedFields = goalSchema.safeParse({
+  const validatedFields = goalSchema.omit({ id: true }).safeParse({
     title: formData.get('title'),
     deadline: formData.get('deadline'),
     additionalNotes: formData.get('additionalNotes'),
@@ -101,8 +101,21 @@ export async function updateGoalAction(
 }
 
 export async function deleteGoalAction(
-  goalId: string,
+  prevState: any,
+  formData: FormData,
 ): Promise<CreateGoalActionState> {
+  const validatedFields = goalSchema.pick({ id: true }).safeParse({
+    id: formData.get('id'),
+  });
+
+  if (!validatedFields.success) {
+    console.log('Validation unsuccessful');
+    return {
+      error: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+  console.log('Validation successful');
+
   // 3. Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
 
@@ -115,7 +128,7 @@ export async function deleteGoalAction(
   }
 
   // Testen, ob es auch ohne try...catch geht!
-  const deletedGoal = await deleteGoal(goalId, sessionToken);
+  const deletedGoal = await deleteGoal(validatedFields.data.id, sessionToken);
 
   if (!Boolean(deletedGoal)) {
     return {

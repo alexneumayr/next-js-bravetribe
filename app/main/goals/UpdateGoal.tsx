@@ -70,10 +70,10 @@ export default function UpdateGoal({ goal, onClose }: Props) {
     initialState,
   );
 
-  const deleteGoalActionWithGoalId = deleteGoalAction.bind(null, goal.id);
+  //  const deleteGoalActionWithGoalId = deleteGoalAction.bind(null, goal.id);
 
   const [deletionState, deletionFormAction, deletionPending] = useActionState(
-    deleteGoalActionWithGoalId,
+    deleteGoalAction,
     initialState,
   );
 
@@ -256,6 +256,7 @@ export default function UpdateGoal({ goal, onClose }: Props) {
           </h1>
           <DialogFooter>
             <form action={deletionFormAction} className="w-full">
+              <input name="id" value={goal.id} type="hidden" />
               <div className="flex justify-around w-full gap-x-2 mt-6">
                 <Button
                   variant="destructive"
@@ -266,12 +267,7 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                   Delete
                 </Button>
                 <DialogClose asChild>
-                  <Button
-                    autoFocus
-                    variant="outline"
-                    className="w-full"
-                    type="button"
-                  >
+                  <Button variant="outline" className="w-full" type="button">
                     Cancel
                   </Button>
                 </DialogClose>
