@@ -69,13 +69,13 @@ export default async function Header() {
                   </DropdownMenuContent>
                 </DropdownMenu>
 
-                <DialogContent className="max-w-[425px] space-y-4">
+                <DialogContent className="max-w-[425px] [&>button]:hidden">
                   <DialogHeader>
                     <DialogTitle className="text-center font-semibold text-2xl">
                       Do you really want to log out?
                     </DialogTitle>
                   </DialogHeader>
-                  <div className="text-center text-lg text-zinc-600">
+                  <div className="text-center text-lg text-zinc-600 mt-5 mb-8">
                     Log out {user.username} from BraveTribe?
                   </div>
                   <DialogFooter>

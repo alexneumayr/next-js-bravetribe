@@ -62,7 +62,7 @@ export default function NewGoal() {
         </div>
       </DialogTrigger>
       <DialogContent
-        className="max-w-[425px]"
+        className="max-w-[425px] [&>button]:hidden"
         onPointerDownOutside={(e) => e.preventDefault()}
       >
         <DialogHeader>
