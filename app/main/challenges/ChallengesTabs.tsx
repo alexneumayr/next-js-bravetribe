@@ -1,18 +1,20 @@
 'use client';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { Challenge } from '@prisma/client';
 import { Search } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { ChallengesTableCompleted } from './ChallengesTableCompleted';
 import { ChallengesTableTodo } from './ChallengesTableTodo';
-import NewChallenge from './NewChallenge';
 
 type Props = {
   challenges: Challenge[];
 };
 
 export default function ChallengesTabs({ challenges }: Props) {
+  const router = useRouter();
   const [showSearch, setShowSearch] = useState(false);
   const [searchText, setSearchText] = useState('');
   const tabs = [
@@ -45,7 +47,13 @@ export default function ChallengesTabs({ challenges }: Props) {
         >
           <Search className="w-[18px] h-[18px]" />
         </button>
-        <NewChallenge />
+        <Button
+          variant="secondary"
+          className="w-[52px] h-[30px]"
+          onClick={() => router.push('/main/challenges/newchallenge')}
+        >
+          New
+        </Button>
       </div>
       <div
         className={`relative flex-1 transition-all ${showSearch ? 'block' : 'hidden'}`}
