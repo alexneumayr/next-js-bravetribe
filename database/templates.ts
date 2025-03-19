@@ -40,3 +40,15 @@ export async function getTotalAmountOfChallengeTemplatesInsecure(text: string) {
   });
   return count;
 }
+
+export async function getTemplateInsecure(templateId: string | undefined) {
+  if (templateId) {
+    const template = await prisma.template.findUnique({
+      where: {
+        id: templateId,
+      },
+    });
+    return template;
+  }
+  return null;
+}

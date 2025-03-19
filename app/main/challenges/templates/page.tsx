@@ -1,5 +1,9 @@
 import { Separator } from '@/components/ui/separator';
 import { getValidSession } from '@/database/sessions';
+import {
+  getChallengeTemplatesInsecure,
+  getTotalAmountOfChallengeTemplatesInsecure,
+} from '@/database/templates';
 import { getCookie } from '@/util/cookies';
 import { redirect } from 'next/navigation';
 import SearchArea from '../../components/SearchArea';
@@ -21,7 +25,17 @@ export default async function TemplatesPage({ searchParams }: Props) {
   if (!session) {
     redirect('/access?mode=signin&returnTo=/main/goals');
   }
-  console.log('Awaited params', awaitedSearchParams);
+  const searchText = awaitedSearchParams.text;
+  const pageSize = Number(awaitedSearchParams.pageSize) || 9;
+  const currentPage = Number(awaitedSearchParams.page) || 1;
+  const challengeTemplates = await getChallengeTemplatesInsecure(
+    searchText || '',
+    currentPage,
+    pageSize,
+  );
+  const resultsCount = await getTotalAmountOfChallengeTemplatesInsecure(
+    searchText || '',
+  );
   return (
     <>
       <div>
@@ -33,9 +47,10 @@ export default async function TemplatesPage({ searchParams }: Props) {
       <SearchArea searchParams={awaitedSearchParams} />
       <Separator className="my-4" />
       <MainTemplatesContent
-        currentPage={Number(awaitedSearchParams.page) || 1}
-        pageSize={Number(awaitedSearchParams.pageSize) || 9}
-        searchText={awaitedSearchParams.text}
+        currentPage={currentPage}
+        pageSize={pageSize}
+        resultsCount={resultsCount}
+        challengeTemplates={challengeTemplates}
       />
     </>
   );

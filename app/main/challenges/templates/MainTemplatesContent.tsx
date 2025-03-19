@@ -1,37 +1,40 @@
+'use client';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
-import {
-  getChallengeTemplatesInsecure,
-  getTotalAmountOfChallengeTemplatesInsecure,
-} from '@/database/templates';
+import type { Template } from '@prisma/client';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useState } from 'react';
+import TemplatePreviewDialog from './TemplatePreviewDialog';
 
 type Props = {
   currentPage: number;
   pageSize: number;
-  searchText?: string;
+  resultsCount: number;
+  challengeTemplates: Template[];
 };
-export default async function MainTemplatesContent({
+export default function MainTemplatesContent({
   currentPage,
   pageSize,
-  searchText,
+  resultsCount,
+  challengeTemplates,
 }: Props) {
-  const challengeTemplates = await getChallengeTemplatesInsecure(
-    searchText || '',
-    currentPage,
-    pageSize,
-  );
-  const resultsCount = await getTotalAmountOfChallengeTemplatesInsecure(
-    searchText || '',
+  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(
+    null,
   );
   return (
-    <div>
+    <>
+      {selectedTemplate && (
+        <TemplatePreviewDialog
+          template={selectedTemplate}
+          onClose={() => setSelectedTemplate(null)}
+        />
+      )}
       <div>
         <div className="flex flex-wrap gap-4 justify-center">
           {challengeTemplates.map((template) => (
-            <div
+            <button
               key={`template-${template.id}`}
               className="flex flex-col items-center hover:cursor-pointer hover:opacity-60 transition-all"
+              onClick={() => setSelectedTemplate(template)}
             >
               <Image
                 src={`/challenge_templates/${template.image}`}
@@ -41,7 +44,7 @@ export default async function MainTemplatesContent({
                 className="rounded-[5px]"
               />
               <p className="text-sm font-semibold">{template.title}</p>
-            </div>
+            </button>
           ))}
         </div>
       </div>
@@ -61,6 +64,6 @@ export default async function MainTemplatesContent({
       ) : (
         <div>No challenge templates found</div>
       )}
-    </div>
+    </>
   );
 }

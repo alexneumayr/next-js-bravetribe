@@ -21,13 +21,18 @@ import { cn } from '@/lib/utils';
 import type { ChallengeActionState } from '@/types/types';
 import { challengeSchema } from '@/util/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { Template } from '@prisma/client';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { useActionState, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
 
-export default function NewChallengeForm() {
+type Props = {
+  template: Template | null;
+};
+
+export default function NewChallengeForm({ template }: Props) {
   const initialState = {
     error: {
       general: '',
@@ -37,9 +42,9 @@ export default function NewChallengeForm() {
   const form = useForm<z.infer<typeof challengeSchema>>({
     resolver: zodResolver(challengeSchema),
     defaultValues: {
-      title: '',
+      title: template?.title || '',
       plannedDate: undefined,
-      description: '',
+      description: template?.description || '',
     },
   });
 

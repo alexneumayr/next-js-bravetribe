@@ -38,9 +38,7 @@ type Row = {
 
 const isRowHighlighted = (row: Row) => {
   const deadline = row.original.deadline;
-  if (deadline) {
-    return deadline <= new Date();
-  }
+  return deadline <= new Date();
 };
 
 export function GoalsTable({ data }: DataTableProps) {
@@ -72,7 +70,7 @@ export function GoalsTable({ data }: DataTableProps) {
       columnHelper.accessor('deadline', {
         header: 'Deadline',
         filterFn: 'includesString',
-        cell: (info) => info.getValue()?.toLocaleDateString('en-GB'),
+        cell: (info) => info.getValue().toLocaleDateString('en-GB'),
       }),
     ],
     [],
