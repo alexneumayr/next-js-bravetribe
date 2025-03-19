@@ -18,11 +18,12 @@ import {
 } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
+import type { ChallengeActionState } from '@/types/types';
 import { challengeSchema } from '@/util/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
-import { useActionState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
 
@@ -49,6 +50,16 @@ export default function NewChallengeForm() {
 
   const { reset } = form;
 
+  const [savedActionState, setSavedActionState] =
+    useState<ChallengeActionState>(initialState);
+
+  useEffect(() => setSavedActionState(state), [state]);
+
+  function handleResetButtonClicked() {
+    reset();
+    setSavedActionState(initialState);
+  }
+
   return (
     <>
       <Form {...form}>
@@ -64,7 +75,7 @@ export default function NewChallengeForm() {
                 </FormControl>
                 <FormMessage />
                 <FormMessage>
-                  {'error' in state && state.error.title}
+                  {'error' in savedActionState && savedActionState.error.title}
                 </FormMessage>
               </FormItem>
             )}
@@ -113,7 +124,8 @@ export default function NewChallengeForm() {
                   </PopoverContent>
                 </Popover>
                 <FormMessage>
-                  {'error' in state && state.error.plannedDate}
+                  {'error' in savedActionState &&
+                    savedActionState.error.plannedDate}
                 </FormMessage>
               </FormItem>
             )}
@@ -131,7 +143,8 @@ export default function NewChallengeForm() {
                 </FormControl>
                 <FormMessage />
                 <FormMessage className="">
-                  {'error' in state && state.error.description}
+                  {'error' in savedActionState &&
+                    savedActionState.error.description}
                 </FormMessage>
               </FormItem>
             )}
@@ -149,15 +162,17 @@ export default function NewChallengeForm() {
               variant="outline"
               className=""
               type="button"
-              onClick={() => reset()}
+              onClick={handleResetButtonClicked}
             >
-              Clear
+              Reset
             </Button>
           </div>
         </form>
       </Form>
-      {'error' in state && state.error.general && (
-        <p className="text-red-500 font-bold ">{state.error.general}</p>
+      {'error' in savedActionState && savedActionState.error.general && (
+        <p className="text-red-500 font-bold ">
+          {savedActionState.error.general}
+        </p>
       )}
     </>
   );
