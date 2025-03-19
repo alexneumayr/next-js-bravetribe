@@ -151,7 +151,7 @@ export default function NewChallengeForm() {
               type="button"
               onClick={() => reset()}
             >
-              Reset
+              Clear
             </Button>
           </div>
         </form>
