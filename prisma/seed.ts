@@ -207,6 +207,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     title: 'Selfie Challenge',
     description:
       'Take selfies with as many strangers as possible within 10 minutes.',
+    plannedDate: '2026-03-11T00:00:00.000Z',
     user: {
       connect: { email: 'lisa.taylor@email.com' },
     },
@@ -242,6 +243,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     title: 'Public Speaking Challenge',
     description:
       "Give a short speech in front of a group of strangers on a topic you're passionate about.",
+    plannedDate: '2026-03-12T00:00:00.000Z',
     user: {
       connect: { email: 'jason.lee@email.com' },
     },
@@ -277,6 +279,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     title: 'Solo Travel Challenge',
     description:
       "Take a solo trip to a place where you don't speak the language and document your journey.",
+    plannedDate: '2026-03-13T00:00:00.000Z',
     user: {
       connect: { email: 'sophia.miller@email.com' },
     },
@@ -312,6 +315,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     title: 'Open Mic Comedy Challenge',
     description:
       'Perform stand-up comedy at an open mic night and make the audience laugh.',
+    plannedDate: '2026-03-14T00:00:00.000Z',
     user: {
       connect: { email: 'david.roberts@email.com' },
     },
@@ -347,6 +351,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     title: 'Gym Conversation Challenge',
     description:
       'Start conversations with random people at the gym and ask them about their fitness journey.',
+    plannedDate: '2026-03-15T00:00:00.000Z',
     user: {
       connect: { email: 'emma.johnson@email.com' },
     },

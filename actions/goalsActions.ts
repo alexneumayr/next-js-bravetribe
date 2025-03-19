@@ -18,9 +18,12 @@ export async function createGoalAction(
   });
 
   if (!validatedFields.success) {
-    console.log('Validation unsuccessful');
+    console.log(
+      'Validation unsuccessful',
+      validatedFields.error.flatten().fieldErrors,
+    );
     return {
-      error: validatedFields.error.flatten().fieldErrors,
+      error: { general: 'Validation unsuccessful' },
     };
   }
   console.log('Validation successful');
@@ -65,9 +68,12 @@ export async function updateGoalAction(
   });
 
   if (!validatedFields.success) {
-    console.log('Validation unsuccessful');
+    console.log(
+      'Validation unsuccessful',
+      validatedFields.error.flatten().fieldErrors,
+    );
     return {
-      error: validatedFields.error.flatten().fieldErrors,
+      error: { general: 'Validation unsuccessful' },
     };
   }
   console.log('Validation successful');
@@ -109,9 +115,12 @@ export async function deleteGoalAction(
   });
 
   if (!validatedFields.success) {
-    console.log('Validation unsuccessful');
+    console.log(
+      'Validation unsuccessful',
+      validatedFields.error.flatten().fieldErrors,
+    );
     return {
-      error: validatedFields.error.flatten().fieldErrors,
+      error: { general: 'Validation unsuccessful' },
     };
   }
   console.log('Validation successful');
@@ -127,14 +136,14 @@ export async function deleteGoalAction(
     };
   }
 
-  // Testen, ob es auch ohne try...catch geht!
-  const deletedGoal = await deleteGoal(validatedFields.data.id, sessionToken);
+  try {
+    await deleteGoal(validatedFields.data.id, sessionToken);
 
-  if (!Boolean(deletedGoal)) {
+    redirect('/main/goals');
+  } catch (error) {
+    console.log('Error deleting goals:', error);
     return {
       error: { general: 'Failed to delete goal' },
     };
   }
-
-  redirect('/main/goals');
 }

@@ -4,6 +4,7 @@ import {
   createChallenge,
   deleteChallenge,
   updateChallenge,
+  updateChallengeStatus,
 } from '@/database/challenges';
 import type { ChallengeActionState } from '@/types/types';
 import { getCookie } from '@/util/cookies';
@@ -24,9 +25,12 @@ export async function createChallengeAction(
     });
 
   if (!validatedFields.success) {
-    console.log('Validation unsuccessful');
+    console.log(
+      'Validation unsuccessful',
+      validatedFields.error.flatten().fieldErrors,
+    );
     return {
-      error: validatedFields.error.flatten().fieldErrors,
+      error: { general: 'Validation unsuccessful' },
     };
   }
   console.log('Validation successful');
@@ -63,18 +67,22 @@ export async function updateChallengeAction(
   formData: FormData,
 ): Promise<ChallengeActionState> {
   // 1. Formdaten validieren
-  const validatedFields = challengeSchema.safeParse({
-    id: formData.get('id'),
-    title: formData.get('title'),
-    description: formData.get('description'),
-    plannedDate: formData.get('plannedDate'),
-    isCompleted: formData.get('isCompleted'),
-  });
+  const validatedFields = challengeSchema
+    .omit({ isCompleted: true })
+    .safeParse({
+      id: formData.get('id'),
+      title: formData.get('title'),
+      description: formData.get('description'),
+      plannedDate: formData.get('plannedDate'),
+    });
 
   if (!validatedFields.success) {
-    console.log('Validation unsuccessful');
+    console.log(
+      'Validation unsuccessful',
+      validatedFields.error.flatten().fieldErrors,
+    );
     return {
-      error: validatedFields.error.flatten().fieldErrors,
+      error: { general: 'Validation unsuccessful' },
     };
   }
   console.log('Validation successful');
@@ -90,13 +98,11 @@ export async function updateChallengeAction(
     };
   }
 
-  // Testen, ob es auch ohne try...catch geht!
   const updatedChallenge = await updateChallenge(sessionToken, {
     id: validatedFields.data.id,
     title: validatedFields.data.title,
     description: validatedFields.data.description,
     plannedDate: new Date(validatedFields.data.plannedDate),
-    isCompleted: validatedFields.data.isCompleted,
   });
 
   if (!updatedChallenge) {
@@ -105,7 +111,53 @@ export async function updateChallengeAction(
     };
   }
 
-  redirect('/main/challenges');
+  redirect(`/main/challenges/${validatedFields.data.id}`);
+}
+
+export async function updateChallengeStatusAction(
+  isCompleted: boolean,
+  prevState: any,
+  formData: FormData,
+): Promise<ChallengeActionState> {
+  // 1. Formdaten validieren
+  const validatedFields = challengeSchema.pick({ id: true }).safeParse({
+    id: formData.get('id'),
+  });
+
+  if (!validatedFields.success) {
+    console.log(
+      'Validation unsuccessful',
+      validatedFields.error.flatten().fieldErrors,
+    );
+    return {
+      error: { general: 'Validation unsuccessful' },
+    };
+  }
+  console.log('Validation successful');
+
+  // 3. Get the token from the cookie
+  const sessionToken = await getCookie('sessionToken');
+
+  // 4. Update the challenge
+
+  if (!sessionToken) {
+    return {
+      error: { general: 'Failed to access session token' },
+    };
+  }
+
+  const updatedChallenge = await updateChallengeStatus(sessionToken, {
+    id: validatedFields.data.id,
+    isCompleted: isCompleted,
+  });
+
+  if (!updatedChallenge) {
+    return {
+      error: { general: 'Failed to update challenge' },
+    };
+  }
+
+  redirect(`/main/challenges/${validatedFields.data.id}`);
 }
 
 export async function deleteChallengeAction(
@@ -117,9 +169,12 @@ export async function deleteChallengeAction(
   });
 
   if (!validatedFields.success) {
-    console.log('Validation unsuccessful');
+    console.log(
+      'Validation unsuccessful',
+      validatedFields.error.flatten().fieldErrors,
+    );
     return {
-      error: validatedFields.error.flatten().fieldErrors,
+      error: { general: 'Validation unsuccessful' },
     };
   }
   console.log('Validation successful');
@@ -135,17 +190,15 @@ export async function deleteChallengeAction(
     };
   }
 
-  // Testen, ob es auch ohne try...catch geht!
-  const deletedChallenge = await deleteChallenge(
-    validatedFields.data.id,
-    sessionToken,
-  );
-
-  if (!Boolean(deletedChallenge)) {
+  try {
+    // Testen, ob es auch ohne try...catch geht!
+    console.log('Id from SA', validatedFields.data.id);
+    await deleteChallenge(validatedFields.data.id, sessionToken);
+  } catch (error) {
+    console.log('Error deleting challenge:', error);
     return {
-      error: { general: 'Failed to delete goal' },
+      error: { general: 'Failed to delete challenge' },
     };
   }
-
   redirect('/main/challenges');
 }

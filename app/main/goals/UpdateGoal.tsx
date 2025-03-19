@@ -221,19 +221,14 @@ export default function UpdateGoal({ goal, onClose }: Props) {
         >
           <DialogHeader>
             <DialogTitle>
-              <div className="flex justify-between">
-                <p className="font-semibold text-2xl text-destructive">
-                  Delete goal
-                </p>
+              <div className="flex justify-center">
+                <p className="font-extrabold text-4xl">Delete goal</p>
               </div>
-              <p className="text-destructive text-sm font-medium ">
-                Here you can delete your goal.
-              </p>
             </DialogTitle>
           </DialogHeader>
-          <h1 className="text-center font-bold text-2xl text-destructive">
+          <p className="text-center font-bold text-2xl text-destructive mt-2">
             Are you sure?
-          </h1>
+          </p>
           <DialogFooter>
             <form action={deletionFormAction} className="w-full">
               <input name="id" value={goal.id} type="hidden" />
@@ -258,7 +253,7 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                 </DialogClose>
               </div>
               {'error' in deletionState && deletionState.error.general && (
-                <p className="text-red-500 font-bold ">
+                <p className="text-red-500 font-bold text-center">
                   {updateState.error.general}
                 </p>
               )}

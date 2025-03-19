@@ -37,9 +37,7 @@ type Row = {
 
 const isRowHighlighted = (row: Row) => {
   const plannedDate = row.original.plannedDate;
-  if (plannedDate) {
-    return plannedDate <= new Date();
-  }
+  return plannedDate <= new Date();
 };
 
 export function ChallengesTableTodo({ data, searchText }: DataTableProps) {
@@ -72,7 +70,7 @@ export function ChallengesTableTodo({ data, searchText }: DataTableProps) {
       columnHelper.accessor('plannedDate', {
         header: 'Planned Date',
         filterFn: 'includesString',
-        cell: (info) => info.getValue()?.toLocaleDateString('en-GB'),
+        cell: (info) => info.getValue().toLocaleDateString('en-GB'),
       }),
     ],
     [],
@@ -148,7 +146,7 @@ export function ChallengesTableTodo({ data, searchText }: DataTableProps) {
                   className={`cursor-pointer ${isRowHighlighted(row) ? 'text-red-500' : ''}`}
                   onClick={() => {
                     const id = row.getValue('id');
-                    router.push(`/main/challenges/${id as string}}`);
+                    router.push(`/main/challenges/${id as string}`);
                   }}
                 >
                   {row.getVisibleCells().map((cell) => (

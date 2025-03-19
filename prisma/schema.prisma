@@ -40,16 +40,16 @@ model Goal {
   title           String
   deadline        DateTime
   additionalNotes String?
-  user            User     @relation(fields: [userId], references: [id])
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
   createdAt       DateTime @default(now())
 }
 
 model Friend {
   id              String  @id @default(cuid())
-  requesterUser   User    @relation("requester", fields: [requesterUserId], references: [id])
+  requesterUser   User    @relation("requester", fields: [requesterUserId], references: [id], onDelete: Cascade)
   requesterUserId String
-  receiverUser    User    @relation("receiver", fields: [receiverUserId], references: [id])
+  receiverUser    User    @relation("receiver", fields: [receiverUserId], references: [id], onDelete: Cascade)
   receiverUserId  String
   isAccepted      Boolean @default(false)
 
@@ -62,7 +62,7 @@ model Challenge {
   description String
   isCompleted Boolean      @default(false)
   plannedDate DateTime
-  user        User         @relation(fields: [userId], references: [id])
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
   experiences Experience[]
   createdAt   DateTime     @default(now())
@@ -76,9 +76,9 @@ model Experience {
   image       String?
   location    String?
   date        DateTime
-  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
   challengeId String
-  user        User      @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
   comments    Comment[]
   likes       Like[]
@@ -89,9 +89,9 @@ model Comment {
   id           String     @id @default(cuid())
   content      String
   createdAt    DateTime   @default(now())
-  experience   Experience @relation(fields: [experienceId], references: [id])
+  experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
   experienceId String
-  user         User       @relation(fields: [userId], references: [id])
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String
 }
 
@@ -105,9 +105,9 @@ model Session {
 
 model Like {
   id           String     @id @default(cuid())
-  experience   Experience @relation(fields: [experienceId], references: [id])
+  experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
   experienceId String
-  user         User       @relation(fields: [userId], references: [id])
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String
 }
 

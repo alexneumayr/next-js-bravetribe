@@ -29,8 +29,12 @@ export async function registerUserAction(
   });
 
   if (!validatedFields.success) {
+    console.log(
+      'Validation unsuccessful',
+      validatedFields.error.flatten().fieldErrors,
+    );
     return {
-      error: validatedFields.error.flatten().fieldErrors,
+      error: { general: 'Validation unsuccessful' },
     };
   }
 
@@ -93,8 +97,12 @@ export async function loginUserAction(
   });
 
   if (!validatedFields.success) {
+    console.log(
+      'Validation unsuccessful',
+      validatedFields.error.flatten().fieldErrors,
+    );
     return {
-      error: validatedFields.error.flatten().fieldErrors,
+      error: { general: 'Validation unsuccessful' },
     };
   }
 

@@ -2,7 +2,7 @@ import { Separator } from '@/components/ui/separator';
 import { getChallenge, selectChallengeExists } from '@/database/challenges';
 import { getCookie } from '@/util/cookies';
 import Link from 'next/link';
-import MainChallengeContent from './MainChallengeContent';
+import EditChallengeForm from './EditChallengeForm';
 
 type Props = {
   params: Promise<{ challengeId: string }>;
@@ -45,13 +45,11 @@ export default async function ChallengePage({ params }: Props) {
   return (
     <>
       <div>
-        <h1 className="text-3xl font-bold">Challenge details</h1>
-        <p className="text-lg font-medium">
-          See the details of your challenge.
-        </p>
+        <h1 className="text-3xl font-bold">Challenge Editor</h1>
+        <p className="text-lg font-medium">Here you can edit your challenge.</p>
       </div>
       <Separator className="mt-4 mb-2" />
-      <MainChallengeContent challenge={challenge} />
+      <EditChallengeForm challenge={challenge} />
     </>
   );
 }

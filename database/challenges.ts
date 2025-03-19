@@ -44,7 +44,7 @@ export async function getChallenge(
 }
 
 export async function selectChallengeExists(challengeId: Challenge['id']) {
-  const challenge = await prisma.goal.count({
+  const challenge = await prisma.challenge.count({
     where: {
       id: challengeId,
     },
@@ -75,7 +75,7 @@ export async function updateChallenge(
   sessionToken: Session['token'],
   updatedChallenge: Pick<
     Challenge,
-    'id' | 'title' | 'description' | 'isCompleted' | 'plannedDate'
+    'id' | 'title' | 'description' | 'plannedDate'
   >,
 ) {
   const user = await getUserBySessionToken(sessionToken);
@@ -90,9 +90,27 @@ export async function updateChallenge(
     data: {
       title: updatedChallenge.title,
       description: updatedChallenge.description,
-      isCompleted: updatedChallenge.isCompleted,
       plannedDate: updatedChallenge.plannedDate,
+    },
+  });
+  return challenge;
+}
+
+export async function updateChallengeStatus(
+  sessionToken: Session['token'],
+  updatedChallenge: Pick<Challenge, 'id' | 'isCompleted'>,
+) {
+  const user = await getUserBySessionToken(sessionToken);
+  if (!user) {
+    return null;
+  }
+  const challenge = await prisma.challenge.update({
+    where: {
+      id: updatedChallenge.id,
       userId: user.id,
+    },
+    data: {
+      isCompleted: updatedChallenge.isCompleted,
     },
   });
   return challenge;

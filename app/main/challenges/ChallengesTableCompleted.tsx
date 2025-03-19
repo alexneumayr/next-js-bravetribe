@@ -61,7 +61,7 @@ export function ChallengesTableCompleted({ data, searchText }: DataTableProps) {
       columnHelper.accessor('plannedDate', {
         header: 'Planned Date',
         filterFn: 'includesString',
-        cell: (info) => info.getValue()?.toLocaleDateString('en-GB'),
+        cell: (info) => info.getValue().toLocaleDateString('en-GB'),
       }),
     ],
     [],
@@ -137,7 +137,7 @@ export function ChallengesTableCompleted({ data, searchText }: DataTableProps) {
                   className="cursor-pointer"
                   onClick={() => {
                     const id = row.getValue('id');
-                    router.push(`/main/challenges/${id as string}}`);
+                    router.push(`/main/challenges/${id as string}`);
                   }}
                 >
                   {row.getVisibleCells().map((cell) => (
