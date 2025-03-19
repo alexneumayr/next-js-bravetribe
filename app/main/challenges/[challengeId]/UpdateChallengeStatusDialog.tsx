@@ -1,9 +1,6 @@
 import { updateChallengeStatusAction } from '@/actions/challengeActions';
-import { createGoalAction } from '@/actions/goalsActions';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
   DialogClose,
@@ -12,32 +9,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
-import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
-import { challengeSchema, goalSchema } from '@/util/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
 import type { Challenge } from '@prisma/client';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@radix-ui/react-popover';
-import * as SwitchPrimitives from '@radix-ui/react-switch';
-import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
-import React, { useActionState, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { useActionState, useState } from 'react';
 
 type Props = {
   challenge: Challenge;

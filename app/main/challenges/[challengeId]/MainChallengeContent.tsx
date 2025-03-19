@@ -1,5 +1,4 @@
 'use client';
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import type { Challenge } from '@prisma/client';
 import ChallengeDetailsMenu from './ChallengeDetailsMenu';

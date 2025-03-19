@@ -25,15 +25,10 @@ export async function createChallengeAction(
     });
 
   if (!validatedFields.success) {
-    console.log(
-      'Validation unsuccessful',
-      validatedFields.error.flatten().fieldErrors,
-    );
     return {
-      error: { general: 'Validation unsuccessful' },
+      error: validatedFields.error.flatten().fieldErrors,
     };
   }
-  console.log('Validation successful');
 
   // 3. Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
@@ -77,15 +72,10 @@ export async function updateChallengeAction(
     });
 
   if (!validatedFields.success) {
-    console.log(
-      'Validation unsuccessful',
-      validatedFields.error.flatten().fieldErrors,
-    );
     return {
-      error: { general: 'Validation unsuccessful' },
+      error: validatedFields.error.flatten().fieldErrors,
     };
   }
-  console.log('Validation successful');
 
   // 3. Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
@@ -125,15 +115,10 @@ export async function updateChallengeStatusAction(
   });
 
   if (!validatedFields.success) {
-    console.log(
-      'Validation unsuccessful',
-      validatedFields.error.flatten().fieldErrors,
-    );
     return {
-      error: { general: 'Validation unsuccessful' },
+      error: validatedFields.error.flatten().fieldErrors,
     };
   }
-  console.log('Validation successful');
 
   // 3. Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
@@ -169,15 +154,10 @@ export async function deleteChallengeAction(
   });
 
   if (!validatedFields.success) {
-    console.log(
-      'Validation unsuccessful',
-      validatedFields.error.flatten().fieldErrors,
-    );
     return {
-      error: { general: 'Validation unsuccessful' },
+      error: validatedFields.error.flatten().fieldErrors,
     };
   }
-  console.log('Validation successful');
 
   // 3. Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');

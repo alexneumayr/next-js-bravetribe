@@ -18,15 +18,10 @@ export async function createGoalAction(
   });
 
   if (!validatedFields.success) {
-    console.log(
-      'Validation unsuccessful',
-      validatedFields.error.flatten().fieldErrors,
-    );
     return {
-      error: { general: 'Validation unsuccessful' },
+      error: validatedFields.error.flatten().fieldErrors,
     };
   }
-  console.log('Validation successful');
 
   // 3. Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
@@ -68,15 +63,10 @@ export async function updateGoalAction(
   });
 
   if (!validatedFields.success) {
-    console.log(
-      'Validation unsuccessful',
-      validatedFields.error.flatten().fieldErrors,
-    );
     return {
-      error: { general: 'Validation unsuccessful' },
+      error: validatedFields.error.flatten().fieldErrors,
     };
   }
-  console.log('Validation successful');
 
   // 3. Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
@@ -115,15 +105,10 @@ export async function deleteGoalAction(
   });
 
   if (!validatedFields.success) {
-    console.log(
-      'Validation unsuccessful',
-      validatedFields.error.flatten().fieldErrors,
-    );
     return {
-      error: { general: 'Validation unsuccessful' },
+      error: validatedFields.error.flatten().fieldErrors,
     };
   }
-  console.log('Validation successful');
 
   // 3. Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
@@ -138,12 +123,11 @@ export async function deleteGoalAction(
 
   try {
     await deleteGoal(validatedFields.data.id, sessionToken);
-
-    redirect('/main/goals');
   } catch (error) {
     console.log('Error deleting goals:', error);
     return {
       error: { general: 'Failed to delete goal' },
     };
   }
+  redirect('/main/goals');
 }
