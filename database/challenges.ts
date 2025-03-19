@@ -39,6 +39,9 @@ export async function getChallenge(
         },
       },
     },
+    include: {
+      experiences: true,
+    },
   });
   return challenge;
 }

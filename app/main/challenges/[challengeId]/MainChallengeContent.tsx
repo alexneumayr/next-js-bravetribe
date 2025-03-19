@@ -1,5 +1,4 @@
 'use client';
-import { Separator } from '@/components/ui/separator';
 import type { Challenge } from '@prisma/client';
 import ChallengeDetailsMenu from './ChallengeDetailsMenu';
 import UpdateChallengeStatusDialog from './UpdateChallengeStatusDialog';
@@ -30,14 +29,11 @@ export default function MainChallengeContent({ challenge }: Props) {
         </div>
         <div>
           <dt className="text-sm font-bold">Description:</dt>
-          <dd className="text-sm font-medium">{challenge.description}</dd>
+          <dd className="text-sm font-medium whitespace-pre-wrap">
+            {challenge.description}
+          </dd>
         </div>
       </dl>
-      <div>
-        <Separator className="my-4" />
-
-        <h3 className="text-sm font-bold">Experience Reports</h3>
-      </div>
     </div>
   );
 }

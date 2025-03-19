@@ -2,6 +2,7 @@ import { Separator } from '@/components/ui/separator';
 import { getChallenge, selectChallengeExists } from '@/database/challenges';
 import { getCookie } from '@/util/cookies';
 import Link from 'next/link';
+import { ExperiencesTable } from './ExperiencesTable';
 import MainChallengeContent from './MainChallengeContent';
 
 type Props = {
@@ -52,6 +53,8 @@ export default async function ChallengePage({ params }: Props) {
       </div>
       <Separator className="mt-4 mb-2" />
       <MainChallengeContent challenge={challenge} />
+      <Separator className="my-4" />
+      <ExperiencesTable data={challenge.experiences} />
     </>
   );
 }

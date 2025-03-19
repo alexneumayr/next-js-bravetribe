@@ -80,7 +80,7 @@ export default async function page() {
                   <h4 className="text-sm font-bold text-secondary">
                     Experience:
                   </h4>
-                  <p className="text-sm font-medium">
+                  <p className="text-sm font-medium whitespace-pre-wrap">
                     {maxTextLength(experience.story, 200)}
                   </p>
                 </div>
