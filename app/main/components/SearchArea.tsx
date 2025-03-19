@@ -2,7 +2,8 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { type Route } from 'next';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 type Props = {
@@ -15,15 +16,15 @@ type Props = {
 };
 
 export default function SearchArea({ searchParams }: Props) {
+  const currentPath = usePathname(); // Stores the current path
   const [searchText, setSearchText] = useState(searchParams.text || '');
   const router = useRouter();
 
   function handleSearchFormSubmit(event: React.FormEvent) {
     event.preventDefault();
-    setSearchText('');
     const params = new URLSearchParams(searchParams);
     params.set('text', searchText);
-    router.push(`/main/experiences?${params}`);
+    router.push(`${currentPath as Route}?${params}`);
   }
 
   return (

@@ -1,7 +1,7 @@
 import { Separator } from '@/components/ui/separator';
+import SearchArea from '../components/SearchArea';
 import AllExperiences from './AllExperiences';
 import MyExperiences from './MyExperiences';
-import SearchArea from './SearchArea';
 import TabButtons from './TabButtons';
 
 type Props = {

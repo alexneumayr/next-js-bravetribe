@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui/separator';
-import SearchArea from './SearchArea';
+import SearchArea from '../components/SearchArea';
 import SearchResultsExperiences from './SearchResultsExperiences';
 import SearchResultsUsers from './SearchResultsUsers';
 import TabButtons from './TabButtons';
