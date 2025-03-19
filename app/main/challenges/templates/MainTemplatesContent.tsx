@@ -1,4 +1,9 @@
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
+import {
+  getChallengeTemplatesInsecure,
+  getTotalAmountOfChallengeTemplatesInsecure,
+} from '@/database/templates';
+import Image from 'next/image';
 import Link from 'next/link';
 
 type Props = {
@@ -11,21 +16,35 @@ export default async function MainTemplatesContent({
   pageSize,
   searchText,
 }: Props) {
-  const challengeTemplates = [1, 2];
-  const resultsCount = 3;
-
-  // (await getExperiencesByTextInsecure(
-  /*     searchText,
+  const challengeTemplates = await getChallengeTemplatesInsecure(
+    searchText || '',
     currentPage,
     pageSize,
-    true,
-    userId,
-  )) || [];
-     */
-  /*   const resultsCount =
-    (await getAmountOfExperiencesByTextInsecure(searchText, true)) || 0;
- */ return (
+  );
+  const resultsCount = await getTotalAmountOfChallengeTemplatesInsecure(
+    searchText || '',
+  );
+  return (
     <div>
+      <div>
+        <div className="flex flex-wrap gap-4 justify-center">
+          {challengeTemplates.map((template) => (
+            <div
+              key={`template-${template.id}`}
+              className="flex flex-col items-center hover:cursor-pointer hover:opacity-60 transition-all"
+            >
+              <Image
+                src={`/challenge_templates/${template.image}`}
+                alt={template.imageAlt}
+                width="268"
+                height="179"
+                className="rounded-[5px]"
+              />
+              <p className="text-sm font-semibold">{template.title}</p>
+            </div>
+          ))}
+        </div>
+      </div>
       {challengeTemplates.length > 0 ? (
         <div className="w-full">
           <div className="mt-4">
@@ -34,7 +53,7 @@ export default async function MainTemplatesContent({
               totalCount={resultsCount}
               pageSize={pageSize}
               pageSizeSelectOptions={{
-                pageSizeOptions: [2, 5, 10, 25, 50],
+                pageSizeOptions: [3, 6, 12, 15, 18],
               }}
             />
           </div>

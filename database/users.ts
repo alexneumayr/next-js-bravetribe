@@ -108,7 +108,7 @@ export async function getUsersByTextInsecure(
   }
 }
 
-export async function getAmountOfUsersByTextInsecure(text: string) {
+export async function getTotalAmountOfUsersByTextInsecure(text: string) {
   if (text) {
     const count = await prisma.user.count({
       where: {

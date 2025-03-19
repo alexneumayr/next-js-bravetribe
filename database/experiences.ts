@@ -69,7 +69,7 @@ export async function getExperiencesByTextInsecure(
   }
 }
 
-export async function getAmountOfExperiencesByTextInsecure(
+export async function getTotalAmountOfExperiencesByTextInsecure(
   text: string,
   fromExperiences?: boolean,
   userId?: User['id'],

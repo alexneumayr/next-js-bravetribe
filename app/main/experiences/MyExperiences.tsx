@@ -2,8 +2,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import { Separator } from '@/components/ui/separator';
 import {
-  getAmountOfExperiencesByTextInsecure,
   getExperiencesByTextInsecure,
+  getTotalAmountOfExperiencesByTextInsecure,
 } from '@/database/experiences';
 import levelNames from '@/util/levelNames';
 import { maxTextLength } from '@/util/maxTextLength';
@@ -32,7 +32,7 @@ export default async function SearchResultsExperiences({
       userId,
     )) || [];
   const resultsCount =
-    (await getAmountOfExperiencesByTextInsecure(searchText, true)) || 0;
+    (await getTotalAmountOfExperiencesByTextInsecure(searchText, true)) || 0;
   return (
     <div>
       {experiences.length > 0 ? (

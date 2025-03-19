@@ -9,7 +9,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import {
-  getAmountOfUsersByTextInsecure,
+  getTotalAmountOfUsersByTextInsecure,
   getUsersByTextInsecure,
 } from '@/database/users';
 import levelNames from '@/util/levelNames';
@@ -28,7 +28,8 @@ export default async function SearchResultsUsers({
 }: Props) {
   const users =
     (await getUsersByTextInsecure(searchText, currentPage, pageSize)) || [];
-  const resultsCount = (await getAmountOfUsersByTextInsecure(searchText)) || 0;
+  const resultsCount =
+    (await getTotalAmountOfUsersByTextInsecure(searchText)) || 0;
   return (
     <div>
       {users.length > 0 ? (

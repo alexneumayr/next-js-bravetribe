@@ -112,11 +112,12 @@ model Like {
 }
 
 model Template {
-  id          String @id @default(cuid())
+  id          String   @id @default(cuid())
   title       String
   description String
   image       String
   imageAlt    String
+  createdAt   DateTime @default(now())
 }
 
 enum Role {

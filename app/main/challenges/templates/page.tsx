@@ -21,6 +21,7 @@ export default async function TemplatesPage({ searchParams }: Props) {
   if (!session) {
     redirect('/access?mode=signin&returnTo=/main/goals');
   }
+  console.log('Awaited params', awaitedSearchParams);
   return (
     <>
       <div>
@@ -33,7 +34,7 @@ export default async function TemplatesPage({ searchParams }: Props) {
       <Separator className="my-4" />
       <MainTemplatesContent
         currentPage={Number(awaitedSearchParams.page) || 1}
-        pageSize={Number(awaitedSearchParams.page) || 5}
+        pageSize={Number(awaitedSearchParams.pageSize) || 9}
         searchText={awaitedSearchParams.text}
       />
     </>
