@@ -16,7 +16,7 @@ export default async function NewChallengePage({ searchParams }: Props) {
   const session =
     sessionTokenCookie && (await getValidSession(sessionTokenCookie));
   if (!session) {
-    redirect('/access?mode=signin&returnTo=/main/goals');
+    redirect('/access?mode=signin&returnTo=/main/challenges/newchallenge');
   }
 
   const templateId = (await searchParams).template;

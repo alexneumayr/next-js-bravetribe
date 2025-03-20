@@ -23,7 +23,7 @@ export default async function TemplatesPage({ searchParams }: Props) {
   const session =
     sessionTokenCookie && (await getValidSession(sessionTokenCookie));
   if (!session) {
-    redirect('/access?mode=signin&returnTo=/main/goals');
+    redirect('/access?mode=signin&returnTo=/main/challenge/templates');
   }
   const searchText = awaitedSearchParams.text;
   const pageSize = Number(awaitedSearchParams.pageSize) || 9;

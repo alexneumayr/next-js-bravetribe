@@ -15,7 +15,7 @@ export default async function page() {
   const user =
     sessionTokenCookie && (await getUserBySessionToken(sessionTokenCookie));
   if (!user) {
-    redirect('/');
+    redirect('/access?mode=signin&returnTo=/main');
   }
   const experiences = await getNewestExperiencesInsecure();
   return (

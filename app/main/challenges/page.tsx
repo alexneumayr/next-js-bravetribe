@@ -10,7 +10,7 @@ export default async function ExperiencesPage() {
   const session =
     sessionTokenCookie && (await getValidSession(sessionTokenCookie));
   if (!session) {
-    redirect('/access?mode=signin&returnTo=/main/goals');
+    redirect('/access?mode=signin&returnTo=/main/challenges');
   }
   const challenges = await getChallenges(session.token);
   return (
