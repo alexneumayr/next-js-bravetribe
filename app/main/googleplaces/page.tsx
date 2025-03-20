@@ -20,11 +20,15 @@ export default function GoogleMapsPage() {
     }
   }
 
+  function handlePlaceIdChange(newPlaceId: string) {
+    setPlaceId(newPlaceId);
+  }
+
   return (
     <>
       {errorMessage && <p className="font-bold text-red-500">{errorMessage}</p>}
       <LocationInput
-        setPlaceId={setPlaceId}
+        onSelected={handlePlaceIdChange}
         setErrorMessage={setErrorMessage}
       />
       {placeId && (

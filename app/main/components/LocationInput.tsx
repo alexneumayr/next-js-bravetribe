@@ -10,16 +10,20 @@ import { debounce } from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
 
 type Props = {
-  setPlaceId: React.Dispatch<React.SetStateAction<string>>;
+  onLocationSelect: (name: string, placeId: string) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
+  value: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 export default function LocationInput({
-  setPlaceId,
+  onLocationSelect,
+  onChange,
   setErrorMessage,
+  value,
   ...rest
 }: Props) {
-  const [input, setInput] = useState('');
+  //   const [input, setInput] = useState('');
 
   const [suggestions, setSuggestions] = useState<
     ParsedSuggestionsData['suggestions']
@@ -50,7 +54,7 @@ export default function LocationInput({
               .NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
           },
           body: JSON.stringify({
-            input: input,
+            input: value,
           }),
         },
       );
@@ -65,10 +69,10 @@ export default function LocationInput({
       setErrorMessage('Error fetching suggestions from Google Places API');
       console.log(error);
     }
-  }, [input, setErrorMessage]);
+  }, [value, setErrorMessage]);
 
   useEffect(() => {
-    if (input) {
+    if (value) {
       const debouncedfetchSuggestions = debounce(async () => {
         await fetchSuggestions();
       }, 500);
@@ -80,24 +84,23 @@ export default function LocationInput({
         debouncedfetchSuggestions.cancel();
       };
     } else {
-      setPlaceId('');
+      onLocationSelect('', '');
     }
-  }, [input, fetchSuggestions, setErrorMessage, setPlaceId]);
+  }, [value, fetchSuggestions, setErrorMessage, onLocationSelect]);
 
   function handleSuggestionSelect(
     selectedPlaceName: string,
     selectedPlaceId: string,
   ) {
     setHideSuggestions(true);
-    setInput(selectedPlaceName);
-    setPlaceId(selectedPlaceId);
+    onLocationSelect(selectedPlaceName, selectedPlaceId);
   }
 
   function handleCommandInputChange(
     event: React.ChangeEvent<HTMLInputElement>,
   ) {
     setHideSuggestions(false);
-    setInput(event.currentTarget.value);
+    onChange(event);
   }
 
   function selectPlaceIcon(typesList: string[]) {
@@ -122,11 +125,11 @@ export default function LocationInput({
     <div className="space-y-2">
       <Input
         placeholder="Type in a location..."
-        value={input}
+        value={value}
         onChange={handleCommandInputChange}
         {...rest}
       />
-      {input && !hideSuggestions && (
+      {value && !hideSuggestions && (
         <Command>
           <CommandList>
             <CommandGroup heading="Suggestions">
@@ -134,6 +137,7 @@ export default function LocationInput({
                 suggestions.map((suggestion) => (
                   <div key={`place-${suggestion.placePrediction.placeId}`}>
                     <CommandItem
+                      className="cursor-pointer"
                       onSelect={() =>
                         handleSuggestionSelect(
                           suggestion.placePrediction.text.text,
