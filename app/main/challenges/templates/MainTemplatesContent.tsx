@@ -37,7 +37,7 @@ export default function MainTemplatesContent({
               onClick={() => setSelectedTemplate(template)}
             >
               <Image
-                src={`/challenge_templates/${template.image}`}
+                src={`/challenge_templates/${template.imageUrl}`}
                 alt={template.imageAlt}
                 width="268"
                 height="179"

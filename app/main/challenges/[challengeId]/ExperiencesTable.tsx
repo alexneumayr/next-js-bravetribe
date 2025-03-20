@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import type { Experience } from '@prisma/client';
+import type { Challenge, Experience } from '@prisma/client';
 import {
   type ColumnFiltersState,
   createColumnHelper,
@@ -28,11 +28,12 @@ import DisplayStarRating from '../../components/DisplayStarRating';
 
 const columnHelper = createColumnHelper<Experience>();
 
-type DataTableProps = {
+type Props = {
   data: Experience[];
+  challengeId: Challenge['id'];
 };
 
-export function ExperiencesTable({ data }: DataTableProps) {
+export function ExperiencesTable({ data, challengeId }: Props) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [showSearch, setShowSearch] = useState(false);
@@ -104,7 +105,11 @@ export function ExperiencesTable({ data }: DataTableProps) {
           </button>
           <Button
             className="bg-secondary flex rounded-[5px] w-[52px] h-[30px] text-xs font-medium"
-            onClick={() => router.push('/main/experiences/newexperience')}
+            onClick={() =>
+              router.push(
+                `/main/experiences/newexperience?challengeid=${challengeId}`,
+              )
+            }
           >
             New
           </Button>

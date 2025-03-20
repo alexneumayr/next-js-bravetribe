@@ -7,63 +7,63 @@ const initTemplates: Prisma.TemplateCreateInput[] = [
     title: 'Clapping Challenge',
     description:
       'Clap loudly for 5 minutes in a public place without stopping. Embrace the awkwardness!',
-    image: 'clapping.jpg',
+    imageUrl: 'clapping.jpg',
     imageAlt: 'clapping hands',
   },
   {
     title: 'Roller Coaster Expert',
     description:
       'Ride the same roller coaster multiple times in a row and narrate the experience like a theme park expert.',
-    image: 'rollercoaster.jpg',
+    imageUrl: 'rollercoaster.jpg',
     imageAlt: 'roller coaster',
   },
   {
     title: 'Free Hugs',
     description:
       'Stand in a public place with a "Free Hugs" sign and offer hugs to strangers.',
-    image: 'hugs.jpg',
+    imageUrl: 'hugs.jpg',
     imageAlt: 'koalas hugging each other',
   },
   {
     title: 'Public Speaking',
     description:
       "Give a short speech in a public place about any topic you're passionate about.",
-    image: 'publicspeaking.jpg',
+    imageUrl: 'publicspeaking.jpg',
     imageAlt: 'person holding a public speech',
   },
   {
     title: 'Crazy Dancing',
     description:
       'Dance wildly in public without caring what people think. Bonus points if someone joins in!',
-    image: 'dancing.jpg',
+    imageUrl: 'dancing.jpg',
     imageAlt: 'guy dancing on the street',
   },
   {
     title: 'Public Singing',
     description:
       "Sing a song in public, as if you're performing for a crowd. No holding back!",
-    image: 'singing.jpg',
+    imageUrl: 'singing.jpg',
     imageAlt: 'microphone',
   },
   {
     title: 'Public Sports',
     description:
       'Start doing a sports activity in public (e.g., push-ups, jumping jacks, jogging in place) for at least 5 minutes.',
-    image: 'pushups.jpg',
+    imageUrl: 'pushups.jpg',
     imageAlt: 'person doing push ups',
   },
   {
     title: 'Selfie Challenge',
     description:
       'Take selfies with as many strangers as possible within 10 minutes.',
-    image: 'selfie.jpg',
+    imageUrl: 'selfie.jpg',
     imageAlt: 'person taking a selfie',
   },
   {
     title: 'Wrong Store',
     description:
       "Go into a store and ask for something they obviously don't sell (e.g., ask for sushi in a hardware store).",
-    image: 'shop.jpg',
+    imageUrl: 'shop.jpg',
     imageAlt: 'sign at the entrance of a shop',
   },
 ];
@@ -76,7 +76,7 @@ const initUsers: Prisma.UserCreateInput[] = [
     role: 'user',
     aboutDescription:
       "I'm an adventurous traveler who loves meeting new people and experiencing different cultures. I believe that stepping out of my comfort zone is the best way to grow, and I'm excited to be part of a community that shares the same mindset.",
-    avatarImage: 'user.jpg',
+    avatarImageUrl: 'user.jpg',
     gender: 'Woman',
     location: 'Berlin, Germany',
     goals: {
@@ -103,7 +103,7 @@ const initUsers: Prisma.UserCreateInput[] = [
     role: 'user',
     aboutDescription:
       "I'm a software engineer who spends too much time behind a screen. I'm here to challenge myself socially and push past my usual comfort zone, especially when it comes to public interactions.",
-    avatarImage: 'user.jpg',
+    avatarImageUrl: 'user.jpg',
     gender: 'Man',
     location: 'San Francisco, USA',
     goals: {
@@ -130,7 +130,7 @@ const initUsers: Prisma.UserCreateInput[] = [
     role: 'user',
     aboutDescription:
       "I'm a fitness coach who believes that mental challenges are just as important as physical ones. I love pushing myself in all aspects of life and helping others do the same.",
-    avatarImage: 'user.jpg',
+    avatarImageUrl: 'user.jpg',
     gender: 'Woman',
     location: 'London, UK',
     goals: {
@@ -156,7 +156,7 @@ const initUsers: Prisma.UserCreateInput[] = [
     role: 'user',
     aboutDescription:
       "I'm an aspiring stand-up comedian who wants to become more comfortable performing in front of strangers. Every awkward situation is just another funny story waiting to happen.",
-    avatarImage: 'user.jpg',
+    avatarImageUrl: 'user.jpg',
     gender: 'Man',
     location: 'New York, USA',
     goals: {
@@ -182,7 +182,7 @@ const initUsers: Prisma.UserCreateInput[] = [
     role: 'user',
     aboutDescription:
       "I'm a photographer who loves capturing human emotions. But when it comes to being in front of the camera myself, I struggle. I'm here to face that fear head-on.",
-    avatarImage: 'user.jpg',
+    avatarImageUrl: 'user.jpg',
     gender: 'Woman',
     location: 'Sydney, Australia',
     goals: {

@@ -54,7 +54,10 @@ export default async function ChallengePage({ params }: Props) {
       <Separator className="mt-4 mb-2" />
       <MainChallengeContent challenge={challenge} />
       <Separator className="my-4" />
-      <ExperiencesTable data={challenge.experiences} />
+      <ExperiencesTable
+        data={challenge.experiences}
+        challengeId={challengeId}
+      />
     </>
   );
 }

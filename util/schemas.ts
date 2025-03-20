@@ -1,3 +1,4 @@
+import type { LocationObject } from '@/app/main/experiences/newexperience/NewExperienceForm';
 import { z } from 'zod';
 
 export const registrationSchema = z
@@ -63,4 +64,31 @@ export const challengeSchema = z.object({
     }),
   }),
   isCompleted: z.boolean(),
+});
+
+export const experienceSchema = z.object({
+  id: z.string().length(25, { message: 'Incorrect ID transmitted' }),
+  title: z.string().min(3, {
+    message: 'Please type in a challenge title',
+  }),
+  story: z.string().min(3, {
+    message: 'Please write something about your experience',
+  }),
+  date: z.coerce.date({
+    errorMap: (issue, { defaultError }) => ({
+      message:
+        issue.code === 'invalid_date'
+          ? 'Please choose a correct date'
+          : defaultError,
+    }),
+  }),
+  rating: z.coerce
+    .number()
+    .gte(1, { message: 'Please rate your experience from 1 to 5 stars' })
+    .lte(5, { message: 'Please rate your experience from 1 to 5 stars' }),
+  imageUrl: z.string().url().optional().or(z.literal('')),
+  location: z.custom<LocationObject>().optional(),
+  challengeId: z
+    .string()
+    .length(25, { message: 'Incorrect challenge ID transmitted' }),
 });

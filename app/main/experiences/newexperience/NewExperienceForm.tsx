@@ -1,5 +1,5 @@
 'use client';
-import { createChallengeAction } from '@/actions/challengeActions';
+import { createExperienceAction } from '@/actions/experienceActions';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -18,9 +18,10 @@ import {
 } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-import type { ChallengeActionState } from '@/types/types';
-import { challengeSchema } from '@/util/schemas';
+import type { ExperienceActionState } from '@/types/types';
+import { experienceSchema } from '@/util/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { Challenge } from '@prisma/client';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { CldUploadWidget } from 'next-cloudinary';
@@ -31,14 +32,24 @@ import type { z } from 'zod';
 import LocationInput from '../../components/LocationInput';
 import { getCoordinatesfromPlaceId } from '../../googleplaces/getCoordinationsfromPlaceId';
 
-export default function NewExperienceForm() {
+export type LocationObject = {
+  name: string;
+  lat: number;
+  lon: number;
+};
+
+type Props = {
+  challengeId: Challenge['id'];
+};
+
+export default function NewExperienceForm({ challengeId }: Props) {
   const [imageUrl, setImageUrl] = useState('');
   const [locationInputValue, setLocationInputValue] = useState('');
 
-  const [rating, setRating] = useState(5);
+  const [rating, setRating] = useState(0);
 
   const [locationErrorMessage, setLocationErrorMessage] = useState('');
-  const [location, setLocation] = useState<Location>();
+  const [location, setLocation] = useState<LocationObject>();
 
   const initialState = {
     error: {
@@ -46,30 +57,31 @@ export default function NewExperienceForm() {
     },
   };
 
-  type Location = {
-    name: string;
-    lat: string;
-    lon: string;
-  };
-
-  const form = useForm<z.infer<typeof challengeSchema>>({
-    resolver: zodResolver(challengeSchema),
+  const form = useForm<z.infer<typeof experienceSchema>>({
+    resolver: zodResolver(experienceSchema),
     defaultValues: {
       title: '',
-      plannedDate: undefined,
-      description: '',
+      date: undefined,
+      story: '',
+      imageUrl: '',
+      challengeId: challengeId,
     },
   });
 
+  const createExperienceActionWithLocation = createExperienceAction.bind(
+    null,
+    location,
+  );
+
   const [state, formAction, pending] = useActionState(
-    createChallengeAction,
+    createExperienceActionWithLocation,
     initialState,
   );
 
   const { reset } = form;
 
   const [savedActionState, setSavedActionState] =
-    useState<ChallengeActionState>(initialState);
+    useState<ExperienceActionState>(initialState);
 
   type UploadResult = {
     event: 'success';
@@ -103,8 +115,8 @@ export default function NewExperienceForm() {
         .then((coordinates) => {
           setLocation({
             name: placeName,
-            lat: coordinates.latitude,
-            lon: coordinates.longitude,
+            lat: Number(coordinates.latitude),
+            lon: Number(coordinates.longitude),
           });
         })
         .catch((error) => setLocationErrorMessage(error));
@@ -144,9 +156,9 @@ export default function NewExperienceForm() {
           />
           <FormField
             control={form.control}
-            name="plannedDate"
+            name="date"
             render={({ field }) => (
-              <FormItem className="flex flex-col mt-4">
+              <FormItem className="flex flex-col mt-2">
                 <FormLabel className="text-sm font-bold">Date:</FormLabel>
                 <Input
                   type="hidden"
@@ -183,15 +195,14 @@ export default function NewExperienceForm() {
                   </PopoverContent>
                 </Popover>
                 <FormMessage>
-                  {'error' in savedActionState &&
-                    savedActionState.error.plannedDate}
+                  {'error' in savedActionState && savedActionState.error.date}
                 </FormMessage>
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
-            name="description"
+            name="story"
             render={({ field }) => (
               <FormItem className="mt-2">
                 <FormLabel className="text-sm font-bold">
@@ -202,8 +213,7 @@ export default function NewExperienceForm() {
                 </FormControl>
                 <FormMessage />
                 <FormMessage className="">
-                  {'error' in savedActionState &&
-                    savedActionState.error.description}
+                  {'error' in savedActionState && savedActionState.error.story}
                 </FormMessage>
               </FormItem>
             )}
@@ -217,21 +227,21 @@ export default function NewExperienceForm() {
               color="#ff8c00"
             />
           </div>
+
           <FormField
             control={form.control}
-            name="description"
+            name="rating"
             render={({ field }) => (
-              <FormItem className="mt-2 hidden">
-                <FormLabel className="text-sm font-bold">
+              <FormItem className="mt-2">
+                <FormLabel className="text-sm font-bold hidden">
                   Rating (Hidden Input)
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} value={rating} type="hidden" />
                 </FormControl>
                 <FormMessage />
-                <FormMessage className="">
-                  {'error' in savedActionState &&
-                    savedActionState.error.description}
+                <FormMessage>
+                  {'error' in savedActionState && savedActionState.error.rating}
                 </FormMessage>
               </FormItem>
             )}
@@ -280,19 +290,38 @@ export default function NewExperienceForm() {
               </CldUploadWidget>
               <FormField
                 control={form.control}
-                name="description"
+                name="imageUrl"
                 render={({ field }) => (
-                  <FormItem className="mt-2 hidden">
-                    <FormLabel className="text-sm font-bold">
+                  <FormItem className="mt-2">
+                    <FormLabel className="text-sm font-bold hidden">
                       Image URL (Hidden Input)
                     </FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} value={imageUrl} type="hidden" />
                     </FormControl>
                     <FormMessage />
                     <FormMessage className="">
                       {'error' in savedActionState &&
-                        savedActionState.error.description}
+                        savedActionState.error.imageUrl}
+                    </FormMessage>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="challengeId"
+                render={({ field }) => (
+                  <FormItem className="mt-2">
+                    <FormLabel className="text-sm font-bold hidden">
+                      Challenge ID (Hidden Input)
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} type="hidden" />
+                    </FormControl>
+                    <FormMessage />
+                    <FormMessage className="">
+                      {'error' in savedActionState &&
+                        savedActionState.error.challengeId}
                     </FormMessage>
                   </FormItem>
                 )}
@@ -312,26 +341,10 @@ export default function NewExperienceForm() {
                 onChange={handleLocationInputChanged}
                 id="location"
               />
+              <FormMessage className="">
+                {'error' in savedActionState && savedActionState.error.location}
+              </FormMessage>
             </div>
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem className="mt-2 hidden">
-                  <FormLabel className="text-sm font-bold">
-                    Location (Hidden Input)
-                  </FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                  <FormMessage className="">
-                    {'error' in savedActionState &&
-                      savedActionState.error.description}
-                  </FormMessage>
-                </FormItem>
-              )}
-            />
           </div>
           <div className="flex justify-start w-full gap-x-2 mt-5">
             <Button

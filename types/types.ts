@@ -37,3 +37,17 @@ export type ChallengeActionState = {
     general?: string;
   };
 };
+
+export type ExperienceActionState = {
+  error: {
+    id?: string[];
+    title?: string[];
+    story?: string[];
+    date?: string[];
+    rating?: string[];
+    imageUrl?: string[];
+    location?: string[];
+    challengeId?: string[];
+    general?: string;
+  };
+};

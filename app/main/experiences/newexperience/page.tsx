@@ -4,7 +4,18 @@ import { getCookie } from '@/util/cookies';
 import { redirect } from 'next/navigation';
 import NewExperienceForm from './NewExperienceForm';
 
-export default async function NewExperiencePage() {
+type Props = {
+  searchParams: Promise<{
+    challengeid: string;
+  }>;
+};
+
+export default async function NewExperiencePage({ searchParams }: Props) {
+  const challengeId = (await searchParams).challengeid;
+
+  if (!challengeId) {
+    redirect('/main/challenges');
+  }
   const sessionTokenCookie = await getCookie('sessionToken');
   const session =
     sessionTokenCookie && (await getValidSession(sessionTokenCookie));
@@ -21,7 +32,7 @@ export default async function NewExperiencePage() {
         </p>
       </div>
       <Separator className="my-4" />
-      <NewExperienceForm />
+      <NewExperienceForm challengeId={challengeId} />
     </>
   );
 }

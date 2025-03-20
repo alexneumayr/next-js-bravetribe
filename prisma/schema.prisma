@@ -19,7 +19,7 @@ model User {
   username               String       @unique
   passwordHash           String
   role                   Role         @default(user)
-  avatarImage            String?
+  avatarImageUrl         String?
   gender                 String?
   location               String?
   aboutDescription       String?
@@ -73,8 +73,8 @@ model Experience {
   title       String
   story       String
   rating      Float
-  image       String?
-  location    String?
+  imageUrl    String?
+  location    Json?
   date        DateTime
   challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
   challengeId String
@@ -116,7 +116,7 @@ model Template {
   id          String   @id @default(cuid())
   title       String
   description String
-  image       String
+  imageUrl    String
   imageAlt    String
   createdAt   DateTime @default(now())
 }

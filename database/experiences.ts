@@ -1,6 +1,13 @@
+import type { LocationObject } from '@/app/main/experiences/newexperience/NewExperienceForm';
 import { prisma } from '@/lib/prisma';
-import { type Prisma, type User } from '@prisma/client';
+import {
+  type Experience,
+  type Prisma,
+  type Session,
+  type User,
+} from '@prisma/client';
 import { DateTime } from 'luxon';
+import { getUserBySessionToken } from './users';
 
 export async function getNewestExperiencesInsecure() {
   const experiences = await prisma.experience.findMany({
@@ -136,4 +143,35 @@ export async function getNewestExperiencesByUserInsecure(id: User['id']) {
     },
   });
   return experiences;
+}
+
+export async function createExperience(
+  sessionToken: Session['token'],
+  newExperience: Omit<Experience, 'id' | 'userId' | 'createdAt' | 'location'>,
+  location: LocationObject | undefined,
+) {
+  console.log('Hi from database', location?.name);
+  const user = await getUserBySessionToken(sessionToken);
+  if (!user) {
+    return null;
+  }
+  const experience = await prisma.experience.create({
+    data: {
+      title: newExperience.title,
+      story: newExperience.story,
+      date: newExperience.date,
+      rating: newExperience.rating,
+      challengeId: newExperience.challengeId,
+      imageUrl: newExperience.imageUrl,
+      userId: user.id,
+      location: location
+        ? {
+            name: location.name,
+            lat: location.lat,
+            lon: location.lon,
+          }
+        : undefined,
+    },
+  });
+  return experience;
 }
