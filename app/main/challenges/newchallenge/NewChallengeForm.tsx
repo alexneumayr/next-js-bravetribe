@@ -123,7 +123,10 @@ export default function NewChallengeForm({ template }: Props) {
                       className="rdp p-3"
                       selected={field.value}
                       onSelect={field.onChange}
-                      disabled={(fieldDate) => fieldDate < new Date()}
+                      disabled={(fieldDate) =>
+                        fieldDate.setHours(0, 0, 0, 0) <
+                        new Date().setHours(0, 0, 0, 0)
+                      }
                       initialFocus
                     />
                   </PopoverContent>

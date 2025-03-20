@@ -35,9 +35,14 @@ type Row = {
   original: Challenge;
 };
 
-const isRowHighlighted = (row: Row) => {
+const isRowHighlightedRed = (row: Row) => {
   const plannedDate = row.original.plannedDate;
-  return plannedDate <= new Date();
+  return plannedDate.setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
+};
+
+const isRowHighlightedGreen = (row: Row) => {
+  const plannedDate = row.original.plannedDate;
+  return plannedDate.toDateString() === new Date().toDateString();
 };
 
 export function ChallengesTableTodo({ data, searchText }: DataTableProps) {
@@ -143,7 +148,7 @@ export function ChallengesTableTodo({ data, searchText }: DataTableProps) {
                 <TableRow
                   key={`row-${row.id}`}
                   data-state={row.getIsSelected() && 'selected'}
-                  className={`cursor-pointer ${isRowHighlighted(row) ? 'text-red-500' : ''}`}
+                  className={`cursor-pointer ${isRowHighlightedRed(row) ? 'text-red-500' : ''} ${isRowHighlightedGreen(row) ? 'text-green-500' : ''}`}
                   onClick={() => {
                     const id = row.getValue('id');
                     router.push(`/main/challenges/${id as string}`);

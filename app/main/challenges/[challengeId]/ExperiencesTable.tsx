@@ -22,6 +22,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { ArrowDown, ArrowUp, ChevronsUpDown, Search } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import DisplayStarRating from '../../components/DisplayStarRating';
 
@@ -38,6 +39,7 @@ export function ExperiencesTable({ data }: DataTableProps) {
   const renderStarRating = (rating: number) => (
     <DisplayStarRating rating={rating} />
   );
+  const router = useRouter();
 
   const columns = useMemo(
     () => [
@@ -100,7 +102,10 @@ export function ExperiencesTable({ data }: DataTableProps) {
           >
             <Search className="w-[18px] h-[18px]" />
           </button>
-          <Button className="bg-secondary flex rounded-[5px] w-[52px] h-[30px] text-xs font-medium">
+          <Button
+            className="bg-secondary flex rounded-[5px] w-[52px] h-[30px] text-xs font-medium"
+            onClick={() => router.push('/main/experiences/newexperience')}
+          >
             New
           </Button>
         </div>

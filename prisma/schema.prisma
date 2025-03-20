@@ -85,13 +85,14 @@ model Experience {
   createdAt   DateTime  @default(now())
 }
 
+// Here the user is optional and without onDelete Cascade, so that if a user deletes their account the (hopefully) motivational comments they have made on other user's experiences don't get removed
 model Comment {
   id           String     @id @default(cuid())
   content      String
   createdAt    DateTime   @default(now())
   experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
   experienceId String
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User?      @relation(fields: [userId], references: [id])
   userId       String
 }
 

@@ -38,7 +38,7 @@ type Row = {
 
 const isRowHighlighted = (row: Row) => {
   const deadline = row.original.deadline;
-  return deadline <= new Date();
+  return deadline.setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
 };
 
 export function GoalsTable({ data }: DataTableProps) {
