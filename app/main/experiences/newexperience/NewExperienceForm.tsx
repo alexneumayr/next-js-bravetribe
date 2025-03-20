@@ -92,6 +92,10 @@ export default function NewExperienceForm() {
     setRating(ratingInput);
   };
 
+  function handleLocationError(error: string) {
+    setLocationErrorMessage(error);
+  }
+
   function handleLocationSelected(placeName: string, placeId: string) {
     setLocationInputValue(placeName);
     if (placeName && placeId) {
@@ -302,10 +306,10 @@ export default function NewExperienceForm() {
                 <p className="font-bold text-red-500">{locationErrorMessage}</p>
               )}
               <LocationInput
-                onLocationSelect={handleLocationSelected}
-                setErrorMessage={setLocationErrorMessage}
-                onChange={handleLocationInputChanged}
                 value={locationInputValue}
+                onLocationSelect={handleLocationSelected}
+                onLocationError={handleLocationError}
+                onChange={handleLocationInputChanged}
                 id="location"
               />
             </div>

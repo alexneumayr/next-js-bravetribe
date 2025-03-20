@@ -12,14 +12,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 type Props = {
   onLocationSelect: (name: string, placeId: string) => void;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
-  value: string;
+  onLocationError?: (error: string) => void;
+  value?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 export default function LocationInput({
   onLocationSelect,
   onChange,
-  setErrorMessage,
+  onLocationError,
   value,
   ...rest
 }: Props) {
@@ -29,7 +29,8 @@ export default function LocationInput({
     ParsedSuggestionsData['suggestions']
   >([]);
   const [hideSuggestions, setHideSuggestions] = useState(false);
-
+  // const inputRef = useRef<HTMLInputElement | null>(null); // ref für das Input-Feld
+  const [input, setInput] = useState('');
   type ParsedSuggestionsData = {
     suggestions: {
       placePrediction: {
@@ -54,7 +55,7 @@ export default function LocationInput({
               .NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
           },
           body: JSON.stringify({
-            input: value,
+            input: input,
           }),
         },
       );
@@ -66,18 +67,22 @@ export default function LocationInput({
         setSuggestions(parsedData.suggestions);
       }
     } catch (error) {
-      setErrorMessage('Error fetching suggestions from Google Places API');
+      if (onLocationError) {
+        onLocationError('Error fetching suggestions from Google Places API');
+      }
       console.log(error);
     }
-  }, [value, setErrorMessage]);
+  }, [input, onLocationError]);
 
   useEffect(() => {
-    if (value) {
+    if (input) {
       const debouncedfetchSuggestions = debounce(async () => {
         await fetchSuggestions();
       }, 500);
       debouncedfetchSuggestions()?.catch((error) => {
-        setErrorMessage('Error fetching suggestions from Google Places API');
+        if (onLocationError) {
+          onLocationError('Error fetching suggestions from Google Places API');
+        }
         console.log(error);
       });
       return () => {
@@ -86,13 +91,14 @@ export default function LocationInput({
     } else {
       onLocationSelect('', '');
     }
-  }, [value, fetchSuggestions, setErrorMessage, onLocationSelect]);
+  }, [input, fetchSuggestions, onLocationError, onLocationSelect]);
 
   function handleSuggestionSelect(
     selectedPlaceName: string,
     selectedPlaceId: string,
   ) {
     setHideSuggestions(true);
+    setInput(selectedPlaceName);
     onLocationSelect(selectedPlaceName, selectedPlaceId);
   }
 
@@ -100,6 +106,7 @@ export default function LocationInput({
     event: React.ChangeEvent<HTMLInputElement>,
   ) {
     setHideSuggestions(false);
+    setInput(event.currentTarget.value);
     onChange(event);
   }
 
@@ -125,11 +132,11 @@ export default function LocationInput({
     <div className="space-y-2">
       <Input
         placeholder="Type in a location..."
-        value={value}
+        value={value !== undefined ? value : input}
         onChange={handleCommandInputChange}
         {...rest}
       />
-      {value && !hideSuggestions && (
+      {input && !hideSuggestions && (
         <Command>
           <CommandList>
             <CommandGroup heading="Suggestions">
