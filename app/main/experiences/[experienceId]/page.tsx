@@ -2,13 +2,15 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { getExperienceInsecure } from '@/database/experiences';
 import { getUserBySessionToken } from '@/database/users';
-import type { LocationObject } from '@/types/types';
+import type { FullComment, LocationObject } from '@/types/types';
 import { getCookie } from '@/util/cookies';
 import levelNames from '@/util/levelNames';
 import { Heart, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import DisplayStarRating from '../../components/DisplayStarRating';
+import AddComment from './AddComment';
+import CommentSection from './CommentSection';
 import ExperienceMap from './ExperienceMap';
 import ExperienceReportMenu from './ExperienceReportMenu';
 
@@ -120,14 +122,11 @@ export default async function ExperiencePage({ params }: Props) {
                 {experience.challenge.description}
               </p>
             </div>
-
             <h4 className="text-sm font-bold text-secondary">Experience:</h4>
             <p className="text-sm font-medium whitespace-pre-wrap">
               {experience.story}
             </p>
-
             <Separator className="my-4 clear-right" />
-
             {location && (
               <ExperienceMap lat={location.lat} lng={location.lon} />
             )}
@@ -141,6 +140,10 @@ export default async function ExperiencePage({ params }: Props) {
                 {experience.comments.length}
               </button>
             </div>
+            <AddComment />
+            {experience.comments.length > 0 && (
+              <CommentSection comments={experience.comments as FullComment[]} />
+            )}
           </div>
         </div>
       </div>

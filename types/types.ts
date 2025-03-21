@@ -1,3 +1,5 @@
+import type { Comment, Experience, User } from '@prisma/client';
+
 export type RegisterActionState = {
   error: {
     confirmPasswordMatch?: string[];
@@ -57,3 +59,11 @@ export type LocationObject = {
   lat: number;
   lon: number;
 };
+
+export interface UserWithExperiences extends User {
+  experiences: Experience[];
+}
+
+export interface FullComment extends Comment {
+  user: UserWithExperiences;
+}
