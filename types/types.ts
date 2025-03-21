@@ -51,3 +51,9 @@ export type ExperienceActionState = {
     general?: string;
   };
 };
+
+export type LocationObject = {
+  name: string;
+  lat: number;
+  lon: number;
+};

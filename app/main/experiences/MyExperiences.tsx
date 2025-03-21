@@ -50,7 +50,9 @@ export default async function SearchResultsExperiences({
                       className="flex flex-col gap-1 items-center min-w-[150px]"
                     >
                       <Avatar className="w-[65px] h-[65px]">
-                        <AvatarImage src={`${experience.user.avatarImage}`} />
+                        <AvatarImage
+                          src={`${experience.user.avatarImageUrl}`}
+                        />
                         <AvatarFallback>
                           {experience.user.username.slice(0, 2).toUpperCase()}
                         </AvatarFallback>

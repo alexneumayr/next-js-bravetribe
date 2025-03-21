@@ -1,5 +1,5 @@
 'use client';
-import { createExperienceAction } from '@/actions/experienceActions';
+import { updateExperienceAction } from '@/actions/experienceActions';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -21,7 +21,7 @@ import { cn } from '@/lib/utils';
 import type { ExperienceActionState, LocationObject } from '@/types/types';
 import { experienceSchema } from '@/util/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { Challenge } from '@prisma/client';
+import type { Experience } from '@prisma/client';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { CldUploadWidget } from 'next-cloudinary';
@@ -29,21 +29,27 @@ import { useActionState, useCallback, useEffect, useState } from 'react';
 import { StarRating } from 'react-flexible-star-rating';
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
-import LocationInput from '../../components/LocationInput';
-import { getCoordinatesfromPlaceId } from '../../googleplaces/getCoordinationsfromPlaceId';
+import LocationInput from '../../../components/LocationInput';
+import { getCoordinatesfromPlaceId } from '../../../googleplaces/getCoordinationsfromPlaceId';
 
 type Props = {
-  challengeId: Challenge['id'];
+  experience: Experience;
 };
 
-export default function NewExperienceForm({ challengeId }: Props) {
-  const [imageUrl, setImageUrl] = useState('');
-  const [locationInputValue, setLocationInputValue] = useState('');
+export default function EditExperienceForm({ experience }: Props) {
+  const [imageUrl, setImageUrl] = useState(experience.imageUrl);
+  const experienceLocation: LocationObject | null =
+    experience.location as LocationObject | null;
+  const [locationInputValue, setLocationInputValue] = useState(
+    experienceLocation?.name || '',
+  );
 
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(experience.rating);
 
   const [locationErrorMessage, setLocationErrorMessage] = useState('');
-  const [location, setLocation] = useState<LocationObject>();
+  const [location, setLocation] = useState<LocationObject | null>(
+    experienceLocation,
+  );
 
   const initialState = {
     error: {
@@ -54,21 +60,21 @@ export default function NewExperienceForm({ challengeId }: Props) {
   const form = useForm<z.infer<typeof experienceSchema>>({
     resolver: zodResolver(experienceSchema),
     defaultValues: {
-      title: '',
-      date: undefined,
-      story: '',
-      imageUrl: '',
-      challengeId: challengeId,
+      title: experience.title,
+      date: experience.date,
+      story: experience.story,
+      imageUrl: experience.imageUrl || undefined,
+      id: experience.id,
     },
   });
 
-  const createExperienceActionWithLocation = createExperienceAction.bind(
+  const updateExperienceActionWithLocation = updateExperienceAction.bind(
     null,
-    location,
+    location || undefined,
   );
 
   const [state, formAction, pending] = useActionState(
-    createExperienceActionWithLocation,
+    updateExperienceActionWithLocation,
     initialState,
   );
 
@@ -89,9 +95,9 @@ export default function NewExperienceForm({ challengeId }: Props) {
   function handleResetButtonClicked() {
     reset();
     setSavedActionState(initialState);
-    setImageUrl('');
-    setLocation(undefined);
-    setLocationInputValue('');
+    setImageUrl(experience.imageUrl);
+    setLocation(experienceLocation);
+    setLocationInputValue(experienceLocation?.name || '');
   }
 
   const handleRatingChange = (ratingInput: number) => {
@@ -147,7 +153,7 @@ export default function NewExperienceForm({ challengeId }: Props) {
             control={form.control}
             name="date"
             render={({ field }) => (
-              <FormItem className="flex flex-col mt-">
+              <FormItem className="flex flex-col mt-2">
                 <FormLabel className="text-sm font-bold">Date:</FormLabel>
                 <Input
                   type="hidden"
@@ -213,6 +219,7 @@ export default function NewExperienceForm({ challengeId }: Props) {
               onRatingChange={handleRatingChange}
               dimension={5}
               isHalfRatingEnabled
+              initialRating={rating}
               color="#ff8c00"
             />
           </div>
@@ -271,9 +278,9 @@ export default function NewExperienceForm({ challengeId }: Props) {
                       type="button"
                       variant="secondary"
                       onClick={() => open()}
-                      className="w-[134px]"
+                      className="w-[135px]"
                     >
-                      {!imageUrl ? 'Upload a photo' : 'Change photo'}
+                      {!experience.imageUrl ? 'Upload a photo' : 'Change photo'}
                     </Button>
                   );
                 }}
@@ -287,7 +294,11 @@ export default function NewExperienceForm({ challengeId }: Props) {
                       Image URL (Hidden Input)
                     </FormLabel>
                     <FormControl>
-                      <Input {...field} value={imageUrl} type="hidden" />
+                      <Input
+                        {...field}
+                        value={imageUrl || undefined}
+                        type="hidden"
+                      />
                     </FormControl>
                     <FormMessage />
                     <FormMessage className="">
@@ -297,21 +308,21 @@ export default function NewExperienceForm({ challengeId }: Props) {
                   </FormItem>
                 )}
               />
+              {'error' in savedActionState && savedActionState.error.id}
               <FormField
                 control={form.control}
-                name="challengeId"
+                name="id"
                 render={({ field }) => (
                   <FormItem className="mt-2">
                     <FormLabel className="text-sm font-bold hidden">
-                      Challenge ID (Hidden Input)
+                      Experience ID (Hidden Input)
                     </FormLabel>
                     <FormControl>
                       <Input {...field} type="hidden" />
                     </FormControl>
                     <FormMessage />
                     <FormMessage className="">
-                      {'error' in savedActionState &&
-                        savedActionState.error.challengeId}
+                      {'error' in savedActionState && savedActionState.error.id}
                     </FormMessage>
                   </FormItem>
                 )}

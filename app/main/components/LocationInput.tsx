@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/command';
 import { Input } from '@/components/ui/input';
 import { debounce } from 'lodash';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 type Props = {
   onLocationSelect: (name: string, placeId: string) => void;
@@ -23,14 +23,9 @@ export default function LocationInput({
   value,
   ...rest
 }: Props) {
-  //   const [input, setInput] = useState('');
-
   const [suggestions, setSuggestions] = useState<
     ParsedSuggestionsData['suggestions']
   >([]);
-  const [hideSuggestions, setHideSuggestions] = useState(false);
-  // const inputRef = useRef<HTMLInputElement | null>(null); // ref für das Input-Feld
-  const [input, setInput] = useState('');
   type ParsedSuggestionsData = {
     suggestions: {
       placePrediction: {
@@ -43,71 +38,65 @@ export default function LocationInput({
     }[];
   };
 
-  const fetchSuggestions = useCallback(async () => {
-    try {
-      const data = await fetch(
-        'https://places.googleapis.com/v1/places:autocomplete',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Goog-Api-Key': process.env
-              .NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
-          },
-          body: JSON.stringify({
-            input: input,
-          }),
-        },
-      );
-      const parsedData: ParsedSuggestionsData = await data.json();
-      if (!Boolean(parsedData.suggestions)) {
-        setSuggestions([]);
-      } else {
-        console.log(parsedData);
-        setSuggestions(parsedData.suggestions);
-      }
-    } catch (error) {
-      if (onLocationError) {
-        onLocationError('Error fetching suggestions from Google Places API');
-      }
-      console.log(error);
-    }
-  }, [input, onLocationError]);
-
-  useEffect(() => {
-    if (input) {
-      const debouncedfetchSuggestions = debounce(async () => {
-        await fetchSuggestions();
-      }, 500);
-      debouncedfetchSuggestions()?.catch((error) => {
-        if (onLocationError) {
-          onLocationError('Error fetching suggestions from Google Places API');
+  const debouncedFetchSuggestions = useMemo(
+    () =>
+      debounce(async (placeName: string) => {
+        try {
+          console.log('Fetching');
+          const data = await fetch(
+            'https://places.googleapis.com/v1/places:autocomplete',
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Goog-Api-Key': process.env
+                  .NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
+              },
+              body: JSON.stringify({
+                input: placeName,
+              }),
+            },
+          );
+          const parsedData: ParsedSuggestionsData = await data.json();
+          if (!Boolean(parsedData.suggestions)) {
+            setSuggestions([]);
+          } else {
+            setSuggestions(parsedData.suggestions);
+          }
+        } catch (error) {
+          if (onLocationError) {
+            onLocationError(
+              'Error fetching suggestions from Google Places API',
+            );
+          }
+          console.log(error);
         }
-        console.log(error);
-      });
-      return () => {
-        debouncedfetchSuggestions.cancel();
-      };
-    } else {
-      onLocationSelect('', '');
-    }
-  }, [input, fetchSuggestions, onLocationError, onLocationSelect]);
+      }, 300),
+    [onLocationError],
+  );
 
   function handleSuggestionSelect(
     selectedPlaceName: string,
     selectedPlaceId: string,
   ) {
-    setHideSuggestions(true);
-    setInput(selectedPlaceName);
+    setSuggestions([]);
     onLocationSelect(selectedPlaceName, selectedPlaceId);
   }
 
-  function handleCommandInputChange(
+  function handleLocationInputChange(
     event: React.ChangeEvent<HTMLInputElement>,
   ) {
-    setHideSuggestions(false);
-    setInput(event.currentTarget.value);
+    console.log(event.currentTarget.value);
     onChange(event);
+
+    if (event.currentTarget.value) {
+      debouncedFetchSuggestions(event.currentTarget.value)?.catch((error) => {
+        if (onLocationError) {
+          onLocationError('Error fetching suggestions from Google Places API');
+        }
+        console.log(error);
+      });
+    }
   }
 
   function selectPlaceIcon(typesList: string[]) {
@@ -132,11 +121,11 @@ export default function LocationInput({
     <div className="space-y-2">
       <Input
         placeholder="Type in a location..."
-        value={value !== undefined ? value : input}
-        onChange={handleCommandInputChange}
+        value={value}
+        onChange={handleLocationInputChange}
         {...rest}
       />
-      {input && !hideSuggestions && (
+      {suggestions.length > 0 && (
         <Command>
           <CommandList>
             <CommandGroup heading="Suggestions">

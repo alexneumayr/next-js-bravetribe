@@ -1,4 +1,4 @@
-import type { LocationObject } from '@/app/main/experiences/newexperience/NewExperienceForm';
+import type { LocationObject } from '@/types/types';
 import { z } from 'zod';
 
 export const registrationSchema = z
@@ -86,9 +86,13 @@ export const experienceSchema = z.object({
     .number()
     .gte(1, { message: 'Please rate your experience from 1 to 5 stars' })
     .lte(5, { message: 'Please rate your experience from 1 to 5 stars' }),
-  imageUrl: z.string().url().optional().or(z.literal('')),
+  imageUrl: z
+    .string({ message: 'Problem with image Url' })
+    .url()
+    .optional()
+    .or(z.literal('')),
   location: z.custom<LocationObject>().optional(),
   challengeId: z
-    .string()
+    .string({ message: 'Challenge ID has the wrong datatype' })
     .length(25, { message: 'Incorrect challenge ID transmitted' }),
 });

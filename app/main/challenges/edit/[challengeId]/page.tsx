@@ -25,7 +25,7 @@ export default async function ChallengePage({ params }: Props) {
     );
   }
 
-  // Query the challenge with the session token and noteId
+  // Query the challenge with the session token and challengeId
   const challenge =
     sessionToken && (await getChallenge(sessionToken, challengeId));
 

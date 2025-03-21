@@ -1,5 +1,5 @@
-import type { LocationObject } from '@/app/main/experiences/newexperience/NewExperienceForm';
 import { prisma } from '@/lib/prisma';
+import type { LocationObject } from '@/types/types';
 import {
   type Experience,
   type Prisma,
@@ -164,6 +164,76 @@ export async function createExperience(
       challengeId: newExperience.challengeId,
       imageUrl: newExperience.imageUrl,
       userId: user.id,
+      location: location
+        ? {
+            name: location.name,
+            lat: location.lat,
+            lon: location.lon,
+          }
+        : undefined,
+    },
+  });
+  return experience;
+}
+
+export async function selectExperienceExists(experienceId: Experience['id']) {
+  const experience = await prisma.experience.count({
+    where: {
+      id: experienceId,
+    },
+  });
+  return experience > 0;
+}
+
+export async function getExperienceForEdit(
+  sessionToken: Session['token'],
+  experienceId: Experience['id'],
+) {
+  const experience = await prisma.experience.findUnique({
+    where: {
+      id: experienceId,
+      user: {
+        sessions: {
+          some: {
+            token: sessionToken,
+            expiryTimestamp: {
+              gt: new Date(),
+            },
+          },
+        },
+      },
+    },
+    include: {
+      comments: true,
+    },
+  });
+
+  return experience;
+}
+
+export async function updateExperience(
+  sessionToken: Session['token'],
+  updatedExperience: Omit<
+    Experience,
+    'userId' | 'createdAt' | 'location' | 'challengeId'
+  >,
+  location: LocationObject | undefined,
+) {
+  console.log('Hi from database', location?.name);
+  const user = await getUserBySessionToken(sessionToken);
+  if (!user) {
+    return null;
+  }
+  const experience = await prisma.experience.update({
+    where: {
+      id: updatedExperience.id,
+    },
+    data: {
+      title: updatedExperience.title,
+      story: updatedExperience.story,
+      date: updatedExperience.date,
+      rating: updatedExperience.rating,
+      imageUrl: updatedExperience.imageUrl,
       location: location
         ? {
             name: location.name,
