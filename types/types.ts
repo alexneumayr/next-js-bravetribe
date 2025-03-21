@@ -67,3 +67,16 @@ export interface UserWithExperiences extends User {
 export interface FullComment extends Comment {
   user: UserWithExperiences;
 }
+
+export type CommentActionState =
+  | {
+      error: {
+        id?: string[];
+        content?: string[];
+        experienceId?: string[];
+        general?: string;
+      };
+    }
+  | {
+      comment: Comment;
+    };

@@ -254,6 +254,9 @@ export async function getExperienceInsecure(experienceId: Experience['id']) {
       challenge: true,
       likes: true,
       comments: {
+        orderBy: {
+          createdAt: 'desc',
+        },
         include: {
           user: {
             include: {

@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import type { FullComment } from '@/types/types';
-import { getDurationName } from '@/util/getDurationName';
+import { getTimeAgo } from '@/util/getTimeAgo';
 import levelNames from '@/util/levelNames';
 import Link from 'next/link';
 
@@ -10,19 +10,16 @@ type Props = {
 };
 export default function CommentSection({ comments }: Props) {
   return (
-    <div>
+    <div id="comment-section">
       <div className="w-full">
         {Array.isArray(comments) &&
           comments.map((comment) => {
             return (
-              <div
-                key={`comment-${comment.id}`}
-                className="hover:bg-zinc-50 pt-4"
-              >
+              <div key={`comment-${comment.id}`} className="">
                 <div className="flex">
                   <Link
                     href={`/main/profiles/${comment.user.id}`}
-                    className="flex flex-col gap-1 items-center w-[150px] flex-none"
+                    className="hover:bg-zinc-50 pt-4 pb-3  flex flex-col gap-1 items-center w-[150px] flex-none"
                   >
                     <Avatar className="w-[65px] h-[65px]">
                       <AvatarImage src={`${comment.user.avatarImageUrl}`} />
@@ -60,9 +57,9 @@ export default function CommentSection({ comments }: Props) {
                       )}
                     </dl>
                   </Link>
-                  <div className="space-y-1 p-2">
+                  <div className="space-y-1 px-2 pt-4 pb-2">
                     <p className="text-sm font-extralight">
-                      {getDurationName(comment.createdAt, new Date())} ago
+                      {getTimeAgo(comment.createdAt)}
                     </p>
 
                     <p className="text-sm font-medium whitespace-pre-wrap">
@@ -70,7 +67,7 @@ export default function CommentSection({ comments }: Props) {
                     </p>
                   </div>
                 </div>
-                <Separator className="mt-3" />
+                <Separator className="" />
               </div>
             );
           })}

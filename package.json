@@ -55,6 +55,7 @@
     "react-google-places-autocomplete": "^4.1.0",
     "react-hook-form": "^7.54.2",
     "react-rating-stars-component": "^2.2.0",
+    "react-scroll-to-element": "^0.2.0",
     "react-simple-star-rating": "^5.1.7",
     "react-star-ratings-eco": "^2.4.4",
     "react-stars": "^2.2.5",
