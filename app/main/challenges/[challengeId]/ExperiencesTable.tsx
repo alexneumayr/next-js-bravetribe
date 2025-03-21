@@ -124,7 +124,7 @@ export function ExperiencesTable({ data, challengeId }: Props) {
             }
             value={(table.getColumn('title')?.getFilterValue() ?? '') as string}
             placeholder="What are you looking for?"
-            className="pl-8 rounded-[5px]"
+            className="pl-8 rounded-[5px] mt-3"
           />
         </div>
         <Table className="mt-1">

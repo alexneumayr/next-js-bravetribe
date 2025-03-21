@@ -101,7 +101,7 @@ export async function updateExperienceAction(
     };
   }
   console.log('dd');
-  const newExperience = await updateExperience(
+  const updatedExperience = await updateExperience(
     sessionToken,
     {
       title: validatedFields.data.title,
@@ -114,13 +114,13 @@ export async function updateExperienceAction(
     validatedFields.data.location,
   );
 
-  if (!newExperience) {
+  if (!updatedExperience) {
     return {
       error: { general: 'Failed to create experience' },
     };
   }
 
-  redirect(`/main/experience/${validatedFields.data.id}`);
+  redirect(`/main/experiences/${updatedExperience.id}`);
 }
 
 export async function deleteExperienceAction(
