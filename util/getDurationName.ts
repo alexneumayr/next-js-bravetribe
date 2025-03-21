@@ -9,7 +9,7 @@ export function getDurationName(end: Date, start: Date) {
   const hours = Math.floor(i.length('hours'));
   const days = Math.floor(i.length('days'));
   const weeks = Math.floor(i.length('weeks'));
-  const months = Math.floor(i.length('weeks'));
+  const months = Math.floor(i.length('months'));
   const years = Math.floor(i.length('years'));
 
   // Check if the duration is less then 60 seconds
