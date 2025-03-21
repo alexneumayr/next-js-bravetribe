@@ -100,7 +100,7 @@ export async function updateExperienceAction(
       error: { general: 'Failed to access session token' },
     };
   }
-  console.log('dd');
+
   const updatedExperience = await updateExperience(
     sessionToken,
     {
