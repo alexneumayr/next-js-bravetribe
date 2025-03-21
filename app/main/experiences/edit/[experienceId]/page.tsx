@@ -37,7 +37,7 @@ export default async function ChallengePage({ params }: Props) {
     return (
       <div>
         <h1>Access Denied</h1>
-        <div>You do not have permission to access this experience</div>
+        <div>You do not have permission to edit this experience</div>
         <Link href="/main/experiences" className="text-[#0000FF] underline">
           Back to Experiences
         </Link>

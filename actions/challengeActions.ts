@@ -171,8 +171,6 @@ export async function deleteChallengeAction(
   }
 
   try {
-    // Testen, ob es auch ohne try...catch geht!
-    console.log('Id from SA', validatedFields.data.id);
     await deleteChallenge(validatedFields.data.id, sessionToken);
   } catch (error) {
     console.log('Error deleting challenge:', error);

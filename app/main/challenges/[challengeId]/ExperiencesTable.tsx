@@ -166,7 +166,11 @@ export function ExperiencesTable({ data, challengeId }: Props) {
                   key={`row-${row.id}`}
                   data-state={row.getIsSelected() && 'selected'}
                   className="cursor-pointer"
-                  onClick={() => console.log('Row clicked')}
+                  onClick={() =>
+                    router.push(
+                      `/main/experiences/${String(row.getValue('id'))}`,
+                    )
+                  }
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell className="py-4" key={`cell-${cell.id}`}>

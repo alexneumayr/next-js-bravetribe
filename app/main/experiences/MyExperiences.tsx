@@ -47,7 +47,7 @@ export default async function SearchResultsExperiences({
                   <div className="flex">
                     <Link
                       href={`/main/profiles/${experience.user.id}`}
-                      className="flex flex-col gap-1 items-center min-w-[150px]"
+                      className="flex flex-col gap-1 items-center w-[150px] flex-none"
                     >
                       <Avatar className="w-[65px] h-[65px]">
                         <AvatarImage
@@ -70,21 +70,31 @@ export default async function SearchResultsExperiences({
                           ? 'challenges'
                           : 'challenge'}
                       </p>
-                      <p className="text-xs font-medium">
-                        <span className="text-[#8d8d8d]">Gender: </span>
-                        {experience.user.gender}
-                      </p>
-                      <p className="text-xs font-medium text-center">
-                        <span className="text-[#8d8d8d]">Location: </span>
-                        {experience.user.location}
-                      </p>
+                      <dl className="text-xs font-medium">
+                        {experience.user.gender && (
+                          <div className="flex justify-center flex-wrap gap-1">
+                            <dt className="text-xs font-medium text-[#8d8d8d]">
+                              Gender:
+                            </dt>
+                            <dd> {experience.user.gender}</dd>
+                          </div>
+                        )}
+                        {experience.user.location && (
+                          <div className="text-center">
+                            <dt className="text-xs font-medium text-[#8d8d8d]">
+                              Location:
+                            </dt>
+                            <dd> {experience.user.location}</dd>
+                          </div>
+                        )}
+                      </dl>
                     </Link>
                     <Link
                       href={`/main/experiences/${experience.id}`}
                       className="space-y-1 p-2"
                     >
                       <p className="text-sm font-extralight">
-                        {experience.date.toLocaleString()}
+                        {experience.date.toLocaleDateString('en-GB')}
                       </p>
                       <h2 className="text-sm font-medium">
                         {experience.challenge.title}

@@ -33,7 +33,7 @@ export default async function IndividualProfilePage(props: Props) {
     <div className="space-y-5 max-w-[400px]">
       <div className="flex gap-6 items-center">
         <Avatar className="w-[60px] h-[60px]">
-          <AvatarImage src={`${user?.avatarImage}`} />
+          <AvatarImage src={`${user?.avatarImageUrl}`} />
           <AvatarFallback>
             {user?.username.slice(0, 2).toUpperCase()}
           </AvatarFallback>
@@ -57,12 +57,20 @@ export default async function IndividualProfilePage(props: Props) {
           Message
         </Button>
       </div>
-      {user?.location && (
-        <div>
-          <h2 className="text-sm font-bold">Location: </h2>
-          <p className="text-sm font-medium">{user.location}</p>
-        </div>
-      )}
+      <dl className="space-y-2">
+        {user?.gender && (
+          <div className="flex gap-1">
+            <dt className="text-sm font-bold">Gender: </dt>
+            <dd className="text-sm font-medium">{user.gender}</dd>
+          </div>
+        )}
+        {user?.location && (
+          <div className="flex gap-1">
+            <dt className="text-sm font-bold">Location: </dt>
+            <dd className="text-sm font-medium">{user.location}</dd>
+          </div>
+        )}
+      </dl>
       {user?.aboutDescription && (
         <div>
           <h2 className="text-sm font-bold">About:</h2>

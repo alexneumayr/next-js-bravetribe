@@ -1,14 +1,13 @@
 'use server';
 
 import {
-  deleteChallenge,
-  updateChallenge,
-  updateChallengeStatus,
-} from '@/database/challenges';
-import { createExperience, updateExperience } from '@/database/experiences';
+  createExperience,
+  deleteExperience,
+  updateExperience,
+} from '@/database/experiences';
 import type { ChallengeActionState, LocationObject } from '@/types/types';
 import { getCookie } from '@/util/cookies';
-import { challengeSchema, experienceSchema } from '@/util/schemas';
+import { experienceSchema } from '@/util/schemas';
 import { redirect } from 'next/navigation';
 
 export async function createExperienceAction(
@@ -124,60 +123,11 @@ export async function updateExperienceAction(
   redirect(`/main/experience/${validatedFields.data.id}`);
 }
 
-export async function updateChallengeAction(
+export async function deleteExperienceAction(
   prevState: any,
   formData: FormData,
 ): Promise<ChallengeActionState> {
-  // 1. Formdaten validieren
-  const validatedFields = challengeSchema
-    .omit({ isCompleted: true })
-    .safeParse({
-      id: formData.get('id'),
-      title: formData.get('title'),
-      description: formData.get('description'),
-      plannedDate: formData.get('plannedDate'),
-    });
-
-  if (!validatedFields.success) {
-    return {
-      error: validatedFields.error.flatten().fieldErrors,
-    };
-  }
-
-  // 3. Get the token from the cookie
-  const sessionToken = await getCookie('sessionToken');
-
-  // 4. Update the challenge
-
-  if (!sessionToken) {
-    return {
-      error: { general: 'Failed to access session token' },
-    };
-  }
-
-  const updatedChallenge = await updateChallenge(sessionToken, {
-    id: validatedFields.data.id,
-    title: validatedFields.data.title,
-    description: validatedFields.data.description,
-    plannedDate: new Date(validatedFields.data.plannedDate),
-  });
-
-  if (!updatedChallenge) {
-    return {
-      error: { general: 'Failed to update challenge' },
-    };
-  }
-
-  redirect(`/main/challenges/${validatedFields.data.id}`);
-}
-
-export async function updateChallengeStatusAction(
-  isCompleted: boolean,
-  prevState: any,
-  formData: FormData,
-): Promise<ChallengeActionState> {
-  // 1. Formdaten validieren
-  const validatedFields = challengeSchema.pick({ id: true }).safeParse({
+  const validatedFields = experienceSchema.pick({ id: true }).safeParse({
     id: formData.get('id'),
   });
 
@@ -190,46 +140,7 @@ export async function updateChallengeStatusAction(
   // 3. Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
 
-  // 4. Update the challenge
-
-  if (!sessionToken) {
-    return {
-      error: { general: 'Failed to access session token' },
-    };
-  }
-
-  const updatedChallenge = await updateChallengeStatus(sessionToken, {
-    id: validatedFields.data.id,
-    isCompleted: isCompleted,
-  });
-
-  if (!updatedChallenge) {
-    return {
-      error: { general: 'Failed to update challenge' },
-    };
-  }
-
-  redirect(`/main/challenges/${validatedFields.data.id}`);
-}
-
-export async function deleteChallengeAction(
-  prevState: any,
-  formData: FormData,
-): Promise<ChallengeActionState> {
-  const validatedFields = challengeSchema.pick({ id: true }).safeParse({
-    id: formData.get('id'),
-  });
-
-  if (!validatedFields.success) {
-    return {
-      error: validatedFields.error.flatten().fieldErrors,
-    };
-  }
-
-  // 3. Get the token from the cookie
-  const sessionToken = await getCookie('sessionToken');
-
-  // 4. Delete the challenge
+  // 4. Delete the experience
 
   if (!sessionToken) {
     return {
@@ -238,14 +149,12 @@ export async function deleteChallengeAction(
   }
 
   try {
-    // Testen, ob es auch ohne try...catch geht!
-    console.log('Id from SA', validatedFields.data.id);
-    await deleteChallenge(validatedFields.data.id, sessionToken);
+    await deleteExperience(validatedFields.data.id, sessionToken);
   } catch (error) {
-    console.log('Error deleting challenge:', error);
+    console.log('Error deleting experience:', error);
     return {
-      error: { general: 'Failed to delete challenge' },
+      error: { general: 'Failed to delete experience' },
     };
   }
-  redirect('/main/challenges');
+  redirect('/main/experiences');
 }

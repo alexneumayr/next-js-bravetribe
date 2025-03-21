@@ -245,3 +245,38 @@ export async function updateExperience(
   });
   return experience;
 }
+
+export async function getExperienceInsecure(experienceId: Experience['id']) {
+  const experience = await prisma.experience.findUnique({
+    where: {
+      id: experienceId,
+    },
+    include: {
+      challenge: true,
+      likes: true,
+      comments: true,
+      user: { include: { experiences: true } },
+    },
+  });
+  return experience;
+}
+
+export async function deleteExperience(
+  experienceId: string,
+  sessionToken: Session['token'],
+) {
+  const experience = await prisma.experience.delete({
+    where: {
+      id: experienceId,
+      user: {
+        sessions: {
+          some: {
+            token: sessionToken,
+            expiryTimestamp: { gt: new Date() },
+          },
+        },
+      },
+    },
+  });
+  return experience;
+}

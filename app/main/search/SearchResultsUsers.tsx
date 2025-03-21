@@ -53,7 +53,7 @@ export default async function SearchResultsUsers({
                       <TableCell className="font-medium">
                         <Link href={`/main/profiles/${user.id}`}>
                           <Avatar className="w-[65px] h-[65px]">
-                            <AvatarImage src={`${user.avatarImage}`} />
+                            <AvatarImage src={`${user.avatarImageUrl}`} />
                             <AvatarFallback>
                               {user.username.slice(0, 2).toUpperCase()}
                             </AvatarFallback>
