@@ -5,7 +5,7 @@ import {
   deleteExperience,
   updateExperience,
 } from '@/database/experiences';
-import type { ChallengeActionState, LocationObject } from '@/types/types';
+import type { ExperienceActionState, LocationObject } from '@/types/types';
 import { getCookie } from '@/util/cookies';
 import { experienceSchema } from '@/util/schemas';
 import { redirect } from 'next/navigation';
@@ -14,7 +14,7 @@ export async function createExperienceAction(
   location: LocationObject | undefined,
   prevState: any,
   formData: FormData,
-): Promise<ChallengeActionState> {
+): Promise<ExperienceActionState> {
   // 1. Formdaten validieren
   const validatedFields = experienceSchema.omit({ id: true }).safeParse({
     title: formData.get('title'),
@@ -70,7 +70,7 @@ export async function updateExperienceAction(
   location: LocationObject | undefined,
   prevState: any,
   formData: FormData,
-): Promise<ChallengeActionState> {
+): Promise<ExperienceActionState> {
   // 1. Formdaten validieren
   const validatedFields = experienceSchema
     .omit({ challengeId: true })
@@ -116,7 +116,7 @@ export async function updateExperienceAction(
 
   if (!updatedExperience) {
     return {
-      error: { general: 'Failed to create experience' },
+      error: { general: 'Failed to update experience' },
     };
   }
 
@@ -126,7 +126,7 @@ export async function updateExperienceAction(
 export async function deleteExperienceAction(
   prevState: any,
   formData: FormData,
-): Promise<ChallengeActionState> {
+): Promise<ExperienceActionState> {
   const validatedFields = experienceSchema.pick({ id: true }).safeParse({
     id: formData.get('id'),
   });

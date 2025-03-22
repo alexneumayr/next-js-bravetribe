@@ -32,7 +32,9 @@ export const signinSchema = z.object({
 });
 
 export const goalSchema = z.object({
-  id: z.string().length(25, { message: 'Incorrect goal ID transmitted' }),
+  id: z
+    .string({ message: 'Incorrect goal ID transmitted' })
+    .length(25, { message: 'Incorrect goal ID transmitted' }),
   title: z.string().min(3, {
     message: 'Please type in your goal',
   }),
@@ -48,7 +50,9 @@ export const goalSchema = z.object({
 });
 
 export const challengeSchema = z.object({
-  id: z.string().length(25, { message: 'Incorrect challenge ID transmitted' }),
+  id: z
+    .string({ message: 'Incorrect challenge ID transmitted' })
+    .length(25, { message: 'Incorrect challenge ID transmitted' }),
   title: z.string().min(3, {
     message: 'Please type in a challenge title',
   }),
@@ -67,7 +71,9 @@ export const challengeSchema = z.object({
 });
 
 export const experienceSchema = z.object({
-  id: z.string().length(25, { message: 'Incorrect experience ID transmitted' }),
+  id: z
+    .string({ message: 'Incorrect experience ID transmitted' })
+    .length(25, { message: 'Incorrect experience ID transmitted' }),
   title: z.string().min(3, {
     message: 'Please type in a challenge title',
   }),
@@ -98,8 +104,10 @@ export const experienceSchema = z.object({
 });
 
 export const commentSchema = z.object({
-  id: z.string().length(25, { message: 'Incorrect comment ID transmitted' }),
-  content: z.string().min(3, {
+  id: z
+    .string({ message: 'Incorrect comment ID transmitted' })
+    .length(25, { message: 'Incorrect comment ID transmitted' }),
+  content: z.string().min(1, {
     message: 'Please write a comment',
   }),
   experienceId: z

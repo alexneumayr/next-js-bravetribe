@@ -1,14 +1,16 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import type { FullComment } from '@/types/types';
-import { getTimeAgo } from '@/util/getTimeAgo';
 import levelNames from '@/util/levelNames';
+import type { User } from '@prisma/client';
 import Link from 'next/link';
+import SingleComment from './SingleComment';
 
 type Props = {
   comments: FullComment[];
+  user: User;
 };
-export default function CommentSection({ comments }: Props) {
+export default function CommentSection({ comments, user }: Props) {
   return (
     <div id="comment-section">
       <div className="w-full">
@@ -63,15 +65,7 @@ export default function CommentSection({ comments }: Props) {
                       )}
                     </dl>
                   </div>
-                  <div className="space-y-1 px-2 pt-4 pb-2">
-                    <p className="text-sm font-extralight">
-                      {getTimeAgo(comment.createdAt)}
-                    </p>
-
-                    <p className="text-sm font-medium whitespace-pre-wrap">
-                      {comment.content}
-                    </p>
-                  </div>
+                  <SingleComment comment={comment} user={user} />
                 </div>
                 <Separator className="" />
               </div>

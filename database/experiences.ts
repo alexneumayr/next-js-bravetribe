@@ -218,7 +218,6 @@ export async function updateExperience(
   >,
   location: LocationObject | undefined,
 ) {
-  console.log('Hi from database', location?.name);
   const user = await getUserBySessionToken(sessionToken);
   if (!user) {
     return null;

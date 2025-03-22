@@ -19,3 +19,42 @@ export async function createComment(
   });
   return comment;
 }
+
+export async function updateComment(
+  sessionToken: Session['token'],
+  updatedComment: Omit<Comment, 'userId' | 'createdAt' | 'experienceId'>,
+) {
+  const user = await getUserBySessionToken(sessionToken);
+  if (!user) {
+    return null;
+  }
+  const comment = await prisma.comment.update({
+    where: {
+      id: updatedComment.id,
+    },
+    data: {
+      content: updatedComment.content,
+    },
+  });
+  return comment;
+}
+
+export async function deleteComment(
+  commentId: string,
+  sessionToken: Session['token'],
+) {
+  const comment = await prisma.comment.delete({
+    where: {
+      id: commentId,
+      user: {
+        sessions: {
+          some: {
+            token: sessionToken,
+            expiryTimestamp: { gt: new Date() },
+          },
+        },
+      },
+    },
+  });
+  return comment;
+}

@@ -128,7 +128,10 @@ export default function MainExperienceContent({ experience, user }: Props) {
           <div id="comments" ref={commentsRef}>
             <AddComment experienceId={experience.id} />
             {experience.comments.length > 0 && (
-              <CommentSection comments={experience.comments as FullComment[]} />
+              <CommentSection
+                comments={experience.comments as FullComment[]}
+                user={user}
+              />
             )}
           </div>
         </div>
