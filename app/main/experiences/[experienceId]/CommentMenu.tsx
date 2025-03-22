@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import type { Comment, User } from '@prisma/client';
-import { Ellipsis, Pencil, Trash2 } from 'lucide-react';
+import { Ellipsis, Flag, Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import CommentDeleteDialog from './CommentDeleteDialog';
 
@@ -49,6 +49,9 @@ export default function CommentMenu({ comment, user, onEditMode }: Props) {
             onClick={() => setShowDeleteDialog(true)}
           >
             <Trash2 /> Delete Comment
+          </DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer">
+            <Flag /> Report
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

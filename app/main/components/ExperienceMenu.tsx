@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import type { Experience, User } from '@prisma/client';
-import { Ellipsis, Pencil, Trash2 } from 'lucide-react';
+import { Ellipsis, Flag, Pencil, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import ExperienceDeleteDialog from './ExperienceDeleteDialog';
@@ -45,7 +45,7 @@ export default function ExperienceReportMenu({ experience, user }: Props) {
               router.push(`/main/experiences/edit/${experience.id}`)
             }
           >
-            <Pencil /> Edit experience
+            <Pencil /> Edit
           </DropdownMenuItem>
           <DropdownMenuItem
             className={`cursor-pointer ${experience.userId !== user.id ? 'hidden' : ''}`}
@@ -53,7 +53,10 @@ export default function ExperienceReportMenu({ experience, user }: Props) {
               setShowDeleteDialog(true);
             }}
           >
-            <Trash2 /> Delete experience
+            <Trash2 /> Delete
+          </DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer">
+            <Flag /> Report
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
