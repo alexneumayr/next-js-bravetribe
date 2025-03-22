@@ -4,7 +4,6 @@ import { getNewestExperiencesInsecure } from '@/database/experiences';
 import { getUserBySessionToken } from '@/database/users';
 import { getCookie } from '@/util/cookies';
 import levelNames from '@/util/levelNames';
-import { maxTextLength } from '@/util/maxTextLength';
 import { Heart, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -94,8 +93,8 @@ export default async function page() {
                     <h4 className="text-sm font-bold text-secondary">
                       Experience:
                     </h4>
-                    <p className="text-sm font-medium whitespace-pre-wrap">
-                      {maxTextLength(experience.story, 200)}
+                    <p className="text-sm font-medium line-clamp-3">
+                      {experience.story}
                     </p>
                   </div>
                   <div className="flex items-center">

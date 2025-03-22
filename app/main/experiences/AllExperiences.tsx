@@ -6,7 +6,6 @@ import {
   getTotalAmountOfExperiencesByTextInsecure,
 } from '@/database/experiences';
 import levelNames from '@/util/levelNames';
-import { maxTextLength } from '@/util/maxTextLength';
 import { Heart, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import DisplayStarRating from '../components/DisplayStarRating';
@@ -102,8 +101,8 @@ export default async function SearchResultsExperiences({
                           <h4 className="text-sm font-bold text-secondary">
                             Experience:
                           </h4>
-                          <p className="text-sm font-medium whitespace-pre-wrap">
-                            {maxTextLength(experience.story, 200)}
+                          <p className="text-sm font-medium line-clamp-3">
+                            {experience.story}
                           </p>
                         </div>
                         <div className="flex items-center">
