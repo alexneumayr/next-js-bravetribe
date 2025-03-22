@@ -30,7 +30,7 @@ export default async function ExperiencesPage({ searchParams }: Props) {
       pageSize={pageSize}
       category={category || 'mine'}
       searchParams={await searchParams}
-      userId={user.id}
+      user={user}
     />
   );
 }

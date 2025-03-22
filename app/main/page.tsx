@@ -23,7 +23,11 @@ export default async function page() {
         </p>
       </div>
       <Separator className="mt-4" />
-      <ExperiencesPreview experiences={experiences} enablePagination={false} />
+      <ExperiencesPreview
+        user={user}
+        experiences={experiences}
+        enablePagination={false}
+      />
     </>
   );
 }

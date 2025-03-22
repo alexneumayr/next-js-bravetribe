@@ -1,4 +1,5 @@
 import { Separator } from '@/components/ui/separator';
+import type { User } from '@prisma/client';
 import SearchArea from '../components/SearchArea';
 import SearchResultsExperiences from './SearchResultsExperiences';
 import SearchResultsUsers from './SearchResultsUsers';
@@ -9,6 +10,7 @@ type Props = {
   pageSize: number;
   category: string;
   searchParams: { [key: string]: string };
+  user: User;
 };
 
 export default function MainSearchContent({
@@ -16,6 +18,7 @@ export default function MainSearchContent({
   pageSize,
   category,
   searchParams,
+  user,
 }: Props) {
   return (
     <div className="">
@@ -32,6 +35,7 @@ export default function MainSearchContent({
               searchText={searchParams.text || ''}
               currentPage={currentPage}
               pageSize={pageSize}
+              user={user}
             />
           ) : (
             <SearchResultsUsers

@@ -2,19 +2,20 @@ import {
   getExperiencesByTextInsecure,
   getTotalAmountOfExperiencesByTextInsecure,
 } from '@/database/experiences';
+import type { User } from '@prisma/client';
 import ExperiencesPreview from '../components/ExperiencesPreview';
 
 type Props = {
   currentPage: number;
   pageSize: number;
   searchText: string;
-  userId: string;
+  user: User;
 };
-export default async function SearchResultsExperiences({
+export default async function MyExperiences({
   currentPage,
   pageSize,
   searchText,
-  userId,
+  user,
 }: Props) {
   const experiences =
     (await getExperiencesByTextInsecure(
@@ -22,7 +23,7 @@ export default async function SearchResultsExperiences({
       currentPage,
       pageSize,
       true,
-      userId,
+      user.id,
     )) || [];
   const resultsCount =
     (await getTotalAmountOfExperiencesByTextInsecure(searchText, true)) || 0;
@@ -35,6 +36,7 @@ export default async function SearchResultsExperiences({
           pageSize={pageSize}
           resultsCount={resultsCount}
           experiences={experiences}
+          user={user}
         />
       ) : (
         <div>No matches found</div>

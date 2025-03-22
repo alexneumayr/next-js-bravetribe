@@ -8,6 +8,7 @@ import {
 import type { ExperienceActionState, LocationObject } from '@/types/types';
 import { getCookie } from '@/util/cookies';
 import { experienceSchema } from '@/util/schemas';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export async function createExperienceAction(
@@ -124,6 +125,7 @@ export async function updateExperienceAction(
 }
 
 export async function deleteExperienceAction(
+  currentPath: string,
   prevState: any,
   formData: FormData,
 ): Promise<ExperienceActionState> {
@@ -149,12 +151,23 @@ export async function deleteExperienceAction(
   }
 
   try {
-    await deleteExperience(validatedFields.data.id, sessionToken);
+    const deletedExperience = await deleteExperience(
+      validatedFields.data.id,
+      sessionToken,
+    );
+
+    if (!currentPath.endsWith(validatedFields.data.id)) {
+      revalidatePath(currentPath);
+      return {
+        experience: deletedExperience,
+      };
+    }
   } catch (error) {
     console.log('Error deleting experience:', error);
     return {
       error: { general: 'Failed to delete experience' },
     };
   }
+
   redirect('/main/experiences');
 }

@@ -1,4 +1,4 @@
-import { getValidSession } from '@/database/sessions';
+import { getUserBySessionToken } from '@/database/users';
 import { getCookie } from '@/util/cookies';
 import { redirect } from 'next/navigation';
 import React from 'react';
@@ -15,9 +15,10 @@ type Props = {
 
 export default async function SearchPage({ searchParams }: Props) {
   const sessionTokenCookie = await getCookie('sessionToken');
-  const session =
-    sessionTokenCookie && (await getValidSession(sessionTokenCookie));
-  if (!session) {
+  const user =
+    sessionTokenCookie && (await getUserBySessionToken(sessionTokenCookie));
+
+  if (!user) {
     redirect('/access?mode=signin&returnTo=/main/search');
   }
   const currentPage = Number((await searchParams).page) || 1;
@@ -30,6 +31,7 @@ export default async function SearchPage({ searchParams }: Props) {
       pageSize={pageSize}
       category={category || 'experiences'}
       searchParams={await searchParams}
+      user={user}
     />
   );
 }

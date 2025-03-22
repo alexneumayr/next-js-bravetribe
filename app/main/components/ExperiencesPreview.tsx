@@ -2,12 +2,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import { Separator } from '@/components/ui/separator';
 import levelNames from '@/util/levelNames';
-import type { Prisma } from '@prisma/client';
+import type { Prisma, User } from '@prisma/client';
 import { Heart, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import DisplayStarRating from './DisplayStarRating';
+import ExperienceMenu from './ExperienceMenu';
 
 type PropsBase = {
+  user: User;
   experiences: Prisma.ExperienceGetPayload<{
     include: {
       user: { include: { experiences: true } };
@@ -40,6 +42,7 @@ export default function ExperiencesPreview({
   pageSize,
   resultsCount,
   enablePagination,
+  user,
 }: Props) {
   return (
     <div className="w-full">
@@ -94,33 +97,35 @@ export default function ExperiencesPreview({
                     )}
                   </dl>
                 </div>
-                <div className="p-2">
-                  <Link
-                    className="space-y-1 "
-                    href={`/main/experiences/${experience.id}`}
-                  >
-                    <p className="text-sm font-extralight">
-                      {experience.date.toLocaleDateString('en-GB')}
-                    </p>
-                    <h2 className="text-sm font-medium">
-                      {experience.challenge.title}
-                    </h2>
-                    <h3 className="text-xl font-bold">{experience.title}</h3>
-                    <div>
-                      <h4 className="text-sm font-bold text-secondary">
-                        Experience:
-                      </h4>
-                      <p className="text-sm font-medium line-clamp-3">
-                        {experience.story}
+                <div className="w-full">
+                  <div>
+                    <div className="flex justify-between items-center">
+                      <p className="text-sm font-extralight">
+                        {experience.date.toLocaleDateString('en-GB')}
                       </p>
+                      <ExperienceMenu experience={experience} user={user} />
                     </div>
-                    <div className="flex items-center">
-                      <h4 className="text-sm font-bold text-secondary mr-1">
-                        Rating:
-                      </h4>
-                      <DisplayStarRating rating={experience.rating} />
-                    </div>
-                  </Link>
+                    <Link href={`/main/experiences/${experience.id}`}>
+                      <h2 className="text-sm font-medium">
+                        {experience.challenge.title}
+                      </h2>
+                      <h3 className="text-xl font-bold">{experience.title}</h3>
+                      <div>
+                        <h4 className="text-sm font-bold text-secondary">
+                          Experience:
+                        </h4>
+                        <p className="text-sm font-medium line-clamp-3">
+                          {experience.story}
+                        </p>
+                      </div>
+                      <div className="flex items-center mt-1">
+                        <p className="text-sm font-bold text-secondary mr-1">
+                          Rating:
+                        </p>
+                        <DisplayStarRating rating={experience.rating} />
+                      </div>
+                    </Link>
+                  </div>
                   <div className="flex gap-2 py-2">
                     <button className="bg-[#ededed] rounded-[100px] px-2 py-1 text-xs flex gap-1">
                       <Heart size={15} />
@@ -136,7 +141,7 @@ export default function ExperiencesPreview({
                   </div>
                 </div>
               </div>
-              <Separator className="" />
+              <Separator className="mt-3" />
             </div>
           );
         })}

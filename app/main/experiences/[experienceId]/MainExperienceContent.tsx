@@ -8,10 +8,10 @@ import { Heart, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import { useRef } from 'react';
 import DisplayStarRating from '../../components/DisplayStarRating';
+import ExperienceMenu from '../../components/ExperienceMenu';
 import AddComment from './AddComment';
 import CommentSection from './CommentSection';
 import ExperienceMap from './ExperienceMap';
-import ExperienceReportMenu from './ExperienceReportMenu';
 
 type Props = {
   experience: Prisma.ExperienceGetPayload<{
@@ -86,7 +86,7 @@ export default function MainExperienceContent({ experience, user }: Props) {
                 <DisplayStarRating rating={experience.rating} />
               </div>
             </div>
-            <ExperienceReportMenu experience={experience} user={user} />
+            <ExperienceMenu experience={experience} user={user} />
           </div>
           <div className="my-3">
             {experience.imageUrl && (

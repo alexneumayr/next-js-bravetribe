@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import type { Experience, User } from '@prisma/client';
+import { usePathname } from 'next/navigation';
 import { useActionState } from 'react';
 
 type Props = {
@@ -27,9 +28,14 @@ export default function ExperienceDeleteDialog({
       general: '',
     },
   };
+  const currentPath = usePathname();
+  const deleteExperienceActionWithCurrentPath = deleteExperienceAction.bind(
+    null,
+    currentPath,
+  );
 
   const [state, formAction, pending] = useActionState(
-    deleteExperienceAction,
+    deleteExperienceActionWithCurrentPath,
     initialState,
   );
 

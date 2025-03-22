@@ -17,11 +17,7 @@ type Props = {
   onClose: () => void;
 };
 
-export default function ExperienceDeleteDialog({
-  comment,
-  user,
-  onClose,
-}: Props) {
+export default function CommentDeleteDialog({ comment, user, onClose }: Props) {
   const initialState = {
     error: {
       general: '',

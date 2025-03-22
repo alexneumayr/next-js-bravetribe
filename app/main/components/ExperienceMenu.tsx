@@ -49,7 +49,9 @@ export default function ExperienceReportMenu({ experience, user }: Props) {
           </DropdownMenuItem>
           <DropdownMenuItem
             className={`cursor-pointer ${experience.userId !== user.id ? 'hidden' : ''}`}
-            onClick={() => setShowDeleteDialog(true)}
+            onClick={() => {
+              setShowDeleteDialog(true);
+            }}
           >
             <Trash2 /> Delete experience
           </DropdownMenuItem>
