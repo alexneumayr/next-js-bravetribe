@@ -45,8 +45,8 @@ export default async function Header() {
               <Dialog>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Avatar className="w-[60px] h-[60px]">
-                      <AvatarImage src={`${user.avatarImage}`} />
+                    <Avatar className="w-[60px] h-[60px] cursor-pointer">
+                      <AvatarImage src={`${user.avatarImageUrl}`} />
                       <AvatarFallback>
                         {user.username.slice(0, 2).toUpperCase()}
                       </AvatarFallback>

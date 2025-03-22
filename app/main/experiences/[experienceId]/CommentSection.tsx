@@ -16,18 +16,24 @@ export default function CommentSection({ comments }: Props) {
           comments.map((comment) => {
             return (
               <div key={`comment-${comment.id}`} className="">
-                <div className="flex">
-                  <Link
-                    href={`/main/profiles/${comment.user.id}`}
-                    className="hover:bg-zinc-50 pt-4 pb-3  flex flex-col gap-1 items-center w-[150px] flex-none"
-                  >
-                    <Avatar className="w-[65px] h-[65px]">
-                      <AvatarImage src={`${comment.user.avatarImageUrl}`} />
-                      <AvatarFallback>
-                        {comment.user.username.slice(0, 2).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <p className="text-sm font-bold">{comment.user.username}</p>
+                <div className="flex pb-2">
+                  <div className="pt-4 pb-3  flex flex-col gap-1 items-center w-[150px] flex-none">
+                    <Link href={`/main/profiles/${comment.user.id}`}>
+                      <Avatar className="w-[65px] h-[65px]">
+                        <AvatarImage src={`${comment.user.avatarImageUrl}`} />
+                        <AvatarFallback>
+                          {comment.user.username.slice(0, 2).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Link>
+                    <Link
+                      className="hover:underline"
+                      href={`/main/profiles/${comment.user.id}`}
+                    >
+                      <p className="text-sm font-bold">
+                        {comment.user.username}
+                      </p>
+                    </Link>
                     <p className="text-xs font-medium">
                       {levelNames(comment.user.experiences.length)}
                     </p>
@@ -56,7 +62,7 @@ export default function CommentSection({ comments }: Props) {
                         </div>
                       )}
                     </dl>
-                  </Link>
+                  </div>
                   <div className="space-y-1 px-2 pt-4 pb-2">
                     <p className="text-sm font-extralight">
                       {getTimeAgo(comment.createdAt)}

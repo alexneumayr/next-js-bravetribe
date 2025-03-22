@@ -40,26 +40,27 @@ export default async function SearchResultsExperiences({
           {Array.isArray(experiences) &&
             experiences.map((experience) => {
               return (
-                <div
-                  key={`experience-${experience.id}`}
-                  className="hover:bg-zinc-50 pt-4"
-                >
+                <div key={`experience-${experience.id}`} className="pt-4">
                   <div className="flex">
-                    <Link
-                      href={`/main/profiles/${experience.user.id}`}
-                      className="flex flex-col gap-1 items-center w-[150px] flex-none"
-                    >
-                      <Avatar className="w-[65px] h-[65px]">
-                        <AvatarImage
-                          src={`${experience.user.avatarImageUrl}`}
-                        />
-                        <AvatarFallback>
-                          {experience.user.username.slice(0, 2).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                      <p className="text-sm font-bold">
-                        {experience.user.username}
-                      </p>
+                    <div className="flex flex-col gap-1 items-center w-[150px] flex-none">
+                      <Link href={`/main/profiles/${experience.user.id}`}>
+                        <Avatar className="w-[65px] h-[65px]">
+                          <AvatarImage
+                            src={`${experience.user.avatarImageUrl}`}
+                          />
+                          <AvatarFallback>
+                            {experience.user.username.slice(0, 2).toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                      </Link>
+                      <Link
+                        className="hover:underline"
+                        href={`/main/profiles/${experience.user.id}`}
+                      >
+                        <p className="text-sm font-bold">
+                          {experience.user.username}
+                        </p>
+                      </Link>
                       <p className="text-xs font-medium">
                         {levelNames(experience.user.experiences.length)}
                       </p>
@@ -88,43 +89,50 @@ export default async function SearchResultsExperiences({
                           </div>
                         )}
                       </dl>
-                    </Link>
-                    <Link
-                      href={`/main/experiences/${experience.id}`}
-                      className="space-y-1 p-2"
-                    >
-                      <p className="text-sm font-extralight">
-                        {experience.date.toLocaleDateString('en-GB')}
-                      </p>
-                      <h2 className="text-sm font-medium">
-                        {experience.challenge.title}
-                      </h2>
-                      <h3 className="text-xl font-bold">{experience.title}</h3>
-                      <div>
-                        <h4 className="text-sm font-bold text-secondary">
-                          Experience:
-                        </h4>
-                        <p className="text-sm font-medium whitespace-pre-wrap">
-                          {maxTextLength(experience.story, 200)}
+                    </div>
+                    <div className="p-2">
+                      <Link
+                        className="space-y-1 "
+                        href={`/main/experiences/${experience.id}`}
+                      >
+                        <p className="text-sm font-extralight">
+                          {experience.date.toLocaleDateString('en-GB')}
                         </p>
-                      </div>
-                      <div className="flex items-center">
-                        <h4 className="text-sm font-bold text-secondary mr-1">
-                          Rating:
-                        </h4>
-                        <DisplayStarRating rating={experience.rating} />
-                      </div>
-                      <div className="flex gap-2 pb-2">
+                        <h2 className="text-sm font-medium">
+                          {experience.challenge.title}
+                        </h2>
+                        <h3 className="text-xl font-bold">
+                          {experience.title}
+                        </h3>
+                        <div>
+                          <h4 className="text-sm font-bold text-secondary">
+                            Experience:
+                          </h4>
+                          <p className="text-sm font-medium whitespace-pre-wrap">
+                            {maxTextLength(experience.story, 200)}
+                          </p>
+                        </div>
+                        <div className="flex items-center">
+                          <h4 className="text-sm font-bold text-secondary mr-1">
+                            Rating:
+                          </h4>
+                          <DisplayStarRating rating={experience.rating} />
+                        </div>
+                      </Link>
+                      <div className="flex gap-2 py-2">
                         <button className="bg-[#ededed] rounded-[100px] px-2 py-1 text-xs flex gap-1">
                           <Heart size={15} />
                           {experience.likes.length}
                         </button>
-                        <button className="bg-[#ededed] rounded-[100px] px-2 py-1 text-xs flex gap-1">
+                        <Link
+                          href={`/main/experiences/${experience.id}#comments`}
+                          className="bg-[#ededed] rounded-[100px] px-2 py-1 text-xs flex gap-1 hover:bg-zinc-200"
+                        >
                           <MessageSquare size={15} />
                           {experience.comments.length}
-                        </button>
+                        </Link>
                       </div>
-                    </Link>
+                    </div>
                   </div>
                   <Separator className="" />
                 </div>

@@ -32,17 +32,21 @@ export default function MainExperienceContent({ experience, user }: Props) {
   return (
     <div className="pt-4">
       <div className="flex">
-        <Link
-          href={`/main/profiles/${experience.user.id}`}
-          className="flex flex-col gap-1 items-center w-[150px] flex-none"
-        >
-          <Avatar className="w-[65px] h-[65px]">
-            <AvatarImage src={`${experience.user.avatarImageUrl}`} />
-            <AvatarFallback>
-              {experience.user.username.slice(0, 2).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <p className="text-sm font-bold">{experience.user.username}</p>
+        <div className="flex flex-col gap-1 items-center w-[150px] flex-none">
+          <Link href={`/main/profiles/${experience.user.id}`}>
+            <Avatar className="w-[65px] h-[65px]">
+              <AvatarImage src={`${experience.user.avatarImageUrl}`} />
+              <AvatarFallback>
+                {experience.user.username.slice(0, 2).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+          </Link>
+          <Link
+            className="hover:underline"
+            href={`/main/profiles/${experience.user.id}`}
+          >
+            <p className="text-sm font-bold">{experience.user.username}</p>
+          </Link>
           <p className="text-xs font-medium">
             {levelNames(experience.user.experiences.length)}
           </p>
@@ -69,7 +73,7 @@ export default function MainExperienceContent({ experience, user }: Props) {
               </div>
             )}
           </dl>
-        </Link>
+        </div>
         <div className="">
           <div className="flex justify-between items-start">
             <div className="">
@@ -109,7 +113,7 @@ export default function MainExperienceContent({ experience, user }: Props) {
               {experience.likes.length}
             </button>
             <button
-              className="bg-[#ededed] rounded-[100px] px-2 py-1 text-xs flex gap-1"
+              className="hover:bg-zinc-200 bg-[#ededed] rounded-[100px] px-2 py-1 text-xs flex gap-1"
               type="button"
               onClick={() =>
                 commentsRef.current?.scrollIntoView({
@@ -123,7 +127,7 @@ export default function MainExperienceContent({ experience, user }: Props) {
           </div>
           <AddComment experienceId={experience.id} />
           {experience.comments.length > 0 && (
-            <div ref={commentsRef}>
+            <div id="comments" ref={commentsRef}>
               <CommentSection comments={experience.comments as FullComment[]} />
             </div>
           )}
