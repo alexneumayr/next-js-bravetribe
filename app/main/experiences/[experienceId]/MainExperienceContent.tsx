@@ -4,11 +4,13 @@ import { Separator } from '@/components/ui/separator';
 import type { FullComment, LocationObject } from '@/types/types';
 import levelNames from '@/util/levelNames';
 import type { Prisma, User } from '@prisma/client';
-import { Heart, MessageSquare } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import { useRef } from 'react';
 import DisplayStarRating from '../../components/DisplayStarRating';
 import ExperienceMenu from '../../components/ExperienceMenu';
+import LikeByCurrentUserField from '../../components/LikeByCurrentUserField';
+import LikeFieldDefault from '../../components/LikeFieldDefault';
 import AddComment from './AddComment';
 import CommentSection from './CommentSection';
 import ExperienceMap from './ExperienceMap';
@@ -108,10 +110,17 @@ export default function MainExperienceContent({ experience, user }: Props) {
           <Separator className="my-4 clear-right" />
           {location && <ExperienceMap lat={location.lat} lng={location.lon} />}
           <div className="flex gap-2 pb-2">
-            <button className="bg-[#ededed] rounded-[100px] px-2 py-1 text-xs flex gap-1">
-              <Heart size={15} />
-              {experience.likes.length}
-            </button>
+            {experience.likes.some((likes) => likes.userId === user.id) ? (
+              <LikeByCurrentUserField
+                likes={experience.likes}
+                userId={user.id}
+              />
+            ) : (
+              <LikeFieldDefault
+                likes={experience.likes}
+                experienceId={experience.id}
+              />
+            )}
             <button
               className="hover:bg-zinc-200 bg-[#ededed] rounded-[100px] px-2 py-1 text-xs flex gap-1"
               type="button"

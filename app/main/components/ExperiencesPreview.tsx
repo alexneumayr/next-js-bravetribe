@@ -3,10 +3,12 @@ import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 import { Separator } from '@/components/ui/separator';
 import levelNames from '@/util/levelNames';
 import type { Prisma, User } from '@prisma/client';
-import { Heart, MessageSquare } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import DisplayStarRating from './DisplayStarRating';
 import ExperienceMenu from './ExperienceMenu';
+import LikeByCurrentUserField from './LikeByCurrentUserField';
+import LikeFieldDefault from './LikeFieldDefault';
 
 type PropsBase = {
   user: User;
@@ -35,7 +37,6 @@ type Props = PropsBase &
         resultsCount?: never;
       }
   );
-
 export default function ExperiencesPreview({
   experiences,
   currentPage,
@@ -127,10 +128,20 @@ export default function ExperiencesPreview({
                     </Link>
                   </div>
                   <div className="flex gap-2 py-2">
-                    <button className="bg-[#ededed] rounded-[100px] px-2 py-1 text-xs flex gap-1">
-                      <Heart size={15} />
-                      {experience.likes.length}
-                    </button>
+                    {experience.likes.some(
+                      (likes) => likes.userId === user.id,
+                    ) ? (
+                      <LikeByCurrentUserField
+                        likes={experience.likes}
+                        userId={user.id}
+                      />
+                    ) : (
+                      <LikeFieldDefault
+                        likes={experience.likes}
+                        experienceId={experience.id}
+                      />
+                    )}
+
                     <Link
                       href={`/main/experiences/${experience.id}#comments`}
                       className="bg-[#ededed] rounded-[100px] px-2 py-1 text-xs flex gap-1 hover:bg-zinc-200"

@@ -1,4 +1,4 @@
-import type { Comment, Experience, User } from '@prisma/client';
+import type { Comment, Experience, Like, User } from '@prisma/client';
 
 export type RegisterActionState = {
   error: {
@@ -83,4 +83,16 @@ export type CommentActionState =
     }
   | {
       comment: Comment;
+    };
+
+export type LikeActionState =
+  | {
+      error: {
+        id?: string[];
+        experienceId?: string[];
+        general?: string;
+      };
+    }
+  | {
+      like: Like;
     };

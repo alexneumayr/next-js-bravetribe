@@ -114,3 +114,12 @@ export const commentSchema = z.object({
     .string()
     .length(25, { message: 'Incorrect challenge ID transmitted' }),
 });
+
+export const likeSchema = z.object({
+  id: z
+    .string({ message: 'Incorrect like ID transmitted' })
+    .length(25, { message: 'Incorrect user ID transmitted' }),
+  experienceId: z
+    .string()
+    .length(25, { message: 'Incorrect experience ID transmitted' }),
+});
