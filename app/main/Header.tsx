@@ -38,7 +38,7 @@ export default async function Header() {
             <div className="flex items-center gap-4">
               <Link
                 href="/main/search"
-                className="xl:hidden hover:bg-zinc-100 rounded-[100px] p-3"
+                className="xl:hidden hover:bg-zinc-100 rounded-full p-3"
               >
                 <Search />
               </Link>
@@ -58,9 +58,11 @@ export default async function Header() {
                     <DropdownMenuItem className="cursor-pointer">
                       <CircleUserRound /> Profile
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">
-                      <Settings /> Settings
-                    </DropdownMenuItem>
+                    <Link href="/main/settings">
+                      <DropdownMenuItem className="cursor-pointer">
+                        <Settings /> Settings
+                      </DropdownMenuItem>
+                    </Link>
                     <DialogTrigger asChild>
                       <DropdownMenuItem className="cursor-pointer">
                         <LogOut /> Logout
