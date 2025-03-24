@@ -118,8 +118,67 @@ export const commentSchema = z.object({
 export const likeSchema = z.object({
   id: z
     .string({ message: 'Incorrect like ID transmitted' })
-    .length(25, { message: 'Incorrect user ID transmitted' }),
+    .length(25, { message: 'Incorrect like ID transmitted' }),
   experienceId: z
     .string()
     .length(25, { message: 'Incorrect experience ID transmitted' }),
+});
+
+export const userSchema = z.object({
+  id: z
+    .string({ message: 'Incorrect user ID transmitted' })
+    .length(25, { message: 'Incorrect user ID transmitted' }),
+  username: z
+    .string()
+    .min(5, {
+      message: 'Please choose a username with minimum 5 characters',
+    })
+    .optional()
+    .nullable(),
+  email: z
+    .string()
+    .email({ message: 'Please type in a correct email address' })
+    .optional()
+    .nullable(),
+  aboutDescription: z.string().optional().nullable(),
+  gender: z.string().optional().nullable(),
+  location: z.custom<LocationObject>().optional().nullable(),
+  avatarImageUrl: z
+    .string({ message: 'Problem with image Url' })
+    .url()
+    .optional()
+    .or(z.literal(''))
+    .nullable(),
+});
+
+export const changeUserPasswordSchema = z
+  .object({
+    id: z
+      .string({ message: 'Incorrect user ID transmitted' })
+      .length(25, { message: 'Incorrect user ID transmitted' }),
+    currentPassword: z
+      .string()
+      .min(1, { message: 'Please type in your current password' }),
+    newPassword: z.string().regex(/^(?=.*[!@#$&*])(?=.*[0-9]).{8,}$/, {
+      message:
+        'Password must be at least 8 characters long and include a number and a special character',
+    }),
+    confirmPassword: z
+      .string()
+      .min(8, { message: 'Please confirm your password' }),
+  })
+  .refine((data) => data.confirmPassword === data.newPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPasswordMatch'],
+  });
+
+export const deleteUserSchema = z.object({
+  id: z
+    .string({ message: 'Incorrect user ID transmitted' })
+    .length(25, { message: 'Incorrect user ID transmitted' }),
+  deleteConfirmation: z.literal('DELETE', {
+    errorMap: () => ({
+      message: 'Type "DELETE" to proceed with account deletion.',
+    }),
+  }),
 });

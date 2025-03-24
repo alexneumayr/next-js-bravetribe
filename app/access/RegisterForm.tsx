@@ -122,7 +122,7 @@ export default function RegisterForm({ returnTo }: Props) {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem className="space-y-1">
-                  <FormLabel>Password Again</FormLabel>
+                  <FormLabel>Confirm Password</FormLabel>
                   <FormMessage>
                     {'error' in state && state.error.confirmPassword}
                   </FormMessage>

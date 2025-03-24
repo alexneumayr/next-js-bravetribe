@@ -1,7 +1,7 @@
 'use client';
 import type { Challenge } from '@prisma/client';
 import ChallengeDetailsMenu from './ChallengeDetailsMenu';
-import UpdateChallengeStatusDialog from './UpdateChallengeStatusDialog';
+import ToggleChallengeStatusDialog from './ToggleChallengeStatusDialog';
 
 type Props = {
   challenge: Challenge;
@@ -18,7 +18,7 @@ export default function MainChallengeContent({ challenge }: Props) {
         <div className="flex gap-1 items-center">
           <dt className="text-sm font-bold">Status:</dt>
           <dd className="text-sm font-medium">
-            <UpdateChallengeStatusDialog challenge={challenge} />
+            <ToggleChallengeStatusDialog challenge={challenge} />
           </dd>
         </div>
         <div className="flex gap-1">

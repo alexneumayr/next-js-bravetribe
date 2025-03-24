@@ -96,3 +96,24 @@ export type LikeActionState =
   | {
       like: Like;
     };
+
+export type UserActionState =
+  | {
+      error: {
+        id?: string[];
+        username?: string[];
+        email?: string[];
+        aboutDescription?: string[];
+        gender?: string[];
+        location?: string[];
+        avatarImageUrl?: string[];
+        deleteConfirmation?: string[];
+        currentPassword?: string[];
+        newPassword?: string[];
+        confirmPassword?: string[];
+        general?: string;
+      };
+    }
+  | {
+      user: User;
+    };

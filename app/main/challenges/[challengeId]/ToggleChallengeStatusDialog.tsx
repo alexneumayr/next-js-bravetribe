@@ -17,7 +17,7 @@ type Props = {
   challenge: Challenge;
 };
 
-export default function UpdateChallengeStatusDialog({ challenge }: Props) {
+export default function ToggleChallengeStatusDialog({ challenge }: Props) {
   const [isCompleted, setIsCompleted] = useState(challenge.isCompleted);
   const initialState = {
     error: {

@@ -100,7 +100,7 @@ model Session {
   id              String   @id @default(cuid())
   token           String   @unique
   expiryTimestamp DateTime @default(dbgenerated("now() + interval '24 hours'"))
-  user            User     @relation(fields: [userId], references: [id])
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
 }
 

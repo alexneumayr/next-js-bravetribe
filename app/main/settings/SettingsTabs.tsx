@@ -1,8 +1,14 @@
+'use client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import type { User } from '@prisma/client';
 import AccountSettings from './AccountSettings';
 import ProfileSettings from './ProfileSettings';
 
-export default function SettingsTabs() {
+type Props = {
+  user: User;
+};
+
+export default function SettingsTabs({ user }: Props) {
   const tabs = [
     {
       name: 'Account',
@@ -30,10 +36,10 @@ export default function SettingsTabs() {
       </div>
 
       <TabsContent value="account">
-        <AccountSettings />
+        <AccountSettings user={user} />
       </TabsContent>
       <TabsContent value="profile">
-        <ProfileSettings />
+        <ProfileSettings user={user} />
       </TabsContent>
     </Tabs>
   );

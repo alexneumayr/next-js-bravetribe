@@ -132,3 +132,52 @@ export async function getUserByIdInsecure(id: string) {
   });
   return user;
 }
+
+export async function updateUser(
+  sessionToken: Session['token'],
+  updatedUser: User,
+) {
+  const user = await prisma.user.update({
+    where: {
+      id: updatedUser.id,
+      sessions: {
+        some: {
+          token: sessionToken,
+          expiryTimestamp: {
+            gt: new Date(),
+          },
+        },
+      },
+    },
+    data: {
+      username: updatedUser.username || undefined,
+      email: updatedUser.email || undefined,
+      aboutDescription: updatedUser.aboutDescription || undefined,
+      gender: updatedUser.gender || undefined,
+      location: updatedUser.location || undefined,
+      avatarImageUrl: updatedUser.avatarImageUrl || undefined,
+      passwordHash: updatedUser.passwordHash || undefined,
+    },
+  });
+  return user;
+}
+
+export async function deleteUser(
+  userId: User['id'],
+  sessionToken: Session['token'],
+) {
+  const user = await prisma.user.delete({
+    where: {
+      id: userId,
+      sessions: {
+        some: {
+          token: sessionToken,
+          expiryTimestamp: {
+            gt: new Date(),
+          },
+        },
+      },
+    },
+  });
+  return user;
+}
