@@ -55,9 +55,11 @@ export default async function Header() {
                   <DropdownMenuContent>
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="cursor-pointer">
-                      <CircleUserRound /> Profile
-                    </DropdownMenuItem>
+                    <Link href={`/main/profiles/${user.id}`}>
+                      <DropdownMenuItem className="cursor-pointer">
+                        <CircleUserRound /> Profile
+                      </DropdownMenuItem>
+                    </Link>
                     <Link href="/main/settings">
                       <DropdownMenuItem className="cursor-pointer">
                         <Settings /> Settings
