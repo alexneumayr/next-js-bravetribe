@@ -21,6 +21,7 @@ import {
 import { getUserBySessionToken } from '@/database/users';
 import { getCookie } from '@/util/cookies';
 import { CircleUserRound, LogOut, Search, Settings } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default async function Header() {
@@ -34,7 +35,14 @@ export default async function Header() {
       <div className="h-[110px] shadow-[0px_4px_4px_0px_rgba(166,166,166,0.25)]">
         {user && (
           <div className="px-5 flex gap-2 h-full items-center justify-between  bg-white dark:bg-[#1C1C1C]  w-full">
-            <p>Logo</p>
+            <Link href="/main">
+              <Image
+                src="/logos/logo-header.png"
+                width={80}
+                height={80}
+                alt="BraveTribe logo"
+              />
+            </Link>
             <div className="flex items-center gap-4">
               <Link
                 href="/main/search"
@@ -45,7 +53,7 @@ export default async function Header() {
               <Dialog>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Avatar className="w-[60px] h-[60px] cursor-pointer">
+                    <Avatar className="w-[80px] h-[80px] cursor-pointer">
                       <AvatarImage src={`${user.avatarImageUrl}`} />
                       <AvatarFallback>
                         {user.username.slice(0, 2).toUpperCase()}
