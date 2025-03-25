@@ -1,9 +1,9 @@
+import ExperiencesPreview from '@/components/ExperiencesPreview';
 import {
   getOwnExperiencesByText,
   getTotalAmountOfOwnExperiencesByTextInsecure,
 } from '@/database/experiences';
 import type { Session, User } from '@prisma/client';
-import ExperiencesPreview from '../components/ExperiencesPreview';
 
 type Props = {
   currentPage: number;
