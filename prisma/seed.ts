@@ -71,7 +71,7 @@ const initTemplates: Prisma.TemplateCreateInput[] = [
 const initUsers: Prisma.UserCreateInput[] = [
   {
     email: 'sophia.miller@email.com',
-    username: 'Sophia M.',
+    username: 'sophia_m',
     passwordHash: 'securepassword1',
     role: 'user',
     aboutDescription:
@@ -99,7 +99,7 @@ const initUsers: Prisma.UserCreateInput[] = [
   },
   {
     email: 'jason.lee@email.com',
-    username: 'Jason L.',
+    username: 'jasonlee',
     passwordHash: 'securepassword2',
     role: 'user',
     aboutDescription:
@@ -127,7 +127,7 @@ const initUsers: Prisma.UserCreateInput[] = [
   },
   {
     email: 'emma.johnson@email.com',
-    username: 'Emma J.',
+    username: 'emma',
     passwordHash: 'securepassword3',
     role: 'user',
     aboutDescription:
@@ -154,7 +154,7 @@ const initUsers: Prisma.UserCreateInput[] = [
   },
   {
     email: 'david.roberts@email.com',
-    username: 'David R.',
+    username: 'david_nyc',
     passwordHash: 'securepassword4',
     role: 'user',
     aboutDescription:
@@ -181,7 +181,7 @@ const initUsers: Prisma.UserCreateInput[] = [
   },
   {
     email: 'lisa.taylor@email.com',
-    username: 'Lisa T.',
+    username: 'lisataylor',
     passwordHash: 'securepassword5',
     role: 'user',
     aboutDescription:

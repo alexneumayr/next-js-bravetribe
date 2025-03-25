@@ -57,7 +57,7 @@ export async function getUserWithPasswordHashInsecure(
 ) {
   const user = await prisma.user.findUnique({
     where: {
-      username: username.toLowerCase(),
+      username: username,
     },
   });
   return user;
@@ -70,7 +70,7 @@ export async function createUserInsecure(
 ) {
   const user = await prisma.user.create({
     data: {
-      username: username.toLowerCase(),
+      username: username,
       email: email,
       passwordHash: passwordHash,
     },
