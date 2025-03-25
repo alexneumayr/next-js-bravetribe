@@ -18,6 +18,7 @@ export async function createLikeAction(
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -29,6 +30,7 @@ export async function createLikeAction(
 
   if (!sessionToken) {
     return {
+      success: false,
       error: { general: 'Failed to access session token' },
     };
   }
@@ -39,15 +41,15 @@ export async function createLikeAction(
 
     if (!newLike) {
       return {
+        success: false,
         error: { general: 'Like creation returned no data' },
       };
     }
     revalidatePath(currentPath);
-    return {
-      like: newLike,
-    };
+    return { success: true };
   } catch {
     return {
+      success: false,
       error: { general: 'Failed to update comment' },
     };
   }
@@ -64,6 +66,7 @@ export async function deleteLikeAction(
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -75,19 +78,19 @@ export async function deleteLikeAction(
 
   if (!sessionToken) {
     return {
+      success: false,
       error: { general: 'Failed to access session token' },
     };
   }
 
   try {
-    const deletedLike = await deleteLike(validatedFields.data.id, sessionToken);
+    await deleteLike(validatedFields.data.id, sessionToken);
     revalidatePath(currentPath);
-    return {
-      like: deletedLike,
-    };
+    return { success: true };
   } catch (error) {
     console.log('Error deleting comment:', error);
     return {
+      success: false,
       error: { general: 'Failed to delete comment' },
     };
   }

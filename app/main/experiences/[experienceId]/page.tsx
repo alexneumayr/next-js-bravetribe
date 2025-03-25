@@ -22,18 +22,9 @@ export default async function ExperiencePage({ params }: Props) {
 
   const experience = await getExperienceInsecure(experienceId);
 
+  //  If the expriences doesn't exist redirect to the experiences overview
   if (!experience) {
-    return (
-      <div className="text-center">
-        <h1 className="font-bold text-2xl">
-          Error loading experience {experienceId}
-        </h1>
-        <div>The experience does not exist</div>
-        <Link href="/main/experiences" className="text-[#0000FF] underline">
-          Back to Experiences
-        </Link>
-      </div>
-    );
+    redirect('/main/experiences');
   }
 
   if (!experience.user.areExperiencesPublic && experience.userId !== user.id) {

@@ -19,9 +19,8 @@ type Props = {
 
 export default function CommentDeleteDialog({ comment, user, onClose }: Props) {
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
 
   const [state, formAction, pending] = useActionState(
@@ -81,18 +80,8 @@ export default function CommentDeleteDialog({ comment, user, onClose }: Props) {
         <DialogFooter>
           <form action={formAction} className="w-full">
             <input name="id" value={comment.id} type="hidden" />
-            {'error' in state && state.error.id && (
+            {state.error?.id && (
               <p className="text-red-500 font-bold ">{state.error.id}</p>
-            )}
-            <input
-              name="experienceId"
-              value={comment.experienceId}
-              type="hidden"
-            />
-            {'error' in state && state.error.id && (
-              <p className="text-red-500 font-bold ">
-                {state.error.experienceId}
-              </p>
             )}
             <div className="flex justify-around w-full gap-x-2 mt-6">
               <Button
@@ -109,7 +98,7 @@ export default function CommentDeleteDialog({ comment, user, onClose }: Props) {
                 </Button>
               </DialogClose>
             </div>
-            {'error' in state && state.error.general && (
+            {state.error?.general && (
               <p className="text-red-500 font-bold text-center">
                 {state.error.general}
               </p>

@@ -22,6 +22,7 @@ export async function createCommentAction(
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -33,27 +34,30 @@ export async function createCommentAction(
 
   if (!sessionToken) {
     return {
+      success: false,
       error: { general: 'Failed to access session token' },
     };
   }
 
-  // Testen, ob es auch ohne try...catch geht!
-  const newComment = await createComment(sessionToken, {
-    content: validatedFields.data.content,
-    experienceId: validatedFields.data.experienceId,
-  });
-
-  if (!newComment) {
+  try {
+    const newComment = await createComment(sessionToken, {
+      content: validatedFields.data.content,
+      experienceId: validatedFields.data.experienceId,
+    });
+    if (!newComment) {
+      return {
+        success: false,
+        error: { general: 'Comment creation returned no data' },
+      };
+    }
+    revalidatePath(`/main/experiences/${validatedFields.data.experienceId}`);
+    return { success: true };
+  } catch {
     return {
+      success: false,
       error: { general: 'Failed to create comment' },
     };
   }
-
-  revalidatePath(`/main/experiences/${validatedFields.data.experienceId}`);
-
-  return {
-    comment: newComment,
-  };
 }
 
 export async function updateCommentAction(
@@ -68,6 +72,7 @@ export async function updateCommentAction(
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -79,6 +84,7 @@ export async function updateCommentAction(
 
   if (!sessionToken) {
     return {
+      success: false,
       error: { general: 'Failed to access session token' },
     };
   }
@@ -87,18 +93,17 @@ export async function updateCommentAction(
       content: validatedFields.data.content,
       id: validatedFields.data.id,
     });
-
     if (!updatedComment) {
       return {
+        success: false,
         error: { general: 'Comment update returned no data' },
       };
     }
     revalidatePath(`/main/experiences/${updatedComment.experienceId}`);
-    return {
-      comment: updatedComment,
-    };
+    return { success: true };
   } catch {
     return {
+      success: false,
       error: { general: 'Failed to update comment' },
     };
   }
@@ -109,14 +114,16 @@ export async function deleteCommentAction(
   formData: FormData,
 ): Promise<CommentActionState> {
   const validatedFields = commentSchema
-    .pick({ id: true, experienceId: true })
+    .pick({
+      id: true,
+    })
     .safeParse({
       id: formData.get('id'),
-      experienceId: formData.get('id'),
     });
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -124,10 +131,11 @@ export async function deleteCommentAction(
   // 3. Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
 
-  // 4. Delete the experience
+  // 4. Delete the comment
 
   if (!sessionToken) {
     return {
+      success: false,
       error: { general: 'Failed to access session token' },
     };
   }
@@ -137,13 +145,12 @@ export async function deleteCommentAction(
       validatedFields.data.id,
       sessionToken,
     );
-    revalidatePath(`/main/experiences/${validatedFields.data.experienceId}`);
-    return {
-      comment: deletedComment,
-    };
+    revalidatePath(`/main/experiences/${deletedComment.experienceId}`);
+    return { success: true };
   } catch (error) {
     console.log('Error deleting comment:', error);
     return {
+      success: false,
       error: { general: 'Failed to delete comment' },
     };
   }

@@ -2,6 +2,7 @@ import { Separator } from '@/components/ui/separator';
 import { getChallenge, selectChallengeExists } from '@/database/challenges';
 import { getCookie } from '@/util/cookies';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { ExperiencesTable } from './ExperiencesTable';
 import MainChallengeContent from './MainChallengeContent';
 
@@ -13,17 +14,9 @@ export default async function ChallengePage({ params }: Props) {
   const challengeId = (await params).challengeId;
   const sessionToken = await getCookie('sessionToken');
 
-  //  Check if the challenge exists
+  //  If the challenge doesn't exist redirect to the challenge planner
   if (!(await selectChallengeExists(challengeId))) {
-    return (
-      <div>
-        <h1>Error loading challenge {challengeId}</h1>
-        <div>The challenge does not exist</div>
-        <Link href="/main/challenges" className="text-[#0000FF] underline">
-          Back to Challenge Planner
-        </Link>
-      </div>
-    );
+    redirect('/main/challenges');
   }
 
   // Query the challenge with the session token and challengeId

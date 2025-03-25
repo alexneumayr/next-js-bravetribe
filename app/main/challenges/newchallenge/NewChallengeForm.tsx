@@ -24,6 +24,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import type { Template } from '@prisma/client';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
@@ -34,10 +35,10 @@ type Props = {
 
 export default function NewChallengeForm({ template }: Props) {
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof challengeSchema>>({
     resolver: zodResolver(challengeSchema),
@@ -65,6 +66,12 @@ export default function NewChallengeForm({ template }: Props) {
     setSavedActionState(initialState);
   }
 
+  useEffect(() => {
+    if (state.success) {
+      router.push('/main/challenges');
+    }
+  }, [state, router]);
+
   return (
     <>
       <Form {...form}>
@@ -79,9 +86,7 @@ export default function NewChallengeForm({ template }: Props) {
                   <Input placeholder="I want to fly to the moon" {...field} />
                 </FormControl>
                 <FormMessage />
-                <FormMessage>
-                  {'error' in savedActionState && savedActionState.error.title}
-                </FormMessage>
+                <FormMessage>{savedActionState.error?.title}</FormMessage>
               </FormItem>
             )}
           />
@@ -131,10 +136,7 @@ export default function NewChallengeForm({ template }: Props) {
                     />
                   </PopoverContent>
                 </Popover>
-                <FormMessage>
-                  {'error' in savedActionState &&
-                    savedActionState.error.plannedDate}
-                </FormMessage>
+                <FormMessage>{savedActionState.error?.plannedDate}</FormMessage>
               </FormItem>
             )}
           />
@@ -151,8 +153,7 @@ export default function NewChallengeForm({ template }: Props) {
                 </FormControl>
                 <FormMessage />
                 <FormMessage className="">
-                  {'error' in savedActionState &&
-                    savedActionState.error.description}
+                  {savedActionState.error?.description}
                 </FormMessage>
               </FormItem>
             )}
@@ -177,7 +178,7 @@ export default function NewChallengeForm({ template }: Props) {
           </div>
         </form>
       </Form>
-      {'error' in savedActionState && savedActionState.error.general && (
+      {savedActionState.error?.general && (
         <p className="text-red-500 font-bold ">
           {savedActionState.error.general}
         </p>

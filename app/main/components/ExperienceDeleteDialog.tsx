@@ -24,9 +24,8 @@ export default function ExperienceDeleteDialog({
   onClose,
 }: Props) {
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
   const currentPath = usePathname();
   const deleteExperienceActionWithCurrentPath = deleteExperienceAction.bind(
@@ -91,7 +90,7 @@ export default function ExperienceDeleteDialog({
         <DialogFooter>
           <form action={formAction} className="w-full">
             <input name="id" value={experience.id} type="hidden" />
-            {'error' in state && state.error.id && (
+            {state.error?.id && (
               <p className="text-red-500 font-bold ">{state.error.id}</p>
             )}
             <div className="flex justify-around w-full gap-x-2 mt-6">
@@ -109,7 +108,7 @@ export default function ExperienceDeleteDialog({
                 </Button>
               </DialogClose>
             </div>
-            {'error' in state && state.error.general && (
+            {state.error?.general && (
               <p className="text-red-500 font-bold text-center">
                 {state.error.general}
               </p>

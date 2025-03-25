@@ -17,9 +17,8 @@ export default function LikeFieldDefault({ likes, experienceId }: Props) {
     currentPath,
   );
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
   const [state, formAction, pending] = useActionState(
     createLikeActionWithCurrentPath,
@@ -36,12 +35,12 @@ export default function LikeFieldDefault({ likes, experienceId }: Props) {
         {likes.length}
       </button>
       <input name="experienceId" value={experienceId} type="hidden" />
-      {'error' in state && state.error.experienceId && (
+      {state.error?.experienceId && (
         <p className="text-red-500 font-bold text-center">
           {state.error.experienceId}
         </p>
       )}
-      {'error' in state && state.error.general && (
+      {state.error?.general && (
         <p className="text-red-500 font-bold text-center">
           {state.error.general}
         </p>

@@ -26,6 +26,7 @@ import type { Challenge } from '@prisma/client';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { CldUploadWidget } from 'next-cloudinary';
+import { useRouter } from 'next/navigation';
 import { useActionState, useCallback, useEffect, useState } from 'react';
 import { StarRating } from 'react-flexible-star-rating';
 import { useForm } from 'react-hook-form';
@@ -39,6 +40,7 @@ type Props = {
 export default function NewExperienceForm({ challengeId }: Props) {
   const [imageUrl, setImageUrl] = useState('');
   const [locationInputValue, setLocationInputValue] = useState('');
+  const router = useRouter();
 
   const [rating, setRating] = useState(0);
 
@@ -46,9 +48,8 @@ export default function NewExperienceForm({ challengeId }: Props) {
   const [location, setLocation] = useState<LocationObject>();
 
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
 
   const form = useForm<z.infer<typeof experienceSchema>>({
@@ -85,6 +86,11 @@ export default function NewExperienceForm({ challengeId }: Props) {
   };
 
   useEffect(() => setSavedActionState(state), [state]);
+  useEffect(() => {
+    if (state.success) {
+      router.push(`/main/challenges/${challengeId}`);
+    }
+  }, [state, router, challengeId]);
 
   function handleResetButtonClicked() {
     reset();
@@ -137,9 +143,7 @@ export default function NewExperienceForm({ challengeId }: Props) {
                   <Input placeholder="I flew to the moon" {...field} />
                 </FormControl>
                 <FormMessage />
-                <FormMessage>
-                  {'error' in savedActionState && savedActionState.error.title}
-                </FormMessage>
+                <FormMessage>{savedActionState.error?.title}</FormMessage>
               </FormItem>
             )}
           />
@@ -187,9 +191,7 @@ export default function NewExperienceForm({ challengeId }: Props) {
                     />
                   </PopoverContent>
                 </Popover>
-                <FormMessage>
-                  {'error' in savedActionState && savedActionState.error.date}
-                </FormMessage>
+                <FormMessage>{savedActionState.error?.date}</FormMessage>
               </FormItem>
             )}
           />
@@ -206,7 +208,7 @@ export default function NewExperienceForm({ challengeId }: Props) {
                 </FormControl>
                 <FormMessage />
                 <FormMessage className="">
-                  {'error' in savedActionState && savedActionState.error.story}
+                  {savedActionState.error?.story}
                 </FormMessage>
               </FormItem>
             )}
@@ -233,9 +235,7 @@ export default function NewExperienceForm({ challengeId }: Props) {
                   <Input {...field} value={rating} type="hidden" />
                 </FormControl>
                 <FormMessage />
-                <FormMessage>
-                  {'error' in savedActionState && savedActionState.error.rating}
-                </FormMessage>
+                <FormMessage>{savedActionState.error?.rating}</FormMessage>
               </FormItem>
             )}
           />
@@ -295,8 +295,7 @@ export default function NewExperienceForm({ challengeId }: Props) {
                     </FormControl>
                     <FormMessage />
                     <FormMessage className="">
-                      {'error' in savedActionState &&
-                        savedActionState.error.imageUrl}
+                      {savedActionState.error?.imageUrl}
                     </FormMessage>
                   </FormItem>
                 )}
@@ -314,8 +313,7 @@ export default function NewExperienceForm({ challengeId }: Props) {
                     </FormControl>
                     <FormMessage />
                     <FormMessage className="">
-                      {'error' in savedActionState &&
-                        savedActionState.error.challengeId}
+                      {savedActionState.error?.challengeId}
                     </FormMessage>
                   </FormItem>
                 )}
@@ -336,7 +334,7 @@ export default function NewExperienceForm({ challengeId }: Props) {
                 id="location"
               />
               <FormMessage className="">
-                {'error' in savedActionState && savedActionState.error.location}
+                {savedActionState.error?.location}
               </FormMessage>
             </div>
           </div>
@@ -360,7 +358,7 @@ export default function NewExperienceForm({ challengeId }: Props) {
           </div>
         </form>
       </Form>
-      {'error' in savedActionState && savedActionState.error.general && (
+      {savedActionState.error?.general && (
         <p className="text-red-500 font-bold ">
           {savedActionState.error.general}
         </p>

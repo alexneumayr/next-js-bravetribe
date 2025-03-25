@@ -9,7 +9,7 @@ import {
 import type { ChallengeActionState } from '@/types/types';
 import { getCookie } from '@/util/cookies';
 import { challengeSchema } from '@/util/schemas';
-import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 export async function createChallengeAction(
   prevState: any,
@@ -26,6 +26,7 @@ export async function createChallengeAction(
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -37,24 +38,34 @@ export async function createChallengeAction(
 
   if (!sessionToken) {
     return {
+      success: false,
       error: { general: 'Failed to access session token' },
     };
   }
 
-  // Testen, ob es auch ohne try...catch geht!
-  const newChallenge = await createChallenge(sessionToken, {
-    title: validatedFields.data.title,
-    description: validatedFields.data.description,
-    plannedDate: new Date(validatedFields.data.plannedDate),
-  });
+  try {
+    const newChallenge = await createChallenge(sessionToken, {
+      title: validatedFields.data.title,
+      description: validatedFields.data.description,
+      plannedDate: new Date(validatedFields.data.plannedDate),
+    });
+    if (!newChallenge) {
+      return {
+        success: false,
+        error: {
+          general: 'Challenge creation returned no data',
+        },
+      };
+    }
 
-  if (!newChallenge) {
+    revalidatePath('/main/challenges');
+    return { success: true };
+  } catch {
     return {
+      success: false,
       error: { general: 'Failed to create challenge' },
     };
   }
-
-  redirect('/main/challenges');
 }
 
 export async function updateChallengeAction(
@@ -73,6 +84,7 @@ export async function updateChallengeAction(
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -84,24 +96,33 @@ export async function updateChallengeAction(
 
   if (!sessionToken) {
     return {
+      success: false,
       error: { general: 'Failed to access session token' },
     };
   }
 
-  const updatedChallenge = await updateChallenge(sessionToken, {
-    id: validatedFields.data.id,
-    title: validatedFields.data.title,
-    description: validatedFields.data.description,
-    plannedDate: new Date(validatedFields.data.plannedDate),
-  });
+  try {
+    const updatedChallenge = await updateChallenge(sessionToken, {
+      id: validatedFields.data.id,
+      title: validatedFields.data.title,
+      description: validatedFields.data.description,
+      plannedDate: new Date(validatedFields.data.plannedDate),
+    });
 
-  if (!updatedChallenge) {
+    if (!updatedChallenge) {
+      return {
+        success: false,
+        error: { general: 'Challenge update returned no data' },
+      };
+    }
+    revalidatePath(`/main/challenges/${validatedFields.data.id}`);
+    return { success: true };
+  } catch {
     return {
+      success: false,
       error: { general: 'Failed to update challenge' },
     };
   }
-
-  redirect(`/main/challenges/${validatedFields.data.id}`);
 }
 
 export async function updateChallengeStatusAction(
@@ -116,6 +137,7 @@ export async function updateChallengeStatusAction(
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -127,22 +149,32 @@ export async function updateChallengeStatusAction(
 
   if (!sessionToken) {
     return {
+      success: false,
       error: { general: 'Failed to access session token' },
     };
   }
 
-  const updatedChallenge = await updateChallengeStatus(sessionToken, {
-    id: validatedFields.data.id,
-    isCompleted: isCompleted,
-  });
+  try {
+    const updatedChallenge = await updateChallengeStatus(sessionToken, {
+      id: validatedFields.data.id,
+      isCompleted: isCompleted,
+    });
 
-  if (!updatedChallenge) {
+    if (!updatedChallenge) {
+      return {
+        success: false,
+        error: { general: 'Challenge update returned no data' },
+      };
+    }
+
+    revalidatePath(`/main/challenges/${validatedFields.data.id}`);
+    return { success: true };
+  } catch {
     return {
+      success: false,
       error: { general: 'Failed to update challenge' },
     };
   }
-
-  redirect(`/main/challenges/${validatedFields.data.id}`);
 }
 
 export async function deleteChallengeAction(
@@ -155,6 +187,7 @@ export async function deleteChallengeAction(
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -166,17 +199,19 @@ export async function deleteChallengeAction(
 
   if (!sessionToken) {
     return {
+      success: false,
       error: { general: 'Failed to access session token' },
     };
   }
 
   try {
     await deleteChallenge(validatedFields.data.id, sessionToken);
-  } catch (error) {
-    console.log('Error deleting challenge:', error);
+    revalidatePath('/main/challenges');
+    return { success: true };
+  } catch {
     return {
+      success: false,
       error: { general: 'Failed to delete challenge' },
     };
   }
-  redirect('/main/challenges');
 }

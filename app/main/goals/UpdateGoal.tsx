@@ -30,7 +30,7 @@ import {
 } from '@radix-ui/react-popover';
 import { format } from 'date-fns';
 import { CalendarIcon, Trash2 } from 'lucide-react';
-import React, { useActionState, useState } from 'react';
+import React, { useActionState, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -41,9 +41,8 @@ type Props = {
 
 export default function UpdateGoal({ goal, onClose }: Props) {
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
 
   const updateForm = useForm<z.infer<typeof goalSchema>>({
@@ -66,9 +65,15 @@ export default function UpdateGoal({ goal, onClose }: Props) {
     initialState,
   );
 
+  useEffect(() => {
+    if (updateState.success || deletionState.success) {
+      onClose();
+    }
+  }, [updateState, deletionState, onClose]);
+
   const [deleteClicked, setDeleteClicked] = useState(false);
   return (
-    <Dialog defaultOpen onOpenChange={() => onClose()}>
+    <Dialog defaultOpen onOpenChange={onClose}>
       {!deleteClicked ? (
         <DialogContent
           className="max-w-[425px] [&>button]:hidden"
@@ -104,9 +109,7 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                       <Input {...field} />
                     </FormControl>
                     <FormMessage />
-                    <FormMessage>
-                      {'error' in updateState && updateState.error.title}
-                    </FormMessage>
+                    <FormMessage>{updateState.error?.title}</FormMessage>
                   </FormItem>
                 )}
               />
@@ -152,9 +155,7 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                         </div>
                       </PopoverContent>
                     </Popover>
-                    <FormMessage>
-                      {'error' in updateState && updateState.error.deadline}
-                    </FormMessage>
+                    <FormMessage>{updateState.error?.deadline}</FormMessage>
                   </FormItem>
                 )}
               />
@@ -169,8 +170,7 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                     </FormControl>
                     <FormMessage />
                     <FormMessage className="">
-                      {'error' in updateState &&
-                        updateState.error.additionalNotes}
+                      {updateState.error?.additionalNotes}
                     </FormMessage>
                   </FormItem>
                 )}
@@ -186,10 +186,10 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                     </FormControl>
                     <FormMessage />
                     <FormMessage className="">
-                      {'error' in updateState && updateState.error.title}
+                      {updateState.error?.title}
                     </FormMessage>
                     <FormMessage className="">
-                      {'error' in updateState && updateState.error.deadline}
+                      {updateState.error?.deadline}
                     </FormMessage>
                   </FormItem>
                 )}
@@ -210,7 +210,7 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                 </DialogClose>
               </div>
             </form>
-            {'error' in updateState && updateState.error.general && (
+            {updateState.error?.general && (
               <p className="text-red-500 font-bold ">
                 {updateState.error.general}
               </p>
@@ -235,7 +235,7 @@ export default function UpdateGoal({ goal, onClose }: Props) {
           <DialogFooter>
             <form action={deletionFormAction} className="w-full">
               <input name="id" value={goal.id} type="hidden" />
-              {'error' in deletionState && deletionState.error.id && (
+              {deletionState.error?.id && (
                 <p className="text-red-500 font-bold ">
                   {deletionState.error.id}
                 </p>
@@ -255,9 +255,9 @@ export default function UpdateGoal({ goal, onClose }: Props) {
                   </Button>
                 </DialogClose>
               </div>
-              {'error' in deletionState && deletionState.error.general && (
+              {deletionState.error?.general && (
                 <p className="text-red-500 font-bold text-center">
-                  {updateState.error.general}
+                  {deletionState.error.general}
                 </p>
               )}
             </form>

@@ -26,6 +26,7 @@ import type { Experience } from '@prisma/client';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { CldUploadWidget } from 'next-cloudinary';
+import { useRouter } from 'next/navigation';
 import { useActionState, useCallback, useEffect, useState } from 'react';
 import { StarRating } from 'react-flexible-star-rating';
 import { useForm } from 'react-hook-form';
@@ -43,18 +44,16 @@ export default function EditExperienceForm({ experience }: Props) {
   const [locationInputValue, setLocationInputValue] = useState(
     experienceLocation?.name || '',
   );
-
   const [rating, setRating] = useState(experience.rating);
-
   const [locationErrorMessage, setLocationErrorMessage] = useState('');
   const [location, setLocation] = useState<LocationObject | null>(
     experienceLocation,
   );
+  const router = useRouter();
 
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
 
   const form = useForm<z.infer<typeof experienceSchema>>({
@@ -91,6 +90,11 @@ export default function EditExperienceForm({ experience }: Props) {
   };
 
   useEffect(() => setSavedActionState(state), [state]);
+  useEffect(() => {
+    if (state.success) {
+      router.push(`/main/experiences/${experience.id}`);
+    }
+  }, [state, router, experience.id]);
 
   function handleResetButtonClicked() {
     reset();
@@ -143,9 +147,7 @@ export default function EditExperienceForm({ experience }: Props) {
                   <Input placeholder="I flew to the moon" {...field} />
                 </FormControl>
                 <FormMessage />
-                <FormMessage>
-                  {'error' in savedActionState && savedActionState.error.title}
-                </FormMessage>
+                <FormMessage>{savedActionState.error?.title}</FormMessage>
               </FormItem>
             )}
           />
@@ -189,9 +191,7 @@ export default function EditExperienceForm({ experience }: Props) {
                     />
                   </PopoverContent>
                 </Popover>
-                <FormMessage>
-                  {'error' in savedActionState && savedActionState.error.date}
-                </FormMessage>
+                <FormMessage>{savedActionState.error?.date}</FormMessage>
               </FormItem>
             )}
           />
@@ -208,7 +208,7 @@ export default function EditExperienceForm({ experience }: Props) {
                 </FormControl>
                 <FormMessage />
                 <FormMessage className="">
-                  {'error' in savedActionState && savedActionState.error.story}
+                  {savedActionState.error?.story}
                 </FormMessage>
               </FormItem>
             )}
@@ -236,9 +236,7 @@ export default function EditExperienceForm({ experience }: Props) {
                   <Input {...field} value={rating} type="hidden" />
                 </FormControl>
                 <FormMessage />
-                <FormMessage>
-                  {'error' in savedActionState && savedActionState.error.rating}
-                </FormMessage>
+                <FormMessage>{savedActionState.error?.rating}</FormMessage>
               </FormItem>
             )}
           />
@@ -302,13 +300,12 @@ export default function EditExperienceForm({ experience }: Props) {
                     </FormControl>
                     <FormMessage />
                     <FormMessage className="">
-                      {'error' in savedActionState &&
-                        savedActionState.error.imageUrl}
+                      {savedActionState.error?.imageUrl}
                     </FormMessage>
                   </FormItem>
                 )}
               />
-              {'error' in savedActionState && savedActionState.error.id}
+              {savedActionState.error?.id}
               <FormField
                 control={form.control}
                 name="id"
@@ -322,7 +319,7 @@ export default function EditExperienceForm({ experience }: Props) {
                     </FormControl>
                     <FormMessage />
                     <FormMessage className="">
-                      {'error' in savedActionState && savedActionState.error.id}
+                      {savedActionState.error?.id}
                     </FormMessage>
                   </FormItem>
                 )}
@@ -343,7 +340,7 @@ export default function EditExperienceForm({ experience }: Props) {
                 id="location"
               />
               <FormMessage className="">
-                {'error' in savedActionState && savedActionState.error.location}
+                {savedActionState.error?.location}
               </FormMessage>
             </div>
           </div>
@@ -367,7 +364,7 @@ export default function EditExperienceForm({ experience }: Props) {
           </div>
         </form>
       </Form>
-      {'error' in savedActionState && savedActionState.error.general && (
+      {savedActionState.error?.general && (
         <p className="text-red-500 font-bold ">
           {savedActionState.error.general}
         </p>

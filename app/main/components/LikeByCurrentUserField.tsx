@@ -17,9 +17,8 @@ export default function LikeByCurrentUserField({ likes, userId }: Props) {
     currentPath,
   );
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
   const [state, formAction, pending] = useActionState(
     deleteLikeActionWithCurrentPath,
@@ -38,10 +37,10 @@ export default function LikeByCurrentUserField({ likes, userId }: Props) {
         {likes.length}
       </button>
       <input name="id" value={likeId} type="hidden" />
-      {'error' in state && state.error.id && (
+      {state.error?.id && (
         <p className="text-red-500 font-bold text-center">{state.error.id}</p>
       )}
-      {'error' in state && state.error.general && (
+      {state.error?.general && (
         <p className="text-red-500 font-bold text-center">
           {state.error.general}
         </p>

@@ -16,16 +16,15 @@ export default function AddComment({ experienceId }: Props) {
     textareaRef.current?.focus();
   });
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
   const [state, formAction, pending] = useActionState(
     createCommentAction,
     initialState,
   );
   useEffect(() => {
-    if ('comment' in state) {
+    if (state.success) {
       setIsOpen(false);
     }
   }, [state]);
@@ -40,13 +39,13 @@ export default function AddComment({ experienceId }: Props) {
               ref={textareaRef}
               name="content"
             />
-            {'error' in state && state.error.content && (
+            {state.error?.content && (
               <p className="text-red-500 font-bold text-center">
                 {state.error.content}
               </p>
             )}
             <input type="hidden" name="experienceId" value={experienceId} />
-            {'error' in state && state.error.experienceId && (
+            {state.error?.experienceId && (
               <p className="text-red-500 font-bold text-center">
                 {state.error.experienceId}
               </p>
@@ -70,7 +69,7 @@ export default function AddComment({ experienceId }: Props) {
               >
                 Comment
               </Button>
-              {'error' in state && state.error.general && (
+              {state.error?.general && (
                 <p className="text-red-500 font-bold text-center">
                   {state.error.general}
                 </p>

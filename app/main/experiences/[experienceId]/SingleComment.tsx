@@ -13,9 +13,8 @@ type Props = {
 export default function SingleComment({ comment, user }: Props) {
   const [isEditModeOn, setIsEditModeOn] = useState(false);
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
   const [state, formAction, pending] = useActionState(
     updateCommentAction,
@@ -25,7 +24,7 @@ export default function SingleComment({ comment, user }: Props) {
     setIsEditModeOn(true);
   }
   useEffect(() => {
-    if ('comment' in state) {
+    if (state.success) {
       setIsEditModeOn(false);
     }
   }, [state]);
@@ -50,13 +49,13 @@ export default function SingleComment({ comment, user }: Props) {
               name="content"
               defaultValue={comment.content}
             />
-            {'error' in state && state.error.content && (
+            {state.error?.content && (
               <p className="text-red-500 font-bold text-center">
                 {state.error.content}
               </p>
             )}
             <input name="id" value={comment.id} type="hidden" />
-            {'error' in state && state.error.id && (
+            {state.error?.id && (
               <p className="text-red-500 font-bold text-center">
                 {state.error.id}
               </p>
@@ -78,9 +77,9 @@ export default function SingleComment({ comment, user }: Props) {
                 type="submit"
                 size="sm"
               >
-                Comment
+                Save
               </Button>
-              {'error' in state && state.error.general && (
+              {state.error?.general && (
                 <p className="text-red-500 font-bold text-center">
                   {state.error.general}
                 </p>

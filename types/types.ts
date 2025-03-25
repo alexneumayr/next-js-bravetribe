@@ -1,7 +1,8 @@
-import type { Comment, Experience, Like, User } from '@prisma/client';
+import type { Comment, Experience, User } from '@prisma/client';
 
 export type RegisterActionState = {
-  error: {
+  success: boolean;
+  error?: {
     confirmPasswordMatch?: string[];
     email?: string[];
     username?: string[];
@@ -12,7 +13,8 @@ export type RegisterActionState = {
 };
 
 export type LoginActionState = {
-  error: {
+  success: boolean;
+  error?: {
     username?: string[];
     password?: string[];
     general?: string;
@@ -20,7 +22,8 @@ export type LoginActionState = {
 };
 
 export type GoalActionState = {
-  error: {
+  success: boolean;
+  error?: {
     id?: string[];
     title?: string[];
     deadline?: string[];
@@ -30,7 +33,8 @@ export type GoalActionState = {
 };
 
 export type ChallengeActionState = {
-  error: {
+  success: boolean;
+  error?: {
     id?: string[];
     title?: string[];
     description?: string[];
@@ -40,23 +44,20 @@ export type ChallengeActionState = {
   };
 };
 
-export type ExperienceActionState =
-  | {
-      error: {
-        id?: string[];
-        title?: string[];
-        story?: string[];
-        date?: string[];
-        rating?: string[];
-        imageUrl?: string[];
-        location?: string[];
-        challengeId?: string[];
-        general?: string;
-      };
-    }
-  | {
-      experience: Experience;
-    };
+export type ExperienceActionState = {
+  success: boolean;
+  error?: {
+    id?: string[];
+    title?: string[];
+    story?: string[];
+    date?: string[];
+    rating?: string[];
+    imageUrl?: string[];
+    location?: string[];
+    challengeId?: string[];
+    general?: string;
+  };
+};
 
 export type LocationObject = {
   name: string;
@@ -72,30 +73,24 @@ export interface FullComment extends Comment {
   user: UserWithExperiences;
 }
 
-export type CommentActionState =
-  | {
-      error: {
-        id?: string[];
-        content?: string[];
-        experienceId?: string[];
-        general?: string;
-      };
-    }
-  | {
-      comment: Comment;
-    };
+export type CommentActionState = {
+  success: boolean;
+  error?: {
+    id?: string[];
+    content?: string[];
+    experienceId?: string[];
+    general?: string;
+  };
+};
 
-export type LikeActionState =
-  | {
-      error: {
-        id?: string[];
-        experienceId?: string[];
-        general?: string;
-      };
-    }
-  | {
-      like: Like;
-    };
+export type LikeActionState = {
+  success: boolean;
+  error?: {
+    id?: string[];
+    experienceId?: string[];
+    general?: string;
+  };
+};
 
 export type UserActionState = {
   success: boolean;

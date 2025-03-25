@@ -4,7 +4,7 @@ import { createGoal, deleteGoal, updateGoal } from '@/database/goals';
 import type { GoalActionState } from '@/types/types';
 import { getCookie } from '@/util/cookies';
 import { goalSchema } from '@/util/schemas';
-import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 export async function createGoalAction(
   prevState: any,
@@ -19,6 +19,7 @@ export async function createGoalAction(
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -30,24 +31,30 @@ export async function createGoalAction(
 
   if (!sessionToken) {
     return {
+      success: false,
       error: { general: 'Failed to access session token' },
     };
   }
-
-  // Testen, ob es auch ohne try...catch geht!
-  const newGoal = await createGoal(sessionToken, {
-    title: validatedFields.data.title,
-    deadline: new Date(validatedFields.data.deadline),
-    additionalNotes: validatedFields.data.additionalNotes || null,
-  });
-
-  if (!newGoal) {
+  try {
+    const newGoal = await createGoal(sessionToken, {
+      title: validatedFields.data.title,
+      deadline: new Date(validatedFields.data.deadline),
+      additionalNotes: validatedFields.data.additionalNotes || null,
+    });
+    if (!newGoal) {
+      return {
+        success: false,
+        error: { general: 'Goal creation returned no data' },
+      };
+    }
+    revalidatePath('/main/goals');
+    return { success: true };
+  } catch {
     return {
+      success: false,
       error: { general: 'Failed to create goal' },
     };
   }
-
-  redirect('/main/goals');
 }
 
 export async function updateGoalAction(
@@ -64,6 +71,7 @@ export async function updateGoalAction(
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -75,25 +83,32 @@ export async function updateGoalAction(
 
   if (!sessionToken) {
     return {
+      success: false,
       error: { general: 'Failed to access session token' },
     };
   }
 
-  // Testen, ob es auch ohne try...catch geht!
-  const updatedGoal = await updateGoal(sessionToken, {
-    id: validatedFields.data.id,
-    title: validatedFields.data.title,
-    deadline: new Date(validatedFields.data.deadline),
-    additionalNotes: validatedFields.data.additionalNotes || null,
-  });
-
-  if (!updatedGoal) {
+  try {
+    const updatedGoal = await updateGoal(sessionToken, {
+      id: validatedFields.data.id,
+      title: validatedFields.data.title,
+      deadline: new Date(validatedFields.data.deadline),
+      additionalNotes: validatedFields.data.additionalNotes || null,
+    });
+    if (!updatedGoal) {
+      return {
+        success: false,
+        error: { general: 'Updated goal returned no data' },
+      };
+    }
+    revalidatePath('/main/goals');
+    return { success: true };
+  } catch {
     return {
+      success: false,
       error: { general: 'Failed to update goal' },
     };
   }
-
-  redirect('/main/goals');
 }
 
 export async function deleteGoalAction(
@@ -106,6 +121,7 @@ export async function deleteGoalAction(
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -117,17 +133,19 @@ export async function deleteGoalAction(
 
   if (!sessionToken) {
     return {
+      success: false,
       error: { general: 'Failed to access session token' },
     };
   }
 
   try {
     await deleteGoal(validatedFields.data.id, sessionToken);
-  } catch (error) {
-    console.log('Error deleting goals:', error);
+    revalidatePath('/main/goals');
+    return { success: true };
+  } catch {
     return {
+      success: false,
       error: { general: 'Failed to delete goal' },
     };
   }
-  redirect('/main/goals');
 }

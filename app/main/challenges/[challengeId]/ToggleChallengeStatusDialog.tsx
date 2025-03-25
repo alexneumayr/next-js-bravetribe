@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import { Switch } from '@/components/ui/switch';
 import type { Challenge } from '@prisma/client';
-import { useActionState, useState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 
 type Props = {
   challenge: Challenge;
@@ -19,10 +19,10 @@ type Props = {
 
 export default function ToggleChallengeStatusDialog({ challenge }: Props) {
   const [isCompleted, setIsCompleted] = useState(challenge.isCompleted);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
 
   const updateChallengeStatusActionWithSwitchValue =
@@ -33,8 +33,14 @@ export default function ToggleChallengeStatusDialog({ challenge }: Props) {
     initialState,
   );
 
+  useEffect(() => {
+    if (state.success) {
+      setIsDialogOpen(false);
+    }
+  }, [state]);
+
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger>
         <div className="">
           {challenge.isCompleted ? (
@@ -74,7 +80,7 @@ export default function ToggleChallengeStatusDialog({ challenge }: Props) {
             />
           </div>
           <input name="id" value={challenge.id} type="hidden" />
-          <div>{'error' in state && state.error.id}</div>
+          <div>{state.error?.id}</div>
 
           <div className="flex justify-around w-full gap-x-2 mt-8">
             <Button
@@ -92,7 +98,7 @@ export default function ToggleChallengeStatusDialog({ challenge }: Props) {
             </DialogClose>
           </div>
         </form>
-        {'error' in state && state.error.general && (
+        {state.error?.general && (
           <p className="text-red-500 font-bold ">{state.error.general}</p>
         )}
       </DialogContent>

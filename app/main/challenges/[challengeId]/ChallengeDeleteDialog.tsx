@@ -18,15 +18,15 @@ type Props = {
 
 export default function ChallengeDeleteDialog({ challenge, onClose }: Props) {
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
 
   const [state, formAction, pending] = useActionState(
     deleteChallengeAction,
     initialState,
   );
+
   return (
     <Dialog defaultOpen onOpenChange={() => onClose()}>
       <DialogContent
@@ -49,7 +49,7 @@ export default function ChallengeDeleteDialog({ challenge, onClose }: Props) {
         <DialogFooter>
           <form action={formAction} className="w-full">
             <input name="id" value={challenge.id} type="hidden" />
-            {'error' in state && state.error.id && (
+            {state.error?.id && (
               <p className="text-red-500 font-bold ">{state.error.id}</p>
             )}
             <div className="flex justify-around w-full gap-x-2 mt-6">
@@ -67,7 +67,7 @@ export default function ChallengeDeleteDialog({ challenge, onClose }: Props) {
                 </Button>
               </DialogClose>
             </div>
-            {'error' in state && state.error.general && (
+            {state.error?.general && (
               <p className="text-red-500 font-bold text-center">
                 {state.error.general}
               </p>

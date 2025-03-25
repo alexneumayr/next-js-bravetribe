@@ -29,15 +29,15 @@ import {
 } from '@radix-ui/react-popover';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
-import React, { useActionState } from 'react';
+import React, { useActionState, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 export default function NewGoal() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
 
   const form = useForm<z.infer<typeof goalSchema>>({
@@ -54,8 +54,14 @@ export default function NewGoal() {
     initialState,
   );
 
+  useEffect(() => {
+    if (state.success) {
+      setIsDialogOpen(false);
+    }
+  }, [state]);
+
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger>
         <div className="bg-secondary flex items-center justify-center rounded-[5px] text-secondary-foreground w-[52px] h-[30px] text-xs font-medium">
           New
@@ -86,9 +92,7 @@ export default function NewGoal() {
                     <Input placeholder="I want to fly to the moon" {...field} />
                   </FormControl>
                   <FormMessage />
-                  <FormMessage>
-                    {'error' in state && state.error.title}
-                  </FormMessage>
+                  <FormMessage>{state.error?.title}</FormMessage>
                 </FormItem>
               )}
             />
@@ -140,9 +144,7 @@ export default function NewGoal() {
                       </div>
                     </PopoverContent>
                   </Popover>
-                  <FormMessage>
-                    {'error' in state && state.error.deadline}
-                  </FormMessage>
+                  <FormMessage>{state.error?.deadline}</FormMessage>
                 </FormItem>
               )}
             />
@@ -157,7 +159,7 @@ export default function NewGoal() {
                   </FormControl>
                   <FormMessage />
                   <FormMessage className="">
-                    {'error' in state && state.error.additionalNotes}
+                    {state.error?.additionalNotes}
                   </FormMessage>
                 </FormItem>
               )}
@@ -179,7 +181,7 @@ export default function NewGoal() {
             </div>
           </form>
         </Form>
-        {'error' in state && state.error.general && (
+        {state.error?.general && (
           <p className="text-red-500 font-bold ">{state.error.general}</p>
         )}
       </DialogContent>

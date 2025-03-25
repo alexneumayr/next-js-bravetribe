@@ -128,7 +128,6 @@ export async function updateUserPasswordAction(
       id: validatedFields.data.id,
       passwordHash: passwordHash,
     });
-
     revalidatePath('/main/settings');
     return { success: true };
   } catch {

@@ -76,7 +76,7 @@ export default function MainExperienceContent({ experience, user }: Props) {
             )}
           </dl>
         </div>
-        <div className="">
+        <div className="w-full">
           <div className="flex justify-between items-start">
             <div className="">
               <h2 className="text-base font-bold">
