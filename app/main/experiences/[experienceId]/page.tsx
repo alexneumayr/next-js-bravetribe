@@ -24,9 +24,23 @@ export default async function ExperiencePage({ params }: Props) {
 
   if (!experience) {
     return (
-      <div>
-        <h1>Error loading experience {experienceId}</h1>
+      <div className="text-center">
+        <h1 className="font-bold text-2xl">
+          Error loading experience {experienceId}
+        </h1>
         <div>The experience does not exist</div>
+        <Link href="/main/experiences" className="text-[#0000FF] underline">
+          Back to Experiences
+        </Link>
+      </div>
+    );
+  }
+
+  if (!experience.user.areExperiencesPublic && experience.userId !== user.id) {
+    return (
+      <div className="text-center">
+        <h1 className="font-bold text-2xl">Access denied</h1>
+        <div>This experience is private</div>
         <Link href="/main/experiences" className="text-[#0000FF] underline">
           Back to Experiences
         </Link>

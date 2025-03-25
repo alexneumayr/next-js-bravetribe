@@ -1,4 +1,5 @@
 'use client';
+import { toggleAreExperiencesPublicAction } from '@/actions/userActions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,6 +12,7 @@ import AboutMeDialog from './AboutMeDialog';
 import AvatarDialog from './AvatarDialog';
 import GenderDialog from './GenderDialog';
 import LocationDialog from './LocationDialog';
+import ToggleExperiencesPublicSwitch from './ToggleExperiencesPublicSwitch';
 
 type Props = {
   user: User;
@@ -121,20 +123,7 @@ export default function ProfileSettings({ user }: Props) {
           <ChevronRight />
         </div>
       </div>
-      <div className="flex justify-between items-center ">
-        <Label
-          htmlFor="public-challenges"
-          className="flex-1 text-lg font-semibold cursor-pointer"
-        >
-          Show my experiences in public
-        </Label>
-        <Switch
-          id="public-challenges"
-          className="data-[state=checked]:bg-secondary"
-          onCheckedChange={(checked) => setIsCompleted(checked)}
-          defaultChecked={isCompleted}
-        />
-      </div>
+      <ToggleExperiencesPublicSwitch user={user} />
       <AboutMeDialog
         user={user}
         open={isAboutMeDialogOpen}

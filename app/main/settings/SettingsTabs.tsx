@@ -20,7 +20,7 @@ export default function SettingsTabs({ user }: Props) {
     },
   ];
   return (
-    <Tabs defaultValue="profile" className="space-y-4 mt-4">
+    <Tabs defaultValue="account" className="space-y-4 mt-4">
       <div className="flex items-center gap-2 justify-end">
         <TabsList className="w-full p-0 bg-background justify-start rounded-none">
           {tabs.map((tab) => (

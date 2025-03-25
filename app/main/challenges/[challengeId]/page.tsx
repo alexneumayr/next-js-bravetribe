@@ -33,8 +33,8 @@ export default async function ChallengePage({ params }: Props) {
   // If there is no challenge for the current user, show restricted access message
   if (!challenge) {
     return (
-      <div>
-        <h1>Access Denied</h1>
+      <div className="text-center">
+        <h1 className="font-bold text-2xl">Access Denied</h1>
         <div>You do not have permission to access this challenge</div>
         <Link href="/main/challenges" className="text-[#0000FF] underline">
           Back to Challenge Planner

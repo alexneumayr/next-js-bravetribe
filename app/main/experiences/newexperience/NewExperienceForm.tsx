@@ -19,6 +19,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import type { ExperienceActionState, LocationObject } from '@/types/types';
+import { getCoordinatesfromPlaceId } from '@/util/getCoordinationsfromPlaceId';
 import { experienceSchema } from '@/util/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { Challenge } from '@prisma/client';
@@ -30,7 +31,6 @@ import { StarRating } from 'react-flexible-star-rating';
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
 import LocationInput from '../../components/LocationInput';
-import { getCoordinatesfromPlaceId } from '../../googleplaces/getCoordinationsfromPlaceId';
 
 type Props = {
   challengeId: Challenge['id'];
@@ -180,6 +180,10 @@ export default function NewExperienceForm({ challengeId }: Props) {
                       selected={field.value}
                       onSelect={field.onChange}
                       initialFocus
+                      disabled={(fieldDate) =>
+                        fieldDate.setHours(0, 0, 0, 0) >
+                        new Date().setHours(0, 0, 0, 0)
+                      }
                     />
                   </PopoverContent>
                 </Popover>

@@ -111,6 +111,7 @@ export type UserActionState =
         currentPassword?: string[];
         newPassword?: string[];
         confirmPassword?: string[];
+        areExperiencesPublic?: string[];
         general?: string;
       };
     }

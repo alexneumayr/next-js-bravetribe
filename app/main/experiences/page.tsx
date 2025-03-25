@@ -31,6 +31,7 @@ export default async function ExperiencesPage({ searchParams }: Props) {
       category={category || 'mine'}
       searchParams={await searchParams}
       user={user}
+      sessionToken={sessionTokenCookie}
     />
   );
 }

@@ -18,6 +18,7 @@ import {
   deleteUserSchema,
   userSchema,
 } from '@/util/schemas';
+import type { User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -115,7 +116,6 @@ export async function updateUserPasswordAction(
       error: { general: 'Failed to get data of the current user' },
     };
   }
-  console.log(user.passwordHash);
   // Validate the user password by comparing with hashed password
   const isPasswordValid = await bcrypt.compare(
     validatedFields.data.currentPassword,
@@ -123,7 +123,6 @@ export async function updateUserPasswordAction(
   );
 
   if (!isPasswordValid) {
-    console.log('ID', validatedFields.data.id);
     return { error: { general: 'Current Password is invalid' } };
   }
 
@@ -140,6 +139,51 @@ export async function updateUserPasswordAction(
         error: { general: 'Password update returned no data' },
       };
     }
+    revalidatePath('/main/settings');
+    return {
+      user: updatedUser,
+    };
+  } catch {
+    return {
+      error: { general: 'Failed to update password' },
+    };
+  }
+}
+
+export async function toggleAreExperiencesPublicAction(
+  prevState: any,
+  user: Pick<User, 'id' | 'areExperiencesPublic'>,
+): Promise<UserActionState> {
+  const validatedFields = userSchema.safeParse({
+    id: user.id,
+    areExperiencesPublic: user.areExperiencesPublic,
+  });
+
+  if (!validatedFields.success) {
+    return {
+      error: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+  // 3. Get the token from the cookie
+  const sessionToken = await getCookie('sessionToken');
+  if (!sessionToken) {
+    return {
+      error: { general: 'Failed to access session token' },
+    };
+  }
+
+  try {
+    const updatedUser = await updateUser(sessionToken, {
+      id: validatedFields.data.id,
+      areExperiencesPublic: user.areExperiencesPublic,
+    });
+
+    if (!updatedUser) {
+      return {
+        error: { general: 'Experience update returned no data' },
+      };
+    }
+
     revalidatePath('/main/settings');
     return {
       user: updatedUser,

@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui/separator';
-import type { User } from '@prisma/client';
+import type { Session, User } from '@prisma/client';
 import SearchArea from '../components/SearchArea';
 import AllExperiences from './AllExperiences';
 import MyExperiences from './MyExperiences';
@@ -16,6 +16,7 @@ type Props = {
     text?: string;
   };
   user: User;
+  sessionToken: Session['token'];
 };
 
 export default function MainContentSearchPage({
@@ -24,6 +25,7 @@ export default function MainContentSearchPage({
   category,
   searchParams,
   user,
+  sessionToken,
 }: Props) {
   return (
     <div className="">
@@ -40,6 +42,7 @@ export default function MainContentSearchPage({
             currentPage={currentPage}
             pageSize={pageSize}
             user={user}
+            sessionToken={sessionToken}
           />
         ) : (
           <AllExperiences

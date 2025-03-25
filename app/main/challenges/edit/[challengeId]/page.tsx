@@ -15,8 +15,10 @@ export default async function ChallengePage({ params }: Props) {
   //  Check if the challenge exists
   if (!(await selectChallengeExists(challengeId))) {
     return (
-      <div>
-        <h1>Error loading challenge {challengeId}</h1>
+      <div className="text-center">
+        <h1 className="font-bold text-2xl">
+          Error loading challenge {challengeId}
+        </h1>
         <div>The challenge does not exist</div>
         <Link href="/main/challenges" className="text-[#0000FF] underline">
           Back to Challenge Planner

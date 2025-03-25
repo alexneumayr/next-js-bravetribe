@@ -22,7 +22,7 @@ export default function TabButtons({ searchParams, category }: Props) {
   }
   function handleUsersButtonClicked() {
     const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set('category', 'all');
+    newSearchParams.set('category', 'public');
     newSearchParams.set('page', '1');
     router.push(`/main/experiences?${newSearchParams.toString()}`);
   }
@@ -35,10 +35,10 @@ export default function TabButtons({ searchParams, category }: Props) {
         Mine
       </button>
       <button
-        className={`px-3 py-1 text-2xl font-bold border-primary ${category === 'all' ? 'border-b-2 text-foreground' : 'text-[#737373]'}`}
+        className={`px-3 py-1 text-2xl font-bold border-primary ${category === 'public' ? 'border-b-2 text-foreground' : 'text-[#737373]'}`}
         onClick={handleUsersButtonClicked}
       >
-        All
+        Public
       </button>
     </div>
   );

@@ -3,8 +3,8 @@ import { z } from 'zod';
 
 export const registrationSchema = z
   .object({
-    username: z.string().min(5, {
-      message: 'Please choose a username with minimum 5 characters',
+    username: z.string().min(1, {
+      message: 'Please choose a username',
     }),
     email: z
       .string()
@@ -23,10 +23,10 @@ export const registrationSchema = z
   });
 
 export const signinSchema = z.object({
-  username: z.string().min(3, {
+  username: z.string().min(1, {
     message: 'Please enter your username',
   }),
-  password: z.string().min(3, {
+  password: z.string().min(1, {
     message: 'Please enter your password',
   }),
 });
@@ -130,8 +130,8 @@ export const userSchema = z.object({
     .length(25, { message: 'Incorrect user ID transmitted' }),
   username: z
     .string()
-    .min(5, {
-      message: 'Please choose a username with minimum 5 characters',
+    .min(1, {
+      message: 'Please choose a username',
     })
     .optional()
     .nullable(),
@@ -149,6 +149,7 @@ export const userSchema = z.object({
     .optional()
     .or(z.literal(''))
     .nullable(),
+  areExperiencesPublic: z.boolean().optional().nullable(),
 });
 
 export const changeUserPasswordSchema = z

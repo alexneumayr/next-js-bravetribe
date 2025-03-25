@@ -55,8 +55,6 @@ export default function DeleteAccountDialog({
     initialState,
   );
 
-  useEffect(() => console.log(state.error), [state]);
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent

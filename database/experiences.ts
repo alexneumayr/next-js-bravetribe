@@ -12,6 +12,11 @@ import { getUserBySessionToken } from './users';
 export async function getNewestExperiencesInsecure() {
   const experiences = await prisma.experience.findMany({
     orderBy: [{ createdAt: 'desc' }],
+    where: {
+      user: {
+        areExperiencesPublic: true,
+      },
+    },
     take: 10,
     include: {
       challenge: true,
@@ -34,12 +39,11 @@ export type ExperienceWithAdditionalDetails = Prisma.ExperienceGetPayload<{
   };
 }>;
 
-export async function getExperiencesByTextInsecure(
+export async function getPublicExperiencesByTextInsecure(
   text: string,
   page: number,
   pageSize: number,
   fromExperiences?: boolean,
-  userId?: User['id'],
 ) {
   if (text || fromExperiences) {
     const experiences = await prisma.experience.findMany({
@@ -59,7 +63,9 @@ export async function getExperiencesByTextInsecure(
             },
           },
         ],
-        userId: userId,
+        user: {
+          areExperiencesPublic: true,
+        },
       },
       orderBy: [{ createdAt: 'desc' }],
       include: {
@@ -76,10 +82,55 @@ export async function getExperiencesByTextInsecure(
   }
 }
 
-export async function getTotalAmountOfExperiencesByTextInsecure(
+export async function getOwnExperiencesByText(
+  sessionToken: Session['token'],
+  text: string,
+  page: number,
+  pageSize: number,
+) {
+  const experiences = await prisma.experience.findMany({
+    where: {
+      OR: [
+        {
+          title: { contains: text, mode: 'insensitive' },
+        },
+        {
+          story: { contains: text, mode: 'insensitive' },
+        },
+        {
+          challenge: {
+            user: {
+              username: { contains: text, mode: 'insensitive' },
+            },
+          },
+        },
+      ],
+      user: {
+        sessions: {
+          some: {
+            token: sessionToken,
+            expiryTimestamp: { gt: new Date() },
+          },
+        },
+      },
+    },
+    orderBy: [{ createdAt: 'desc' }],
+    include: {
+      challenge: true,
+      likes: true,
+      comments: true,
+      user: { include: { experiences: true } },
+    },
+    take: pageSize,
+    skip: (page - 1) * pageSize,
+  });
+
+  return experiences;
+}
+
+export async function getTotalAmountOfPublicExperiencesByTextInsecure(
   text: string,
   fromExperiences?: boolean,
-  userId?: User['id'],
 ) {
   if (text || fromExperiences) {
     const count = await prisma.experience.count({
@@ -99,12 +150,50 @@ export async function getTotalAmountOfExperiencesByTextInsecure(
             },
           },
         ],
-        userId: userId,
+        user: {
+          areExperiencesPublic: true,
+        },
       },
     });
 
     return count;
   }
+}
+
+export async function getTotalAmountOfOwnExperiencesByTextInsecure(
+  sessionToken: Session['token'],
+  text: string,
+) {
+  const count = await prisma.experience.count({
+    where: {
+      OR: [
+        {
+          title: { contains: text, mode: 'insensitive' },
+        },
+        {
+          story: { contains: text, mode: 'insensitive' },
+        },
+        {
+          challenge: {
+            user: {
+              username: { contains: text, mode: 'insensitive' },
+            },
+          },
+        },
+      ],
+      user: {
+        areExperiencesPublic: true,
+        sessions: {
+          some: {
+            token: sessionToken,
+            expiryTimestamp: { gt: new Date() },
+          },
+        },
+      },
+    },
+  });
+
+  return count;
 }
 
 export async function getExperiencesFromLast12MonthsByUserIdInsecure(

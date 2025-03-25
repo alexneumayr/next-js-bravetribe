@@ -35,8 +35,8 @@ export default async function ChallengePage({ params }: Props) {
   // If this is not an editable experience for the current user, show restricted access message
   if (!experience) {
     return (
-      <div>
-        <h1>Access Denied</h1>
+      <div className="text-center">
+        <h1 className="font-bold text-2xl">Access Denied</h1>
         <div>You do not have permission to edit this experience</div>
         <Link href="/main/experiences" className="text-[#0000FF] underline">
           Back to Experiences

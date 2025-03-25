@@ -137,6 +137,8 @@ export async function updateUser(
   sessionToken: Session['token'],
   updatedUser: User,
 ) {
+  console.log(String(updatedUser.areExperiencesPublic));
+
   const user = await prisma.user.update({
     where: {
       id: updatedUser.id,
@@ -157,6 +159,10 @@ export async function updateUser(
       location: updatedUser.location || undefined,
       avatarImageUrl: updatedUser.avatarImageUrl || undefined,
       passwordHash: updatedUser.passwordHash || undefined,
+      areExperiencesPublic:
+        typeof updatedUser.areExperiencesPublic === 'boolean'
+          ? updatedUser.areExperiencesPublic
+          : undefined,
     },
   });
   return user;
