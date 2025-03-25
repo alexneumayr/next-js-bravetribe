@@ -9,14 +9,12 @@ import {
 } from '@/database/users';
 import type { LoginActionState, RegisterActionState } from '@/types/types';
 import { secureCookieOptions } from '@/util/cookies';
-import { getSafeReturnToPath } from '@/util/returnPathValidation';
 import { registrationSchema, signinSchema } from '@/util/schemas';
 import bcrypt from 'bcrypt';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 
 export async function registerUserAction(
-  returnTo: string,
   prevState: any,
   formData: FormData,
 ): Promise<RegisterActionState> {
@@ -30,6 +28,7 @@ export async function registerUserAction(
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -37,13 +36,19 @@ export async function registerUserAction(
   // 2. Checken, ob User schon existiert
   const userByEmail = await getUserByEmailInsecure(validatedFields.data.email);
   if (userByEmail) {
-    return { error: { general: 'Email already registered' } };
+    return {
+      success: false,
+      error: { general: 'Email already registered' },
+    };
   }
   const userByUsername = await getUserByUsernameInsecure(
     validatedFields.data.username,
   );
   if (userByUsername) {
-    return { error: { general: 'Username already taken' } };
+    return {
+      success: false,
+      error: { general: 'Username already taken' },
+    };
   }
   // Wenn er nicht existiert:
   // 3. Passwort hashen:
@@ -58,7 +63,10 @@ export async function registerUserAction(
       passwordHash,
     );
   } catch {
-    return { error: { general: 'Registration failed' } };
+    return {
+      success: false,
+      error: { general: 'Registration failed' },
+    };
   }
 
   // 5. Token erstellen
@@ -68,21 +76,22 @@ export async function registerUserAction(
   let session;
   try {
     session = await createSessionInsecure(token, newUser.id);
+    (await cookies()).set({
+      name: 'sessionToken',
+      value: session.token,
+      ...secureCookieOptions,
+    });
+    revalidatePath('/access');
+    return { success: true };
   } catch {
-    return { error: { general: 'Creating session failed' } };
+    return {
+      success: false,
+      error: { general: 'Creating session failed' },
+    };
   }
-
-  (await cookies()).set({
-    name: 'sessionToken',
-    value: session.token,
-    ...secureCookieOptions,
-  });
-
-  redirect(getSafeReturnToPath(returnTo) || '/main');
 }
 
 export async function loginUserAction(
-  returnTo: string,
   prevState: any,
   formData: FormData,
 ): Promise<LoginActionState> {
@@ -94,6 +103,7 @@ export async function loginUserAction(
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -103,7 +113,10 @@ export async function loginUserAction(
     validatedFields.data.username,
   );
   if (!userWithPasswordHash) {
-    return { error: { general: 'Username or Password is invalid' } };
+    return {
+      success: false,
+      error: { general: 'Username or Password is invalid' },
+    };
   }
 
   // 4. Validate the user password by comparing with hashed password
@@ -113,7 +126,10 @@ export async function loginUserAction(
   );
 
   if (!isPasswordValid) {
-    return { error: { general: 'Username or Password is invalid' } };
+    return {
+      success: false,
+      error: { general: 'Username or Password is invalid' },
+    };
   }
 
   // At this stage we have already confirmed that the user is who they say they are
@@ -123,17 +139,19 @@ export async function loginUserAction(
   let session;
   try {
     session = await createSessionInsecure(token, userWithPasswordHash.id);
+    (await cookies()).set({
+      name: 'sessionToken',
+      value: session.token,
+      ...secureCookieOptions,
+    });
+    revalidatePath('/access');
+    return { success: true };
   } catch {
-    return { error: { general: 'Creating session failed' } };
+    return {
+      success: false,
+      error: { general: 'Creating session failed' },
+    };
   }
-
-  (await cookies()).set({
-    name: 'sessionToken',
-    value: session.token,
-    ...secureCookieOptions,
-  });
-
-  redirect(getSafeReturnToPath(returnTo) || '/main');
 }
 
 export async function logoutUserAction() {

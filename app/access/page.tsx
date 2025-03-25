@@ -1,9 +1,18 @@
 import { getValidSession } from '@/database/sessions';
+import { getSafeReturnToPath } from '@/util/returnPathValidation';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import AccessTabs from './AccessTabs';
 
-export default async function AccessPage() {
+type Props = {
+  searchParams: Promise<{
+    returnTo?: string;
+  }>;
+};
+
+export default async function AccessPage({ searchParams }: Props) {
+  const returnTo = (await searchParams).returnTo;
+
   // 1. Check if the sessionToken cookie exists
   const cookieStore = await cookies();
 
@@ -16,7 +25,7 @@ export default async function AccessPage() {
 
   // 3. If the sessionToken cookie is valid, redirect to home
   if (session) {
-    redirect('/main');
+    redirect(getSafeReturnToPath(returnTo) || '/main');
   }
 
   // 4. If the sessionToken cookie is invalid or doesn't exist, show the login form

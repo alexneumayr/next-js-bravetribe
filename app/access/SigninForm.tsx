@@ -24,11 +24,7 @@ import { useActionState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-type Props = {
-  returnTo: string;
-};
-
-export default function SigninForm({ returnTo }: Props) {
+export default function SigninForm() {
   const form = useForm<z.infer<typeof signinSchema>>({
     resolver: zodResolver(signinSchema),
     defaultValues: {
@@ -38,15 +34,12 @@ export default function SigninForm({ returnTo }: Props) {
   });
 
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
 
-  const loginUserWithReturnTo = loginUserAction.bind(null, returnTo);
-
   const [state, formAction, pending] = useActionState(
-    loginUserWithReturnTo,
+    loginUserAction,
     initialState,
   );
 
@@ -62,7 +55,7 @@ export default function SigninForm({ returnTo }: Props) {
       <Form {...form}>
         <form action={formAction}>
           <CardContent className="space-y-2">
-            {'error' in state && state.error.general && (
+            {state.error?.general && (
               <p className="text-red-500 font-bold ">{state.error.general}</p>
             )}
             <FormField
@@ -72,7 +65,7 @@ export default function SigninForm({ returnTo }: Props) {
                 <FormItem className="space-y-1">
                   <FormLabel>Username</FormLabel>
                   <FormMessage className="">
-                    {'error' in state && state.error.username}
+                    {state.error?.username}
                   </FormMessage>
                   <FormControl>
                     <Input placeholder="Marvin K." {...field} />
@@ -86,9 +79,7 @@ export default function SigninForm({ returnTo }: Props) {
               render={({ field }) => (
                 <FormItem className="space-y-1">
                   <FormLabel>Password</FormLabel>
-                  <FormMessage>
-                    {'error' in state && state.error.password}
-                  </FormMessage>
+                  <FormMessage>{state.error?.password}</FormMessage>
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>

@@ -24,11 +24,7 @@ import { useActionState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-type Props = {
-  returnTo: string;
-};
-
-export default function RegisterForm({ returnTo }: Props) {
+export default function RegisterForm() {
   const form = useForm<z.infer<typeof registrationSchema>>({
     resolver: zodResolver(registrationSchema),
     defaultValues: {
@@ -40,15 +36,12 @@ export default function RegisterForm({ returnTo }: Props) {
   });
 
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
 
-  const loginUserWithReturnTo = registerUserAction.bind(null, returnTo);
-
   const [state, formAction, pending] = useActionState(
-    loginUserWithReturnTo,
+    registerUserAction,
     initialState,
   );
 
@@ -64,7 +57,7 @@ export default function RegisterForm({ returnTo }: Props) {
       <Form {...form}>
         <form action={formAction}>
           <CardContent className="space-y-2">
-            {'error' in state && state.error.general && (
+            {state.error?.general && (
               <p className="text-red-500 font-bold ">{state.error.general}</p>
             )}
             {'user' in state && (
@@ -78,9 +71,7 @@ export default function RegisterForm({ returnTo }: Props) {
               render={({ field }) => (
                 <FormItem className="space-y-1">
                   <FormLabel>Email</FormLabel>
-                  <FormMessage>
-                    {'error' in state && state.error.email}
-                  </FormMessage>
+                  <FormMessage>{state.error?.email}</FormMessage>
                   <FormControl>
                     <Input placeholder="marvin@kiwi.com" {...field} />
                   </FormControl>
@@ -94,7 +85,7 @@ export default function RegisterForm({ returnTo }: Props) {
                 <FormItem className="space-y-1">
                   <FormLabel>Username</FormLabel>
                   <FormMessage className="">
-                    {'error' in state && state.error.username}
+                    {state.error?.username}
                   </FormMessage>
                   <FormControl>
                     <Input placeholder="Marvin K." {...field} />
@@ -108,9 +99,7 @@ export default function RegisterForm({ returnTo }: Props) {
               render={({ field }) => (
                 <FormItem className="space-y-1">
                   <FormLabel>Password</FormLabel>
-                  <FormMessage>
-                    {'error' in state && state.error.password}
-                  </FormMessage>
+                  <FormMessage>{state.error?.password}</FormMessage>
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>
@@ -123,12 +112,8 @@ export default function RegisterForm({ returnTo }: Props) {
               render={({ field }) => (
                 <FormItem className="space-y-1">
                   <FormLabel>Confirm Password</FormLabel>
-                  <FormMessage>
-                    {'error' in state && state.error.confirmPassword}
-                  </FormMessage>
-                  <FormMessage>
-                    {'error' in state && state.error.confirmPasswordMatch}
-                  </FormMessage>
+                  <FormMessage>{state.error?.confirmPassword}</FormMessage>
+                  <FormMessage>{state.error?.confirmPasswordMatch}</FormMessage>
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>
