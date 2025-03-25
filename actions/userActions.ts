@@ -1,27 +1,20 @@
 'use server';
 
 import {
-  createComment,
-  deleteComment,
-  updateComment,
-} from '@/database/comments';
-import {
   deleteUser,
   getUserBySessionToken,
   updateUser,
 } from '@/database/users';
-import type { CommentActionState, UserActionState } from '@/types/types';
+import type { UserActionState } from '@/types/types';
 import { getCookie } from '@/util/cookies';
 import {
   changeUserPasswordSchema,
-  commentSchema,
   deleteUserSchema,
   userSchema,
 } from '@/util/schemas';
 import type { User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 
 export async function updateUserAction(
   prevState: any,
@@ -40,6 +33,7 @@ export async function updateUserAction(
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -51,32 +45,27 @@ export async function updateUserAction(
 
   if (!sessionToken) {
     return {
+      success: false,
       error: { general: 'Failed to access session token' },
     };
   }
 
   try {
-    const updatedUser = await updateUser(sessionToken, {
+    await updateUser(sessionToken, {
       id: validatedFields.data.id,
-      username: validatedFields.data.username,
-      email: validatedFields.data.email,
-      aboutDescription: validatedFields.data.aboutDescription,
-      gender: validatedFields.data.gender,
-      location: validatedFields.data.location,
-      avatarImageUrl: validatedFields.data.avatarImageUrl,
+      username: validatedFields.data.username || '',
+      email: validatedFields.data.email || '',
+      aboutDescription: validatedFields.data.aboutDescription || null,
+      gender: validatedFields.data.gender || null,
+      location: validatedFields.data.location || null,
+      avatarImageUrl: validatedFields.data.avatarImageUrl || null,
     });
 
-    if (!updatedUser) {
-      return {
-        error: { general: 'User update returned no data' },
-      };
-    }
     revalidatePath('/main/settings');
-    return {
-      user: updatedUser,
-    };
+    return { success: true };
   } catch {
     return {
+      success: false,
       error: { general: 'Failed to update comment' },
     };
   }
@@ -96,6 +85,7 @@ export async function updateUserPasswordAction(
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -105,6 +95,7 @@ export async function updateUserPasswordAction(
 
   if (!sessionToken) {
     return {
+      success: false,
       error: { general: 'Failed to access session token' },
     };
   }
@@ -113,6 +104,7 @@ export async function updateUserPasswordAction(
 
   if (!user) {
     return {
+      success: false,
       error: { general: 'Failed to get data of the current user' },
     };
   }
@@ -123,28 +115,25 @@ export async function updateUserPasswordAction(
   );
 
   if (!isPasswordValid) {
-    return { error: { general: 'Current Password is invalid' } };
+    return {
+      success: false,
+      error: { general: 'Current Password is invalid' },
+    };
   }
 
   const passwordHash = await bcrypt.hash(validatedFields.data.newPassword, 12);
 
   try {
-    const updatedUser = await updateUser(sessionToken, {
+    await updateUser(sessionToken, {
       id: validatedFields.data.id,
       passwordHash: passwordHash,
     });
 
-    if (!updatedUser) {
-      return {
-        error: { general: 'Password update returned no data' },
-      };
-    }
     revalidatePath('/main/settings');
-    return {
-      user: updatedUser,
-    };
+    return { success: true };
   } catch {
     return {
+      success: false,
       error: { general: 'Failed to update password' },
     };
   }
@@ -161,6 +150,7 @@ export async function toggleAreExperiencesPublicAction(
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -168,43 +158,41 @@ export async function toggleAreExperiencesPublicAction(
   const sessionToken = await getCookie('sessionToken');
   if (!sessionToken) {
     return {
+      success: false,
       error: { general: 'Failed to access session token' },
     };
   }
 
   try {
-    const updatedUser = await updateUser(sessionToken, {
+    await updateUser(sessionToken, {
       id: validatedFields.data.id,
       areExperiencesPublic: user.areExperiencesPublic,
     });
 
-    if (!updatedUser) {
-      return {
-        error: { general: 'Experience update returned no data' },
-      };
-    }
-
     revalidatePath('/main/settings');
     return {
-      user: updatedUser,
+      success: true,
     };
   } catch {
     return {
+      success: false,
       error: { general: 'Failed to update password' },
     };
   }
 }
 
-export async function deleteUserActions(
+export async function deleteUserAction(
   prevState: any,
   formData: FormData,
 ): Promise<UserActionState> {
   const validatedFields = deleteUserSchema.safeParse({
+    id: formData.get('id'),
     deleteConfirmation: formData.get('delete-confirmation'),
   });
 
   if (!validatedFields.success) {
     return {
+      success: false,
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
@@ -216,19 +204,21 @@ export async function deleteUserActions(
 
   if (!sessionToken) {
     return {
+      success: false,
       error: { general: 'Failed to access session token' },
     };
   }
 
   try {
-    const deletedUser = await deleteUser(validatedFields.data.id, sessionToken);
+    await deleteUser(validatedFields.data.id, sessionToken);
     revalidatePath('/main/settings');
     return {
-      user: deletedUser,
+      success: true,
     };
   } catch (error) {
     console.log('Error deleting user:', error);
     return {
+      success: false,
       error: { general: 'Failed to delete user' },
     };
   }

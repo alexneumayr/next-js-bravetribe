@@ -1,62 +1,45 @@
-import { createGoalAction } from '@/actions/goalsActions';
-import { deleteUserActions } from '@/actions/userActions';
+import { deleteUserAction } from '@/actions/userActions';
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
-import { goalSchema } from '@/util/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
 import type { User } from '@prisma/client';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@radix-ui/react-popover';
-import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
 import React, { useActionState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 type Props = {
   user: User;
+  openDialog: boolean;
+  onOpenDialogChange: (status: boolean) => void;
 };
 
 export default function DeleteAccountDialog({
   user,
-  open,
-  onOpenChange,
+  openDialog,
+  onOpenDialogChange,
 }: Props) {
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
 
   const [state, formAction, pending] = useActionState(
-    deleteUserActions,
+    deleteUserAction,
     initialState,
   );
 
+  useEffect(() => {
+    if (state.success) {
+      onOpenDialogChange(false);
+    }
+  }, [state, onOpenDialogChange]);
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={openDialog} onOpenChange={onOpenDialogChange}>
       <DialogContent
         className="max-w-[425px] [&>button]:hidden"
         onPointerDownOutside={(e) => e.preventDefault()}
@@ -69,10 +52,7 @@ export default function DeleteAccountDialog({
           </DialogTitle>
         </DialogHeader>
         <form action={formAction}>
-          <p
-            className="text-center font-bold text-2xl text-destructive mt-2
-      "
-          >
+          <p className="text-center font-bold text-2xl text-destructive mt-2">
             Are you sure?
           </p>
           <div>
@@ -80,7 +60,7 @@ export default function DeleteAccountDialog({
               Type in "DELETE" to confirm
             </p>
             <Input name="delete-confirmation" className="mt-3" />
-            {'error' in state && state.error.deleteConfirmation && (
+            {state.error?.deleteConfirmation && (
               <p className="text-red-500 font-bold text-center mt-2">
                 {state.error.deleteConfirmation}
               </p>
@@ -93,7 +73,7 @@ export default function DeleteAccountDialog({
             readOnly
             type="hidden"
           />
-          {'error' in state && state.error.id && (
+          {state.error?.id && (
             <p className="text-red-500 font-bold text-center">
               {state.error.id}
             </p>
@@ -113,7 +93,7 @@ export default function DeleteAccountDialog({
               </Button>
             </DialogClose>
           </div>
-          {'error' in state && state.error.general && (
+          {state.error?.general && (
             <p className="text-red-500 font-bold text-center mt-2">
               {state.error.general}
             </p>

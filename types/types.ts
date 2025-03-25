@@ -97,24 +97,22 @@ export type LikeActionState =
       like: Like;
     };
 
-export type UserActionState =
-  | {
-      error: {
-        id?: string[];
-        username?: string[];
-        email?: string[];
-        aboutDescription?: string[];
-        gender?: string[];
-        location?: string[];
-        avatarImageUrl?: string[];
-        deleteConfirmation?: string[];
-        currentPassword?: string[];
-        newPassword?: string[];
-        confirmPassword?: string[];
-        areExperiencesPublic?: string[];
-        general?: string;
-      };
-    }
-  | {
-      user: User;
-    };
+export type UserActionState = {
+  success: boolean;
+  error?: {
+    id?: string[];
+    username?: string[];
+    email?: string[];
+    aboutDescription?: string[];
+    gender?: string[];
+    location?: string[];
+    avatarImageUrl?: string[];
+    deleteConfirmation?: string[];
+    currentPassword?: string[];
+    newPassword?: string[];
+    confirmPassword?: string[];
+    confirmPasswordMatch?: string[];
+    areExperiencesPublic?: string[];
+    general?: string;
+  };
+};

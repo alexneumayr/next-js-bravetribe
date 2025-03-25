@@ -2,7 +2,7 @@ import { toggleAreExperiencesPublicAction } from '@/actions/userActions';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import type { User } from '@prisma/client';
-import React, { startTransition, useActionState, useEffect } from 'react';
+import React, { startTransition, useActionState } from 'react';
 
 type Props = {
   user: User;
@@ -10,9 +10,8 @@ type Props = {
 
 export default function ToggleExperiencesPublicSwitch({ user }: Props) {
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
 
   const [state, switchAction] = useActionState(
@@ -40,15 +39,15 @@ export default function ToggleExperiencesPublicSwitch({ user }: Props) {
           defaultChecked={user.areExperiencesPublic}
         />
       </div>
-      {'error' in state && state.error.id && (
+      {state.error?.id && (
         <p className="text-red-500 font-bold text-center">{state.error.id}</p>
       )}
-      {'error' in state && state.error.areExperiencesPublic && (
+      {state.error?.areExperiencesPublic && (
         <p className="text-red-500 font-bold text-center">
           {state.error.areExperiencesPublic}
         </p>
       )}
-      {'error' in state && state.error.general && (
+      {state.error?.general && (
         <p className="text-red-500 font-bold text-center mt-2">
           {state.error.general}
         </p>

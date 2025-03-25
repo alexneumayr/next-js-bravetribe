@@ -1,13 +1,8 @@
 'use client';
-import { toggleAreExperiencesPublicAction } from '@/actions/userActions';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
+
 import type { User } from '@prisma/client';
 import { ChevronRight } from 'lucide-react';
-import { useCallback, useState } from 'react';
-import LocationInput from '../components/LocationInput';
+import { useState } from 'react';
 import AboutMeDialog from './AboutMeDialog';
 import AvatarDialog from './AvatarDialog';
 import GenderDialog from './GenderDialog';
@@ -23,26 +18,6 @@ export default function ProfileSettings({ user }: Props) {
   const [isGenderDialogOpen, setIsGenderDialogOpen] = useState(false);
   const [isLocationDialogOpen, setIsLocationDialogOpen] = useState(false);
   const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(false);
-
-  const [locationErrorMessage, setLocationErrorMessage] = useState('');
-  const [locationInputValue, setLocationInputValue] = useState(
-    user.location || undefined,
-  );
-  const [isCompleted, setIsCompleted] = useState(user.areExperiencesPublic);
-
-  const handleLocationError = useCallback((error: string) => {
-    setLocationErrorMessage(error);
-  }, []);
-
-  function handleLocationSelected(placeName: string) {
-    setLocationInputValue(placeName);
-  }
-
-  function handleLocationInputChanged(
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) {
-    setLocationInputValue(event.currentTarget.value);
-  }
 
   return (
     <div className="space-y-2 ">
@@ -126,23 +101,23 @@ export default function ProfileSettings({ user }: Props) {
       <ToggleExperiencesPublicSwitch user={user} />
       <AboutMeDialog
         user={user}
-        open={isAboutMeDialogOpen}
-        onOpenChange={setIsAboutMeDialogOpen}
+        openDialog={isAboutMeDialogOpen}
+        onOpenDialogChange={setIsAboutMeDialogOpen}
       />
       <GenderDialog
         user={user}
-        open={isGenderDialogOpen}
-        onOpenChange={setIsGenderDialogOpen}
+        openDialog={isGenderDialogOpen}
+        onOpenDialogChange={setIsGenderDialogOpen}
       />
       <LocationDialog
         user={user}
-        open={isLocationDialogOpen}
-        onOpenChange={setIsLocationDialogOpen}
+        openDialog={isLocationDialogOpen}
+        onOpenDialogChange={setIsLocationDialogOpen}
       />
       <AvatarDialog
         user={user}
-        open={isAvatarDialogOpen}
-        onOpenChange={setIsAvatarDialogOpen}
+        openDialog={isAvatarDialogOpen}
+        onOpenDialogChange={setIsAvatarDialogOpen}
       />
     </div>
   );

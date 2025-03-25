@@ -1,49 +1,30 @@
-import { createGoalAction } from '@/actions/goalsActions';
 import { updateUserAction } from '@/actions/userActions';
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
-import { goalSchema } from '@/util/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
 import type { User } from '@prisma/client';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@radix-ui/react-popover';
-import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
 import React, { useActionState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 type Props = {
   user: User;
+  openDialog: boolean;
+  onOpenDialogChange: (status: boolean) => void;
 };
 
-export default function EmailDialog({ user, open, onOpenChange }: Props) {
+export default function EmailDialog({
+  user,
+  openDialog,
+  onOpenDialogChange,
+}: Props) {
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
 
   const [state, formAction, pending] = useActionState(
@@ -51,8 +32,14 @@ export default function EmailDialog({ user, open, onOpenChange }: Props) {
     initialState,
   );
 
+  useEffect(() => {
+    if (state.success) {
+      onOpenDialogChange(false);
+    }
+  }, [state, onOpenDialogChange]);
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={openDialog} onOpenChange={onOpenDialogChange}>
       <DialogContent
         className="max-w-[425px] [&>button]:hidden"
         onPointerDownOutside={(e) => e.preventDefault()}
@@ -67,7 +54,7 @@ export default function EmailDialog({ user, open, onOpenChange }: Props) {
         </DialogHeader>
         <form action={formAction}>
           <Input name="email" defaultValue={user.email} className="mt-3" />
-          {'error' in state && state.error.email && (
+          {state.error?.email && (
             <p className="text-red-500 font-bold text-center">
               {state.error.email}
             </p>
@@ -79,7 +66,7 @@ export default function EmailDialog({ user, open, onOpenChange }: Props) {
             readOnly
             type="hidden"
           />
-          {'error' in state && state.error.id && (
+          {state.error?.id && (
             <p className="text-red-500 font-bold text-center">
               {state.error.id}
             </p>
@@ -99,7 +86,7 @@ export default function EmailDialog({ user, open, onOpenChange }: Props) {
               </Button>
             </DialogClose>
           </div>
-          {'error' in state && state.error.general && (
+          {state.error?.general && (
             <p className="text-red-500 font-bold ">{state.error.general}</p>
           )}
         </form>

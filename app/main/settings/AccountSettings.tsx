@@ -1,10 +1,8 @@
 'use client';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+
 import type { User } from '@prisma/client';
 import { ChevronRight } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import DeleteAccountDialog from './DeleteAccountDialog';
 import EmailDialog from './EmailDialog';
 import PasswordDialog from './PasswordDialog';
@@ -98,23 +96,23 @@ export default function AccountSettings({ user }: Props) {
       </div>
       <UsernameDialog
         user={user}
-        open={isUsernameDialogOpen}
-        onOpenChange={setIsUsernameDialogOpen}
+        openDialog={isUsernameDialogOpen}
+        onOpenDialogChange={setIsUsernameDialogOpen}
       />
       <EmailDialog
         user={user}
-        open={isEmailDialogOpen}
-        onOpenChange={setIsEmailDialogOpen}
+        openDialog={isEmailDialogOpen}
+        onOpenDialogChange={setIsEmailDialogOpen}
       />
       <DeleteAccountDialog
         user={user}
-        open={isDeleteAccountDialogOpen}
-        onOpenChange={setIsDeleteAccountDialogOpen}
+        openDialog={isDeleteAccountDialogOpen}
+        onOpenDialogChange={setIsDeleteAccountDialogOpen}
       />
       <PasswordDialog
         user={user}
-        open={isPasswordDialogOpen}
-        onOpenChange={setIsPasswordDialogOpen}
+        openDialog={isPasswordDialogOpen}
+        onOpenDialogChange={setIsPasswordDialogOpen}
       />
     </div>
   );

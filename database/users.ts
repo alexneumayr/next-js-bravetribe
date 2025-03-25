@@ -135,10 +135,9 @@ export async function getUserByIdInsecure(id: string) {
 
 export async function updateUser(
   sessionToken: Session['token'],
-  updatedUser: User,
+  updatedUser: Pick<User, 'id'> &
+    Partial<Omit<User, 'id' | 'memberSince' | 'role'>>,
 ) {
-  console.log(String(updatedUser.areExperiencesPublic));
-
   const user = await prisma.user.update({
     where: {
       id: updatedUser.id,

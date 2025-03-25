@@ -142,7 +142,7 @@ export const userSchema = z.object({
     .nullable(),
   aboutDescription: z.string().optional().nullable(),
   gender: z.string().optional().nullable(),
-  location: z.custom<LocationObject>().optional().nullable(),
+  location: z.string().optional().nullable(),
   avatarImageUrl: z
     .string({ message: 'Problem with image Url' })
     .url()
