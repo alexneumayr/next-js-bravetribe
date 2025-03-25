@@ -76,7 +76,8 @@ const initUsers: Prisma.UserCreateInput[] = [
     role: 'user',
     aboutDescription:
       "I'm an adventurous traveler who loves meeting new people and experiencing different cultures. I believe that stepping out of my comfort zone is the best way to grow, and I'm excited to be part of a community that shares the same mindset.",
-    avatarImageUrl: 'user.jpg',
+    avatarImageUrl:
+      'https://res.cloudinary.com/duayl4vkp/image/upload/v1742924375/jswesuiu8smbsgoql8fb.jpg',
     gender: 'Woman',
     location: 'Berlin, Germany',
     goals: {
@@ -103,7 +104,8 @@ const initUsers: Prisma.UserCreateInput[] = [
     role: 'user',
     aboutDescription:
       "I'm a software engineer who spends too much time behind a screen. I'm here to challenge myself socially and push past my usual comfort zone, especially when it comes to public interactions.",
-    avatarImageUrl: 'user.jpg',
+    avatarImageUrl:
+      'https://res.cloudinary.com/duayl4vkp/image/upload/v1742924608/fo7hrylqwtjaptjcvzeh.jpg',
     gender: 'Man',
     location: 'San Francisco, USA',
     goals: {
@@ -130,7 +132,8 @@ const initUsers: Prisma.UserCreateInput[] = [
     role: 'user',
     aboutDescription:
       "I'm a fitness coach who believes that mental challenges are just as important as physical ones. I love pushing myself in all aspects of life and helping others do the same.",
-    avatarImageUrl: 'user.jpg',
+    avatarImageUrl:
+      'https://res.cloudinary.com/duayl4vkp/image/upload/v1742924773/z5agzxsofazcfhnlmmot.jpg',
     gender: 'Woman',
     location: 'London, UK',
     goals: {
@@ -156,7 +159,8 @@ const initUsers: Prisma.UserCreateInput[] = [
     role: 'user',
     aboutDescription:
       "I'm an aspiring stand-up comedian who wants to become more comfortable performing in front of strangers. Every awkward situation is just another funny story waiting to happen.",
-    avatarImageUrl: 'user.jpg',
+    avatarImageUrl:
+      'https://res.cloudinary.com/duayl4vkp/image/upload/v1742924075/pbwaap3bpjjex7o1snnz.jpg',
     gender: 'Man',
     location: 'New York, USA',
     goals: {
@@ -182,7 +186,8 @@ const initUsers: Prisma.UserCreateInput[] = [
     role: 'user',
     aboutDescription:
       "I'm a photographer who loves capturing human emotions. But when it comes to being in front of the camera myself, I struggle. I'm here to face that fear head-on.",
-    avatarImageUrl: 'user.jpg',
+    avatarImageUrl:
+      'https://res.cloudinary.com/duayl4vkp/image/upload/v1742924514/okgt3xvknwlg5us8lnn3.jpg',
     gender: 'Woman',
     location: 'Sydney, Australia',
     goals: {
@@ -240,42 +245,6 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     },
   },
   {
-    title: 'Public Speaking Challenge',
-    description:
-      "Give a short speech in front of a group of strangers on a topic you're passionate about.",
-    plannedDate: '2026-03-12T00:00:00.000Z',
-    user: {
-      connect: { email: 'jason.lee@email.com' },
-    },
-    experiences: {
-      create: {
-        title: 'From Nervousness to Confidence: Public Speaking',
-        story:
-          'I was nervous at first, but once I started speaking about tech, I felt more confident. It was empowering to share my knowledge with others.',
-        rating: 4,
-        date: '2025-03-12T00:00:00.000Z',
-        user: {
-          connect: { email: 'jason.lee@email.com' },
-        },
-        comments: {
-          create: {
-            content: 'Great job! You really nailed it!',
-            user: {
-              connect: { email: 'sophia.miller@email.com' },
-            },
-          },
-        },
-        likes: {
-          create: {
-            user: {
-              connect: { email: 'sophia.miller@email.com' },
-            },
-          },
-        },
-      },
-    },
-  },
-  {
     title: 'Solo Travel Challenge',
     description:
       "Take a solo trip to a place where you don't speak the language and document your journey.",
@@ -289,7 +258,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
         story:
           "I visited a country where I didn't speak the language, and despite some challenges, it was an eye-opening experience. I learned so much about myself and the world.",
         rating: 5,
-        date: '2025-03-13T00:00:00.000Z',
+        date: '2025-03-12T00:00:00.000Z',
         user: {
           connect: { email: 'sophia.miller@email.com' },
         },
@@ -312,35 +281,35 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     },
   },
   {
-    title: 'Open Mic Comedy Challenge',
+    title: 'Public Speaking Challenge',
     description:
-      'Perform stand-up comedy at an open mic night and make the audience laugh.',
-    plannedDate: '2026-03-14T00:00:00.000Z',
+      "Give a short speech in front of a group of strangers on a topic you're passionate about.",
+    plannedDate: '2026-03-12T00:00:00.000Z',
     user: {
-      connect: { email: 'david.roberts@email.com' },
+      connect: { email: 'jason.lee@email.com' },
     },
     experiences: {
       create: {
-        title: 'Laughter and Nerves: The Open Mic Experience',
+        title: 'From Nervousness to Confidence: Public Speaking',
         story:
-          "It was nerve-wracking at first, but once the audience laughed, I felt on top of the world. I can't wait to perform again!",
-        rating: 5,
-        date: '2025-03-14T00:00:00.000Z',
+          'I was nervous at first, but once I started speaking about tech, I felt more confident. It was empowering to share my knowledge with others.',
+        rating: 4,
+        date: '2025-03-13T00:00:00.000Z',
         user: {
-          connect: { email: 'david.roberts@email.com' },
+          connect: { email: 'jason.lee@email.com' },
         },
         comments: {
           create: {
-            content: 'You crushed it! I was laughing the whole time.',
+            content: 'Great job! You really nailed it!',
             user: {
-              connect: { email: 'jason.lee@email.com' },
+              connect: { email: 'sophia.miller@email.com' },
             },
           },
         },
         likes: {
           create: {
             user: {
-              connect: { email: 'jason.lee@email.com' },
+              connect: { email: 'sophia.miller@email.com' },
             },
           },
         },
@@ -361,7 +330,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
         story:
           'At first, I was intimidated, but once I started talking to people, I realized how easy it was to connect with others in the gym.',
         rating: 4,
-        date: '2025-03-15T00:00:00.000Z',
+        date: '2025-03-14T00:00:00.000Z',
         user: {
           connect: { email: 'emma.johnson@email.com' },
         },
@@ -377,6 +346,42 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
           create: {
             user: {
               connect: { email: 'lisa.taylor@email.com' },
+            },
+          },
+        },
+      },
+    },
+  },
+  {
+    title: 'Open Mic Comedy Challenge',
+    description:
+      'Perform stand-up comedy at an open mic night and make the audience laugh.',
+    plannedDate: '2026-03-14T00:00:00.000Z',
+    user: {
+      connect: { email: 'david.roberts@email.com' },
+    },
+    experiences: {
+      create: {
+        title: 'Laughter and Nerves: The Open Mic Experience',
+        story:
+          "It was nerve-wracking at first, but once the audience laughed, I felt on top of the world. I can't wait to perform again!",
+        rating: 5,
+        date: '2025-03-15T00:00:00.000Z',
+        user: {
+          connect: { email: 'david.roberts@email.com' },
+        },
+        comments: {
+          create: {
+            content: 'You crushed it! I was laughing the whole time.',
+            user: {
+              connect: { email: 'jason.lee@email.com' },
+            },
+          },
+        },
+        likes: {
+          create: {
+            user: {
+              connect: { email: 'jason.lee@email.com' },
             },
           },
         },
