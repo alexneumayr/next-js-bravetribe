@@ -1,6 +1,6 @@
 import { updateChallengeStatusAction } from '@/actions/challengeActions';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/shadcn/badge';
+import { Button } from '@/components/shadcn/button';
 import {
   Dialog,
   DialogClose,
@@ -8,8 +8,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Switch } from '@/components/ui/switch';
+} from '@/components/shadcn/dialog';
+import { Switch } from '@/components/shadcn/switch';
 import type { Challenge } from '@prisma/client';
 import { useActionState, useEffect, useState } from 'react';
 

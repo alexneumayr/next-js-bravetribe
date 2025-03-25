@@ -1,6 +1,10 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
-import { Separator } from '@/components/ui/separator';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/shadcn/avatar';
+import { PaginationWithLinks } from '@/components/shadcn/pagination-with-links';
+import { Separator } from '@/components/shadcn/separator';
 import levelNames from '@/util/levelNames';
 import type { Prisma, User } from '@prisma/client';
 import { MessageSquare } from 'lucide-react';

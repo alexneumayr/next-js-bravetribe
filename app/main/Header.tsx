@@ -1,6 +1,10 @@
 import { logoutUserAction } from '@/actions/authActions';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/shadcn/avatar';
+import { Button } from '@/components/shadcn/button';
 import {
   Dialog,
   DialogClose,
@@ -9,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@/components/shadcn/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,7 +21,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@/components/shadcn/dropdown-menu';
 import { getUserBySessionToken } from '@/database/users';
 import { getCookie } from '@/util/cookies';
 import { CircleUserRound, LogOut, Search, Settings } from 'lucide-react';

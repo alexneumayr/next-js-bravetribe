@@ -1,6 +1,6 @@
 import { deleteGoalAction, updateGoalAction } from '@/actions/goalsActions';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
+import { Button } from '@/components/shadcn/button';
+import { Calendar } from '@/components/shadcn/calendar';
 import {
   Dialog,
   DialogClose,
@@ -8,7 +8,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@/components/shadcn/dialog';
 import {
   Form,
   FormControl,
@@ -16,9 +16,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/components/shadcn/form';
+import { Input } from '@/components/shadcn/input';
+import { Textarea } from '@/components/shadcn/textarea';
 import { cn } from '@/lib/utils';
 import { goalSchema } from '@/util/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';

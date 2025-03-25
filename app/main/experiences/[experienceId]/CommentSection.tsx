@@ -1,5 +1,9 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Separator } from '@/components/ui/separator';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/shadcn/avatar';
+import { Separator } from '@/components/shadcn/separator';
 import type { FullComment } from '@/types/types';
 import levelNames from '@/util/levelNames';
 import type { User } from '@prisma/client';

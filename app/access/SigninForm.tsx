@@ -1,6 +1,6 @@
 'use client';
 import { loginUserAction } from '@/actions/authActions';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcn/button';
 import {
   Card,
   CardContent,
@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@/components/shadcn/card';
 import {
   Form,
   FormControl,
@@ -16,8 +16,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@/components/shadcn/form';
+import { Input } from '@/components/shadcn/input';
 import { signinSchema } from '@/util/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useActionState } from 'react';

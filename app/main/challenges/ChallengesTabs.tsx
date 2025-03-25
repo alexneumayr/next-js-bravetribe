@@ -1,6 +1,11 @@
 'use client';
-import { Input } from '@/components/ui/input';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Input } from '@/components/shadcn/input';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/shadcn/tabs';
 import type { Challenge } from '@prisma/client';
 import { Search } from 'lucide-react';
 import React, { useState } from 'react';

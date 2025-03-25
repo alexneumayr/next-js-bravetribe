@@ -1,4 +1,4 @@
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@/components/shadcn/separator';
 import { getExperienceInsecure } from '@/database/experiences';
 import { getUserBySessionToken } from '@/database/users';
 import { getCookie } from '@/util/cookies';

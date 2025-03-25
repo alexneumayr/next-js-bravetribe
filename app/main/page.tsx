@@ -1,9 +1,9 @@
-import { Separator } from '@/components/ui/separator';
+import ExperiencesPreview from '@/components/ExperiencesPreview';
+import { Separator } from '@/components/shadcn/separator';
 import { getNewestExperiencesInsecure } from '@/database/experiences';
 import { getUserBySessionToken } from '@/database/users';
 import { getCookie } from '@/util/cookies';
 import { redirect } from 'next/navigation';
-import ExperiencesPreview from './components/ExperiencesPreview';
 
 export default async function page() {
   const sessionTokenCookie = await getCookie('sessionToken');

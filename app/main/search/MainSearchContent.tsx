@@ -1,6 +1,6 @@
-import { Separator } from '@/components/ui/separator';
+import SearchArea from '@/components/SearchArea';
+import { Separator } from '@/components/shadcn/separator';
 import type { User } from '@prisma/client';
-import SearchArea from '../components/SearchArea';
 import SearchResultsExperiences from './SearchResultsExperiences';
 import SearchResultsUsers from './SearchResultsUsers';
 import TabButtons from './TabButtons';

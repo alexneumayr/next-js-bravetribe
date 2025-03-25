@@ -1,16 +1,16 @@
 import { updateUserAction } from '@/actions/userActions';
-import { Button } from '@/components/ui/button';
+import LocationInput from '@/components/LocationInput';
+import { Button } from '@/components/shadcn/button';
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
+} from '@/components/shadcn/dialog';
+import { Input } from '@/components/shadcn/input';
 import type { User } from '@prisma/client';
 import React, { useActionState, useEffect, useState } from 'react';
-import LocationInput from '../components/LocationInput';
 
 type Props = {
   user: User;

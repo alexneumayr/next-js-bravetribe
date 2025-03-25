@@ -1,7 +1,7 @@
 'use client';
 import { createChallengeAction } from '@/actions/challengeActions';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
+import { Button } from '@/components/shadcn/button';
+import { Calendar } from '@/components/shadcn/calendar';
 import {
   Form,
   FormControl,
@@ -9,14 +9,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@/components/shadcn/form';
+import { Input } from '@/components/shadcn/input';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/components/shadcn/popover';
+import { Textarea } from '@/components/shadcn/textarea';
 import { cn } from '@/lib/utils';
 import type { ChallengeActionState } from '@/types/types';
 import { challengeSchema } from '@/util/schemas';

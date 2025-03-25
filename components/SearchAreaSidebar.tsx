@@ -1,5 +1,5 @@
 'use client';
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/shadcn/input';
 import { Search } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';

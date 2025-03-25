@@ -1,6 +1,6 @@
 'use client';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from '@/components/shadcn/button';
+import { Input } from '@/components/shadcn/input';
 import { Search } from 'lucide-react';
 import { type Route } from 'next';
 import { usePathname, useRouter } from 'next/navigation';

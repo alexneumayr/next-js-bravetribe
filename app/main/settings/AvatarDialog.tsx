@@ -1,14 +1,18 @@
 import { updateUserAction } from '@/actions/userActions';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/shadcn/avatar';
+import { Button } from '@/components/shadcn/button';
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
+} from '@/components/shadcn/dialog';
+import { Input } from '@/components/shadcn/input';
 import type { User } from '@prisma/client';
 import { CldUploadWidget } from 'next-cloudinary';
 import React, { useActionState, useEffect, useState } from 'react';

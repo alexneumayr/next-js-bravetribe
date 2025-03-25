@@ -1,5 +1,9 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/shadcn/avatar';
+import { PaginationWithLinks } from '@/components/shadcn/pagination-with-links';
 import {
   Table,
   TableBody,
@@ -7,7 +11,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from '@/components/shadcn/table';
 import {
   getTotalAmountOfUsersByTextInsecure,
   getUsersByTextInsecure,

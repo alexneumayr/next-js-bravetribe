@@ -6,13 +6,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@/components/shadcn/card';
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from '@/components/ui/chart';
+} from '@/components/shadcn/chart';
 import { monthNames } from '@/util/monthNames';
 import { DateTime } from 'luxon';
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';

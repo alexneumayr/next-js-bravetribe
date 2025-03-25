@@ -4,8 +4,8 @@ import {
   CommandGroup,
   CommandItem,
   CommandList,
-} from '@/components/ui/command';
-import { Input } from '@/components/ui/input';
+} from '@/components/shadcn/command';
+import { Input } from '@/components/shadcn/input';
 import { debounce } from 'lodash';
 import React, { useMemo, useState } from 'react';
 

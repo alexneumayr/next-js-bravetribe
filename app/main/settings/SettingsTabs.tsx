@@ -1,5 +1,10 @@
 'use client';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/shadcn/tabs';
 import type { User } from '@prisma/client';
 import AccountSettings from './AccountSettings';
 import ProfileSettings from './ProfileSettings';

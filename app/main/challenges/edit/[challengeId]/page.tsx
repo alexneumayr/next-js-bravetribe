@@ -1,4 +1,4 @@
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@/components/shadcn/separator';
 import { getChallenge, selectChallengeExists } from '@/database/challenges';
 import { getCookie } from '@/util/cookies';
 import Link from 'next/link';

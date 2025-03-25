@@ -1,7 +1,7 @@
 'use client';
 
 import { createCommentAction } from '@/actions/commentActions';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcn/button';
 import type { Experience } from '@prisma/client';
 import { useActionState, useEffect, useRef, useState } from 'react';
 

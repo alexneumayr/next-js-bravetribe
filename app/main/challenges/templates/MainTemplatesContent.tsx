@@ -1,5 +1,5 @@
 'use client';
-import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
+import { PaginationWithLinks } from '@/components/shadcn/pagination-with-links';
 import type { Template } from '@prisma/client';
 import Image from 'next/image';
 import { useState } from 'react';

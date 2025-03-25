@@ -1,7 +1,8 @@
 'use client';
 import { updateExperienceAction } from '@/actions/experienceActions';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
+import LocationInput from '@/components/LocationInput';
+import { Button } from '@/components/shadcn/button';
+import { Calendar } from '@/components/shadcn/calendar';
 import {
   Form,
   FormControl,
@@ -9,14 +10,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@/components/shadcn/form';
+import { Input } from '@/components/shadcn/input';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/components/shadcn/popover';
+import { Textarea } from '@/components/shadcn/textarea';
 import { cn } from '@/lib/utils';
 import type { ExperienceActionState, LocationObject } from '@/types/types';
 import { getCoordinatesfromPlaceId } from '@/util/getCoordinationsfromPlaceId';
@@ -31,7 +32,6 @@ import { useActionState, useCallback, useEffect, useState } from 'react';
 import { StarRating } from 'react-flexible-star-rating';
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
-import LocationInput from '../../../components/LocationInput';
 
 type Props = {
   experience: Experience;

@@ -1,7 +1,11 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import SearchAreaSidebar from '@/components/SearchAreaSidebar';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/shadcn/avatar';
 import { getNewestUsersInsecure } from '@/database/users';
 import Link from 'next/link';
-import SearchAreaSidebar from './components/SearchAreaSidebar';
 
 export default async function SidebarRight() {
   const newestUsers = await getNewestUsersInsecure();

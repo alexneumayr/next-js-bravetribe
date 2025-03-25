@@ -1,14 +1,14 @@
 import { updateUserAction } from '@/actions/userActions';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcn/button';
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/components/shadcn/dialog';
+import { Input } from '@/components/shadcn/input';
+import { Textarea } from '@/components/shadcn/textarea';
 import type { User } from '@prisma/client';
 import React, { useActionState, useEffect } from 'react';
 

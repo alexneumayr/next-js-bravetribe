@@ -1,4 +1,4 @@
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@/components/shadcn/separator';
 import { getValidSession } from '@/database/sessions';
 import { getTemplateInsecure } from '@/database/templates';
 import { getCookie } from '@/util/cookies';

@@ -1,4 +1,5 @@
-import { Separator } from '@/components/ui/separator';
+import SearchArea from '@/components/SearchArea';
+import { Separator } from '@/components/shadcn/separator';
 import { getValidSession } from '@/database/sessions';
 import {
   getChallengeTemplatesInsecure,
@@ -6,7 +7,6 @@ import {
 } from '@/database/templates';
 import { getCookie } from '@/util/cookies';
 import { redirect } from 'next/navigation';
-import SearchArea from '../../components/SearchArea';
 import MainTemplatesContent from './MainTemplatesContent';
 
 type Props = {

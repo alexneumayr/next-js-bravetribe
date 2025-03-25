@@ -1,5 +1,5 @@
 import { deleteExperienceAction } from '@/actions/experienceActions';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcn/button';
 import {
   Dialog,
   DialogClose,
@@ -7,7 +7,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@/components/shadcn/dialog';
 import type { Experience, User } from '@prisma/client';
 import { usePathname } from 'next/navigation';
 import { useActionState } from 'react';

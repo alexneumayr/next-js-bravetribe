@@ -1,5 +1,10 @@
 'use client';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/shadcn/tabs';
 import { useSearchParams } from 'next/navigation';
 import RegisterForm from './RegisterForm';
 import SigninForm from './SigninForm';
@@ -8,7 +13,6 @@ export default function AccessTabs() {
   const searchParams = useSearchParams();
 
   const mode = searchParams.get('mode') || undefined;
-  const returnTo = searchParams.get('returnTo') || '';
 
   return (
     <div>
@@ -20,11 +24,11 @@ export default function AccessTabs() {
         </TabsList>
 
         <TabsContent value="signin">
-          <SigninForm returnTo={returnTo} />
+          <SigninForm />
         </TabsContent>
 
         <TabsContent value="join">
-          <RegisterForm returnTo={returnTo} />
+          <RegisterForm />
         </TabsContent>
       </Tabs>
     </div>

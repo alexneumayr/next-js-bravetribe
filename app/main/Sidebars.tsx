@@ -1,5 +1,5 @@
+import { SidebarNav } from '@/components/shadcn/sidebar-nav';
 import { type ReactNode } from 'react';
-import { SidebarNav } from './components/sidebar-nav';
 import SidebarRight from './SidebarRight';
 
 interface SidebarLeftProps {

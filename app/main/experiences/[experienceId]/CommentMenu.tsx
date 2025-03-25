@@ -6,7 +6,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@/components/shadcn/dropdown-menu';
 import type { Comment, User } from '@prisma/client';
 import { Ellipsis, Flag, Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';

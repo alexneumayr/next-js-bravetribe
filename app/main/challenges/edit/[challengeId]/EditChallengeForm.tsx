@@ -1,7 +1,7 @@
 'use client';
 import { updateChallengeAction } from '@/actions/challengeActions';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
+import { Button } from '@/components/shadcn/button';
+import { Calendar } from '@/components/shadcn/calendar';
 import {
   Form,
   FormControl,
@@ -9,14 +9,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@/components/shadcn/form';
+import { Input } from '@/components/shadcn/input';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/components/shadcn/popover';
+import { Textarea } from '@/components/shadcn/textarea';
 import { cn } from '@/lib/utils';
 import type { ChallengeActionState } from '@/types/types';
 import { challengeSchema } from '@/util/schemas';
@@ -34,9 +34,8 @@ type Props = {
 
 export default function EditChallengeForm({ challenge }: Props) {
   const initialState = {
-    error: {
-      general: '',
-    },
+    success: false,
+    error: {},
   };
 
   const form = useForm<z.infer<typeof challengeSchema>>({
@@ -80,9 +79,7 @@ export default function EditChallengeForm({ challenge }: Props) {
                   <Input placeholder="I want to fly to the moon" {...field} />
                 </FormControl>
                 <FormMessage />
-                <FormMessage>
-                  {'error' in savedActionState && savedActionState.error.title}
-                </FormMessage>
+                <FormMessage>{savedActionState.error?.title}</FormMessage>
               </FormItem>
             )}
           />
@@ -129,10 +126,7 @@ export default function EditChallengeForm({ challenge }: Props) {
                     />
                   </PopoverContent>
                 </Popover>
-                <FormMessage>
-                  {'error' in savedActionState &&
-                    savedActionState.error.plannedDate}
-                </FormMessage>
+                <FormMessage>{savedActionState.error?.plannedDate}</FormMessage>
               </FormItem>
             )}
           />
@@ -149,8 +143,7 @@ export default function EditChallengeForm({ challenge }: Props) {
                 </FormControl>
                 <FormMessage />
                 <FormMessage className="">
-                  {'error' in savedActionState &&
-                    savedActionState.error.description}
+                  {savedActionState.error?.description}
                 </FormMessage>
               </FormItem>
             )}
@@ -166,7 +159,7 @@ export default function EditChallengeForm({ challenge }: Props) {
                 </FormControl>
                 <FormMessage />
                 <FormMessage className="">
-                  {'error' in savedActionState && savedActionState.error.id}
+                  {savedActionState.error?.id}
                 </FormMessage>
               </FormItem>
             )}
@@ -191,7 +184,7 @@ export default function EditChallengeForm({ challenge }: Props) {
           </div>
         </form>
       </Form>
-      {'error' in savedActionState && savedActionState.error.general && (
+      {savedActionState.error?.general && (
         <p className="text-red-500 font-bold ">
           {savedActionState.error.general}
         </p>

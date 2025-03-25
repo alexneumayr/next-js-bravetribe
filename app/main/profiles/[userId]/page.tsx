@@ -1,5 +1,10 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/shadcn/avatar';
+import { Button } from '@/components/shadcn/button';
+import UserStats from '@/components/UserStats';
 import { getNewestExperiencesByUserInsecure } from '@/database/experiences';
 import { getValidSession } from '@/database/sessions';
 import { getUserByIdInsecure } from '@/database/users';
@@ -9,7 +14,6 @@ import { userExperiencesPerMonth } from '@/util/userExperiencesPerMonth';
 import { MessageSquareText, User } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import UserStats from '../../components/UserStats';
 
 type Props = {
   params: Promise<{ userId: string }>;

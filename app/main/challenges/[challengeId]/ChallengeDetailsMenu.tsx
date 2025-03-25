@@ -6,7 +6,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@/components/shadcn/dropdown-menu';
 import type { Challenge } from '@prisma/client';
 import { Ellipsis, Pencil, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';

@@ -1,16 +1,20 @@
 'use client';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Separator } from '@/components/ui/separator';
+import DisplayStarRating from '@/components/DisplayStarRating';
+import ExperienceMenu from '@/components/ExperienceMenu';
+import LikeByCurrentUserField from '@/components/LikeByCurrentUserField';
+import LikeFieldDefault from '@/components/LikeFieldDefault';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/shadcn/avatar';
+import { Separator } from '@/components/shadcn/separator';
 import type { FullComment, LocationObject } from '@/types/types';
 import levelNames from '@/util/levelNames';
 import type { Prisma, User } from '@prisma/client';
 import { MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import { useRef } from 'react';
-import DisplayStarRating from '../../components/DisplayStarRating';
-import ExperienceMenu from '../../components/ExperienceMenu';
-import LikeByCurrentUserField from '../../components/LikeByCurrentUserField';
-import LikeFieldDefault from '../../components/LikeFieldDefault';
 import AddComment from './AddComment';
 import CommentSection from './CommentSection';
 import ExperienceMap from './ExperienceMap';

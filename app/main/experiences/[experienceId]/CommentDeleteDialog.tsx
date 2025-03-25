@@ -1,5 +1,5 @@
 import { deleteCommentAction } from '@/actions/commentActions';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcn/button';
 import {
   Dialog,
   DialogClose,
@@ -7,7 +7,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from '@/components/shadcn/dialog';
 import type { Comment, User } from '@prisma/client';
 import { useActionState } from 'react';
 

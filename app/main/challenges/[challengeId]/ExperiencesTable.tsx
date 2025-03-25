@@ -1,6 +1,7 @@
 'use client';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import DisplayStarRating from '@/components/DisplayStarRating';
+import { Button } from '@/components/shadcn/button';
+import { Input } from '@/components/shadcn/input';
 import {
   Table,
   TableBody,
@@ -8,7 +9,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from '@/components/shadcn/table';
 import type { Challenge, Experience } from '@prisma/client';
 import {
   type ColumnFiltersState,
@@ -24,7 +25,6 @@ import {
 import { ArrowDown, ArrowUp, ChevronsUpDown, Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
-import DisplayStarRating from '../../components/DisplayStarRating';
 
 const columnHelper = createColumnHelper<Experience>();
 

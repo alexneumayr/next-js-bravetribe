@@ -1,6 +1,6 @@
 import { toggleAreExperiencesPublicAction } from '@/actions/userActions';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/shadcn/label';
+import { Switch } from '@/components/shadcn/switch';
 import type { User } from '@prisma/client';
 import React, { startTransition, useActionState } from 'react';
 
