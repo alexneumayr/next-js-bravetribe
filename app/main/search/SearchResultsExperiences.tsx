@@ -1,6 +1,6 @@
 import {
-  getExperiencesByTextInsecure,
-  getTotalAmountOfExperiencesByTextInsecure,
+  getPublicExperiencesByTextInsecure,
+  getTotalAmountOfPublicExperiencesByTextInsecure,
 } from '@/database/experiences';
 import type { User } from '@prisma/client';
 import ExperiencesPreview from '../components/ExperiencesPreview';
@@ -18,10 +18,13 @@ export default async function SearchResultsExperiences({
   user,
 }: Props) {
   const experiences =
-    (await getExperiencesByTextInsecure(searchText, currentPage, pageSize)) ||
-    [];
+    (await getPublicExperiencesByTextInsecure(
+      searchText,
+      currentPage,
+      pageSize,
+    )) || [];
   const resultsCount =
-    (await getTotalAmountOfExperiencesByTextInsecure(searchText)) || 0;
+    (await getTotalAmountOfPublicExperiencesByTextInsecure(searchText)) || 0;
   return (
     <div>
       {experiences.length > 0 ? (
