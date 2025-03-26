@@ -45,7 +45,7 @@ export default function MainExperienceContent({ experience, user }: Props) {
       >
         <div className="relative z-0">
           <img
-            src={experience.imageUrl || ''}
+            src={experience.imageUrl || undefined}
             alt="Doing the experience"
             className="max-w-[90vw] max-h-[90vh]"
           />
@@ -63,7 +63,9 @@ export default function MainExperienceContent({ experience, user }: Props) {
           <div className="flex flex-row sm:flex-col gap-2 sm:gap-1 items-center sm:w-[150px] flex-none w-full">
             <Link href={`/main/profiles/${experience.user.id}`}>
               <Avatar className="w-[30px] h-[30px] sm:w-[65px] sm:h-[65px]">
-                <AvatarImage src={experience.user.avatarImageUrl || ''} />
+                <AvatarImage
+                  src={experience.user.avatarImageUrl || undefined}
+                />
                 <AvatarFallback>
                   {experience.user.username.slice(0, 2).toUpperCase()}
                 </AvatarFallback>

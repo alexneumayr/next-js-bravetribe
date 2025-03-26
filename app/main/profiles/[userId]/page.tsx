@@ -37,7 +37,7 @@ export default async function IndividualProfilePage(props: Props) {
     <div className="space-y-5 max-w-[400px] mx-auto">
       <div className="flex gap-6 items-center">
         <Avatar className="w-[60px] h-[60px]">
-          <AvatarImage src={user?.avatarImageUrl || ''} />
+          <AvatarImage src={user?.avatarImageUrl || undefined} />
           <AvatarFallback>
             {user?.username.slice(0, 2).toUpperCase()}
           </AvatarFallback>

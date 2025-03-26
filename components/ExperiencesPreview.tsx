@@ -59,7 +59,9 @@ export default function ExperiencesPreview({
                 <div className="flex flex-row sm:flex-col gap-2 sm:gap-1 items-center sm:w-[150px] flex-none w-full">
                   <Link href={`/main/profiles/${experience.user.id}`}>
                     <Avatar className="w-[30px] h-[30px] sm:w-[65px] sm:h-[65px]">
-                      <AvatarImage src={experience.user.avatarImageUrl || ''} />
+                      <AvatarImage
+                        src={experience.user.avatarImageUrl || undefined}
+                      />
                       <AvatarFallback className="text-xs sm:text-[16px]">
                         {experience.user.username.slice(0, 2).toUpperCase()}
                       </AvatarFallback>
