@@ -45,7 +45,7 @@ export default async function ExperiencePage({ params }: Props) {
         <h1 className="text-center sm:text-left text-2xl sm:text-3xl font-bold">
           Experience Report
         </h1>
-        <p className="text-center text-sm sm:text-left sm:text-lg sm:ont-medium">
+        <p className="hidden sm:block text-lg font-medium">
           Experienced on {experience.date.toLocaleDateString('en-GB')}
         </p>
       </div>

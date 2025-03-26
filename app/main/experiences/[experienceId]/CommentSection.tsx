@@ -5,10 +5,11 @@ import {
 } from '@/components/shadcn/avatar';
 import { Separator } from '@/components/shadcn/separator';
 import type { FullComment } from '@/types/types';
+import { getTimeAgo } from '@/util/getTimeAgo';
 import levelNames from '@/util/levelNames';
 import type { User } from '@prisma/client';
 import Link from 'next/link';
-import SingleComment from './SingleComment';
+import SingleCommentContent from './SingleCommentContent';
 
 type Props = {
   comments: FullComment[];
@@ -21,13 +22,13 @@ export default function CommentSection({ comments, user }: Props) {
         {Array.isArray(comments) &&
           comments.map((comment) => {
             return (
-              <div key={`comment-${comment.id}`} className="">
-                <div className="flex pb-2">
-                  <div className="pt-4 pb-3  flex flex-col gap-1 items-center w-[150px] flex-none">
+              <div key={`comment-${comment.id}`} className="relative">
+                <div className="flex flex-col sm:flex-row pb-2">
+                  <div className=" pt-4 sm:pb-3 flex-row  flex sm:flex-col gap-2 sm:gap-1 items-center sm:w-[150px] flex-none w-full">
                     <Link href={`/main/profiles/${comment.user.id}`}>
-                      <Avatar className="w-[65px] h-[65px]">
+                      <Avatar className="w-[30px] h-[30px] sm:w-[65px] sm:h-[65px]">
                         <AvatarImage src={`${comment.user.avatarImageUrl}`} />
-                        <AvatarFallback>
+                        <AvatarFallback className="text-xs sm:text-[16px]">
                           {comment.user.username.slice(0, 2).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
@@ -39,18 +40,21 @@ export default function CommentSection({ comments, user }: Props) {
                       <p className="text-sm font-bold">
                         {comment.user.username}
                       </p>
+                      <p className="text-xs font-extralight sm:hidden">
+                        {getTimeAgo(comment.createdAt)}
+                      </p>
                     </Link>
-                    <p className="text-xs font-medium">
+                    <p className="textext-xs font-medium hidden sm:block">
                       {levelNames(comment.user.experiences.length)}
                     </p>
-                    <p className="text-xs font-medium">
+                    <p className="text-xs font-medium hidden sm:block">
                       {comment.user.experiences.length}
                       &nbsp;
                       {comment.user.experiences.length !== 1
                         ? 'challenges'
                         : 'challenge'}
                     </p>
-                    <dl className="text-xs font-medium">
+                    <dl className="text-xs font-medium hidden sm:block">
                       {comment.user.gender && (
                         <div className="flex justify-center flex-wrap gap-1">
                           <dt className="text-xs font-medium text-[#8d8d8d]">
@@ -69,7 +73,7 @@ export default function CommentSection({ comments, user }: Props) {
                       )}
                     </dl>
                   </div>
-                  <SingleComment comment={comment} user={user} />
+                  <SingleCommentContent comment={comment} user={user} />
                 </div>
                 <Separator className="" />
               </div>

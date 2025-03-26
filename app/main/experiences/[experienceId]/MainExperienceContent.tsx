@@ -37,10 +37,10 @@ export default function MainExperienceContent({ experience, user }: Props) {
   const commentsRef = useRef<HTMLDivElement>(null);
   return (
     <div className="pt-4">
-      <div className="flex">
-        <div className="flex flex-col gap-1 items-center w-[150px] flex-none">
+      <div className="flex flex-col sm:flex-row">
+        <div className="flex flex-row sm:flex-col gap-2 sm:gap-1 items-center sm:w-[150px] flex-none w-full">
           <Link href={`/main/profiles/${experience.user.id}`}>
-            <Avatar className="w-[65px] h-[65px]">
+            <Avatar className="w-[30px] h-[30px] sm:w-[65px] sm:h-[65px]">
               <AvatarImage src={`${experience.user.avatarImageUrl}`} />
               <AvatarFallback>
                 {experience.user.username.slice(0, 2).toUpperCase()}
@@ -52,18 +52,24 @@ export default function MainExperienceContent({ experience, user }: Props) {
             href={`/main/profiles/${experience.user.id}`}
           >
             <p className="text-sm font-bold">{experience.user.username}</p>
+            <p className="text-xs font-extralight sm:hidden">
+              {experience.date.toLocaleDateString('en-GB')}
+            </p>
           </Link>
-          <p className="text-xs font-medium">
+          <div className="ml-auto flex items-center sm:hidden">
+            <ExperienceMenu experience={experience} user={user} />
+          </div>
+          <p className="text-xs font-medium hidden sm:block">
             {levelNames(experience.user.experiences.length)}
           </p>
-          <p className="text-xs font-medium">
+          <p className="text-xs font-medium hidden sm:block">
             {experience.user.experiences.length}
             &nbsp;
             {experience.user.experiences.length !== 1
               ? 'challenges'
               : 'challenge'}
           </p>
-          <dl className="text-xs font-medium">
+          <dl className="text-xs font-medium hidden sm:block">
             {experience.user.gender && (
               <div className="flex justify-center flex-wrap gap-1">
                 <dt className="text-xs font-medium text-[#8d8d8d]">Gender:</dt>
@@ -80,26 +86,30 @@ export default function MainExperienceContent({ experience, user }: Props) {
             )}
           </dl>
         </div>
-        <div className="w-full">
+        <div className="w-full mt-1">
           <div className="flex justify-between items-start">
             <div className="">
-              <h2 className="text-base font-bold">
+              <h2 className="text-sm sm:text-base font-semibold sm:font-bold">
                 {experience.challenge.title}
               </h2>
-              <h3 className="text-3xl font-semibold">{experience.title}</h3>
+              <h3 className="text-xl sm:text-3xl font-semibold">
+                {experience.title}
+              </h3>
 
               <div className="mt-2">
                 <DisplayStarRating rating={experience.rating} />
               </div>
             </div>
-            <ExperienceMenu experience={experience} user={user} />
+            <div className="hidden sm:block">
+              <ExperienceMenu experience={experience} user={user} />
+            </div>
           </div>
           <div className="my-3">
             {experience.imageUrl && (
               <img
                 src={experience.imageUrl}
                 alt="Doing the experience"
-                className="w-[180px] h-[180px] sm:float-right sm:ml-4 mb-4"
+                className="w-[180px] h-[180px] sm:float-right sm:ml-4 mb-4 mt-4 sm:mt-0"
               />
             )}
             <h4 className="text-sm font-bold text-secondary">Challenge:</h4>

@@ -10,7 +10,7 @@ type Props = {
   user: User;
 };
 
-export default function SingleComment({ comment, user }: Props) {
+export default function SingleCommentContent({ comment, user }: Props) {
   const [isEditModeOn, setIsEditModeOn] = useState(false);
   const initialState = {
     success: false,
@@ -29,20 +29,22 @@ export default function SingleComment({ comment, user }: Props) {
     }
   }, [state]);
   return (
-    <div className="space-y-1 px-2 pt-4 pb-2 w-full">
-      <div className="flex justify-between">
-        <p className="text-sm font-extralight">
+    <div className="px-2 pb-1 pt-2 sm:pt-4 sm:pb-2 w-full">
+      <div className="justify-between flex">
+        <p className="text-sm font-extralight hidden sm:block">
           {getTimeAgo(comment.createdAt)}
         </p>
-        <CommentMenu
-          comment={comment}
-          user={user}
-          onEditMode={handleEditMode}
-        />
+        <div className="absolute sm:static right-0 top-6">
+          <CommentMenu
+            comment={comment}
+            user={user}
+            onEditMode={handleEditMode}
+          />
+        </div>
       </div>
       {isEditModeOn ? (
         <form action={formAction}>
-          <div className="border mt-2 rounded-3xl border-black ">
+          <div className="border sm:mt-1 rounded-3xl border-black ">
             <textarea
               className="pl-4 pt-2 rounded-3xl focus:outline-none outline-none border-none focus:border-none w-full text-sm font-medium"
               rows={2}
