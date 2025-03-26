@@ -27,7 +27,7 @@ export default function CommentSection({ comments, user }: Props) {
                   <div className=" pt-4 sm:pb-3 flex-row  flex sm:flex-col gap-2 sm:gap-1 items-center sm:w-[150px] flex-none w-full">
                     <Link href={`/main/profiles/${comment.user.id}`}>
                       <Avatar className="w-[30px] h-[30px] sm:w-[65px] sm:h-[65px]">
-                        <AvatarImage src={`${comment.user.avatarImageUrl}`} />
+                        <AvatarImage src={comment.user.avatarImageUrl || ''} />
                         <AvatarFallback className="text-xs sm:text-[16px]">
                           {comment.user.username.slice(0, 2).toUpperCase()}
                         </AvatarFallback>

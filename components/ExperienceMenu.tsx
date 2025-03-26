@@ -32,7 +32,7 @@ export default function ExperienceReportMenu({ experience, user }: Props) {
       )}
       <DropdownMenu>
         <DropdownMenuTrigger asChild className="flex-none">
-          <div className="focus:outline-none hover:bg-zinc-100 rounded-[100px] p-2 transition-all cursor-pointer sm:-mr-2 sm:-mt-2">
+          <div className="focus:outline-none hover:bg-zinc-100 rounded-[100px] p-[6px] transition-all cursor-pointer sm:-mr-2 sm:-mt-2">
             <Ellipsis size={18} />
           </div>
         </DropdownMenuTrigger>

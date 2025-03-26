@@ -24,7 +24,7 @@ export default async function SidebarRight() {
               key={`user-${user.id}`}
             >
               <Avatar className="w-[23px] h-[23px]">
-                <AvatarImage src={`${user.avatarImageUrl}`} />
+                <AvatarImage src={user.avatarImageUrl || ''} />
                 <AvatarFallback className="text-xs">
                   {user.username.slice(0, 2).toUpperCase()}
                 </AvatarFallback>

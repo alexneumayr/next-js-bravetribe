@@ -49,7 +49,7 @@ export default function AvatarWithMenu({ user }: Props) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="hidden sm:block w-[80px] h-[80px] cursor-pointer">
-              <AvatarImage src={`${user.avatarImageUrl}`} />
+              <AvatarImage src={user.avatarImageUrl || ''} />
               <AvatarFallback>
                 {user.username.slice(0, 2).toUpperCase()}
               </AvatarFallback>
