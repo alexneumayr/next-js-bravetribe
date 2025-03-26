@@ -16,8 +16,10 @@ export default async function ExperiencesPage() {
   return (
     <>
       <div>
-        <h1 className="text-3xl font-bold">Challenge Planner</h1>
-        <p className="text-lg font-medium">
+        <h1 className="text-center sm:text-left text-2xl sm:text-3xl font-bold">
+          Challenge Planner
+        </h1>
+        <p className="hidden sm:block text-lg font-medium">
           Here you can manage your challenges.
         </p>
       </div>

@@ -30,7 +30,9 @@ export default function MainContentSearchPage({
   return (
     <div className="">
       <div className="">
-        <h1 className="text-3xl font-bold">Experiences</h1>
+        <h1 className="text-center sm:text-left text-2xl sm:text-3xl font-bold">
+          Experiences
+        </h1>
         <SearchArea searchParams={searchParams} />
       </div>
       <Separator className="my-4" />

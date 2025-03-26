@@ -441,6 +441,7 @@ const initFriends: Prisma.FriendCreateInput[] = [
 async function main() {
   console.log(`Start seeding...`);
 
+  await prisma.template.deleteMany();
   await prisma.session.deleteMany();
   await prisma.goal.deleteMany();
   await prisma.comment.deleteMany();

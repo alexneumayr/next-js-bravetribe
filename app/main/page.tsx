@@ -16,8 +16,10 @@ export default async function page() {
   return (
     <>
       <div className="">
-        <h1 className="text-3xl font-bold">Home</h1>
-        <p className="text-lg font-medium">
+        <h1 className="text-center sm:text-left text-2xl sm:text-3xl font-bold">
+          Home
+        </h1>
+        <p className="hidden sm:block text-lg font-medium">
           Welcome, {user.username}! Get inspired by the newest experiences of
           our members and create your own.
         </p>

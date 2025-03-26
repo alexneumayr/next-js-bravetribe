@@ -7,7 +7,11 @@ import {
   getUserByUsernameInsecure,
   getUserWithPasswordHashInsecure,
 } from '@/database/users';
-import type { LoginActionState, RegisterActionState } from '@/types/types';
+import type {
+  LoginActionState,
+  LogoutActionState,
+  RegisterActionState,
+} from '@/types/types';
 import { secureCookieOptions } from '@/util/cookies';
 import { registrationSchema, signinSchema } from '@/util/schemas';
 import bcrypt from 'bcrypt';
@@ -154,7 +158,7 @@ export async function loginUserAction(
   }
 }
 
-export async function logoutUserAction() {
+export async function logoutUserAction(): Promise<LogoutActionState> {
   // Task: Implement the user logout workflow
   const cookieStore = await cookies();
 
@@ -164,9 +168,22 @@ export async function logoutUserAction() {
   // 2. Delete the session from the database based on the token
 
   if (token) {
-    await deleteSession(token.value);
+    try {
+      await deleteSession(token.value);
 
-    // 3. Delete the session cookie from the browser
-    cookieStore.delete(token.name);
+      // 3. Delete the session cookie from the browser
+      cookieStore.delete(token.name);
+
+      return { success: true };
+    } catch {
+      return {
+        success: false,
+        error: { general: 'Failed to log out' },
+      };
+    }
   }
+  return {
+    success: false,
+    error: { general: "Failed to log out (can't access token from cookie)" },
+  };
 }

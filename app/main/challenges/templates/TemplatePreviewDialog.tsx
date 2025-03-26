@@ -28,7 +28,7 @@ export default function TemplatePreviewDialog({ template, onClose }: Props) {
             <DialogTitle>
               <p className="font-semibold text-2xl">Preview challenge</p>
 
-              <p className="text-zinc-500 text-sm font-medium">
+              <p className="hidden sm:block text-zinc-500 text-sm font-medium">
                 Here you can preview the selected challenge.
               </p>
             </DialogTitle>

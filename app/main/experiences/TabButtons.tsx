@@ -29,13 +29,13 @@ export default function TabButtons({ searchParams, category }: Props) {
   return (
     <div className="mb-2">
       <button
-        className={`px-3 py-1 text-2xl font-bold border-primary ${category === 'mine' ? 'border-b-2 text-foreground' : 'text-[#737373]'}`}
+        className={`px-3 py-1 text-xl sm:text-2xl font-bold border-primary ${category === 'mine' ? 'border-b-2 text-foreground' : 'text-[#737373]'}`}
         onClick={handleExperiencesButtonClicked}
       >
         Mine
       </button>
       <button
-        className={`px-3 py-1 text-2xl font-bold border-primary ${category === 'public' ? 'border-b-2 text-foreground' : 'text-[#737373]'}`}
+        className={`px-3 py-1 text-xl sm:text-2xl font-bold border-primary ${category === 'public' ? 'border-b-2 text-foreground' : 'text-[#737373]'}`}
         onClick={handleUsersButtonClicked}
       >
         Public

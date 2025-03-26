@@ -70,6 +70,7 @@ export default function NewGoal() {
       <DialogContent
         className="max-w-[425px] [&>button]:hidden"
         onPointerDownOutside={(e) => e.preventDefault()}
+        onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <DialogHeader>
           <DialogTitle>

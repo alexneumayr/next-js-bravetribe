@@ -50,7 +50,7 @@ export function ExperiencesTable({ data, challengeId }: Props) {
         cell: (info) => info.getValue(),
       }),
       columnHelper.accessor('title', {
-        header: 'Experience title',
+        header: 'Title',
         filterFn: 'includesString',
         cell: (info) => info.getValue(),
       }),
@@ -60,7 +60,7 @@ export function ExperiencesTable({ data, challengeId }: Props) {
         cell: (info) => renderStarRating(info.getValue()),
       }),
       columnHelper.accessor('date', {
-        header: 'Experience Date',
+        header: 'Date',
         filterFn: 'includesString',
         cell: (info) => info.getValue().toLocaleDateString('en-GB'),
       }),

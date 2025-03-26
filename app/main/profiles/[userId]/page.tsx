@@ -34,7 +34,7 @@ export default async function IndividualProfilePage(props: Props) {
   );
 
   return (
-    <div className="space-y-5 max-w-[400px]">
+    <div className="space-y-5 max-w-[400px] mx-auto">
       <div className="flex gap-6 items-center">
         <Avatar className="w-[60px] h-[60px]">
           <AvatarImage src={`${user?.avatarImageUrl}`} />
@@ -43,8 +43,8 @@ export default async function IndividualProfilePage(props: Props) {
           </AvatarFallback>
         </Avatar>
         <div>
-          <h1 className="text-3xl font-bold">{user?.username}</h1>
-          <p className="text-lg font-medium">
+          <h1 className="text-2xl sm:text-3xl font-bold">{user?.username}</h1>
+          <p className="text-sm sm:text-lg font-medium">
             {levelNames(user?.experiences.length)} ({user?.experiences.length})
           </p>
         </div>

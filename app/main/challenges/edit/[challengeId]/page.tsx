@@ -47,8 +47,12 @@ export default async function ChallengePage({ params }: Props) {
   return (
     <>
       <div>
-        <h1 className="text-3xl font-bold">Challenge Editor</h1>
-        <p className="text-lg font-medium">Here you can edit your challenge.</p>
+        <h1 className="text-center sm:text-left text-2xl sm:text-3xl font-bold">
+          Challenge Editor
+        </h1>
+        <p className="hidden sm:block text-lg font-medium">
+          Here you can edit your challenge.
+        </p>
       </div>
       <Separator className="mt-4 mb-2" />
       <EditChallengeForm challenge={challenge} />

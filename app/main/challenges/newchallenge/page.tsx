@@ -25,8 +25,12 @@ export default async function NewChallengePage({ searchParams }: Props) {
   return (
     <>
       <div>
-        <h1 className="text-3xl font-bold">New challenge</h1>
-        <p className="text-lg font-medium">Here you can add a new challenge.</p>
+        <h1 className="text-center sm:text-left text-2xl sm:text-3xl font-bold">
+          New challenge
+        </h1>
+        <p className="hidden sm:block text-lg font-medium">
+          Here you can add a new challenge.
+        </p>
       </div>
       <Separator className="my-4" />
       <NewChallengeForm template={template} />

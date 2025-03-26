@@ -31,10 +31,10 @@ const sidebarNavItems = [
 
 export default function Sidebars({ children }: SidebarLeftProps) {
   return (
-    <div className="space-y-5 p-5 pb-16">
+    <div className="space-y-5 sm:py-5 px-5 pb-16">
       <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-5 lg:space-y-0">
         <aside className="lg:w-1/5">
-          <SidebarNav items={sidebarNavItems} />
+          <SidebarNav items={sidebarNavItems} className="hidden sm:flex" />
         </aside>
         <div className="flex-1">{children}</div>
         <SidebarRight />

@@ -16,8 +16,10 @@ export default async function GoalsPage() {
   return (
     <>
       <div className="">
-        <h1 className="text-3xl font-bold">My goals</h1>
-        <p className="text-lg font-medium">
+        <h1 className="text-center sm:text-left text-2xl sm:text-3xl font-bold">
+          My goals
+        </h1>
+        <p className="hidden sm:block text-lg font-medium">
           This page helps you stay focused on your goals.
         </p>
       </div>

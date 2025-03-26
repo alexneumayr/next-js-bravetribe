@@ -21,6 +21,13 @@ export type LoginActionState = {
   };
 };
 
+export type LogoutActionState = {
+  success: boolean;
+  error?: {
+    general?: string;
+  };
+};
+
 export type GoalActionState = {
   success: boolean;
   error?: {
