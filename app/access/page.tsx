@@ -3,6 +3,7 @@ import { getSafeReturnToPath } from '@/util/returnPathValidation';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import AccessTabs from './AccessTabs';
+import HeaderAccessPage from './HeaderAccessPage';
 
 type Props = {
   searchParams: Promise<{
@@ -29,5 +30,10 @@ export default async function AccessPage({ searchParams }: Props) {
   }
 
   // 4. If the sessionToken cookie is invalid or doesn't exist, show the login form
-  return <AccessTabs />;
+  return (
+    <>
+      <HeaderAccessPage />
+      <AccessTabs />
+    </>
+  );
 }

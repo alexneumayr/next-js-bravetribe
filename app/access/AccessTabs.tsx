@@ -15,8 +15,7 @@ export default function AccessTabs() {
   const mode = searchParams.get('mode') || undefined;
 
   return (
-    <div>
-      <h1>Access page</h1>
+    <div className="mt-10">
       <Tabs defaultValue={mode} className="w-[400px] mx-auto">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="signin">Sign in</TabsTrigger>
