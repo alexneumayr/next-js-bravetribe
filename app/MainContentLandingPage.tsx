@@ -7,7 +7,7 @@ export default function MainContentLandingPage() {
   const router = useRouter();
   const firstSectionRef = useRef<HTMLElementTagNameMap['section']>(null);
   return (
-    <div className="mx-10">
+    <div className="mx-auto max-w-[1300px] px-4 sm:px-10">
       <header className="max-w-[1000px] mx-auto">
         <h1 className="text-4xl md:text-6xl lg:text-[100px] font-bold text-center leading-tight mt-8">
           Are you ready to <span className="text-secondary">challenge </span>
@@ -34,15 +34,12 @@ export default function MainContentLandingPage() {
         </div>
       </header>
       <section className="space-y-10 mt-10" ref={firstSectionRef}>
-        <div className="grid grid-cols-[1fr_3fr] gap-8 items-center">
-          <img
-            src="/logos/logo-full.png"
-            alt="BraveTribe logo large"
-            className="max-w-[320px] max-h-[320px]"
-          />
+        <div className="sm:grid grid-cols-[1fr_3fr] sm:gap-4 lg:gap-8 items-center">
           <div>
-            <h2 className="text-[40px] font-bold">Welcome to Brave Tribe</h2>
-            <p className="text-2xl font-normal">
+            <h2 className="text-2xl xl:text-[40px] xl:mb-2 sm:text-3xl font-bold lg:text-4xl">
+              Welcome to Brave Tribe
+            </h2>
+            <p className="text-md xl:text-2xl lg:text-lg font-normal">
               Brave Tribe is more than just a regular community—it's a movement.
               We are a tribe of fearless explorers, risk-takers, and adventure
               seekers who believe that growth comes from stepping outside our
@@ -51,34 +48,41 @@ export default function MainContentLandingPage() {
               support and empower you.
             </p>
           </div>
+          <img
+            src="/logos/logo-full.png"
+            alt="BraveTribe logo large"
+            className="xl:max-w-[320px] mt-10 sm:mt-0 max-w-[250px] mx-auto sm:max-w-[150px] order-first lg:max-w-[200px]"
+          />
         </div>
-        <div className="grid grid-cols-[2fr_1fr] gap-8 items-center">
+        <div className="md:grid grid-cols-[2fr_1fr] sm:gap-4 lg:gap-8 items-center">
           <div>
-            <h2 className="text-[40px] font-bold">A Tribe of Risk-Takers</h2>
-            <p className="text-2xl font-normal">
+            <h2 className="text-2xl xl:text-[40px] xl:mb-2 sm:text-3xl font-bold lg:text-4xl">
+              A Tribe of Risk-Takers
+            </h2>
+            <p className="text-md xl:text-2xl lg:text-lg font-normal">
               We are a close-knit group of people who thrive on pushing
               boundaries and stepping into the unknown. Whether you're trying
               public speaking, solo traveling, social experiments, or extreme
               sports, we support and inspire each other along the way.
             </p>
-            <p className="text-2xl font-semibold mt-3">
+            <p className="text-md xl:text-2xl lg:text-lg font-semibold mt-3">
               Share your experiences and get motivation from the community.
             </p>
           </div>
-          <div className="flex-none ">
+          <div className="flex-none">
             <img
               src="/misc/community.jpg"
               alt="people holding their shoulders"
-              className="max-w-[499x] max-h-[281px] rounded-[25px]"
+              className="max-w-[499x] max-h-[281px] rounded-[25px] mt-10 mx-auto"
             />
           </div>
         </div>
       </section>
       <section>
-        <h3 className="text-[59px] font-bold text-center my-12">
+        <h3 className="text-4xl md:text-[59px] font-bold text-center my-12">
           What Our Members Say
         </h3>
-        <div className="grid grid-cols-3 gap-8 ">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 ">
           <div className="border border-zinc-600 rounded-[25px] p-6 space-y-6">
             <div className="flex items-center gap-3">
               <img
@@ -175,11 +179,11 @@ export default function MainContentLandingPage() {
             </p>
           </div>
           <div className="border border-zinc-600 rounded-[25px] p-6 space-y-6">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 ">
               <img
                 src="testimonials/olivia.jpg"
                 alt="olivia"
-                className="max-w-[60px] max-h-[60px] rounded-full"
+                className="max-w-[60px] max-h-[60px] rounded-full "
               />
               <div>
                 <h4 className="text-lg font-bold">Olivia K. (26)</h4>
@@ -196,10 +200,10 @@ export default function MainContentLandingPage() {
         </div>
       </section>
       <section className="flex flex-col items-center mb-16">
-        <h3 className="text-[59px] font-bold mt-12">
+        <h3 className="text-4xl md:text-[59px] font-bold mt-12">
           Join Our Community Today
         </h3>
-        <p className="text-[29px] font-semibold mb-8">
+        <p className="mt-5 text-xl md:text-[29px] font-semibold mb-8">
           If you're ready to step out, now is the time.
         </p>
         <Button
