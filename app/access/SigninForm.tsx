@@ -68,7 +68,7 @@ export default function SigninForm() {
                     {state.error?.username}
                   </FormMessage>
                   <FormControl>
-                    <Input placeholder="Marvin K." {...field} />
+                    <Input {...field} />
                   </FormControl>
                 </FormItem>
               )}

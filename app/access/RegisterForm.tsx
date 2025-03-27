@@ -73,7 +73,7 @@ export default function RegisterForm() {
                   <FormLabel>Email</FormLabel>
                   <FormMessage>{state.error?.email}</FormMessage>
                   <FormControl>
-                    <Input placeholder="marvin@kiwi.com" {...field} />
+                    <Input {...field} />
                   </FormControl>
                 </FormItem>
               )}
@@ -88,7 +88,7 @@ export default function RegisterForm() {
                     {state.error?.username}
                   </FormMessage>
                   <FormControl>
-                    <Input placeholder="Marvin K." {...field} />
+                    <Input {...field} />
                   </FormControl>
                 </FormItem>
               )}
