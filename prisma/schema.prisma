@@ -53,8 +53,6 @@ model Friend {
   receiverUserId  String
   isAccepted      Boolean   @default(false)
   acceptedAt      DateTime?
-
-  @@unique([requesterUserId, receiverUserId])
 }
 
 model Challenge {

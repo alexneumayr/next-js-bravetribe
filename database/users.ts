@@ -128,6 +128,8 @@ export async function getUserByIdInsecure(id: string) {
       experiences: {
         include: { challenge: true },
       },
+      receivedFriendRequests: true,
+      sentFriendRequests: true,
     },
   });
   return user;
