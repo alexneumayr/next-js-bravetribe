@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/shadcn/dropdown-menu';
-import type { Experience, User } from '@prisma/client';
+import type { Experience, Friend, User } from '@prisma/client';
 import {
   CircleCheck,
   Ellipsis,
@@ -20,13 +20,17 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import ConfirmReceivedFriendRequestItem from './ConfirmReceivedFriendRequestItem';
+import RemoveFriendRequestItem from './RemoveFriendRequestItem';
+import RemoveReceivedFriendRequestItem from './RemoveReceivedFriendRequestItem';
 
 type Props = {
-  experience: Experience;
-  user: User;
+  requestId: Friend['id'];
 };
 
-export default function AnswerRequestButton({ experience, user }: Props) {
+export default function AnswerReceivedFriendRequestButton({
+  requestId,
+}: Props) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const router = useRouter();
   return (
@@ -49,22 +53,8 @@ export default function AnswerRequestButton({ experience, user }: Props) {
         <DropdownMenuContent>
           <DropdownMenuLabel>Friend request</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            className="cursor-pointer"
-            onClick={() => {
-              setShowDeleteDialog(true);
-            }}
-          >
-            <CircleCheck /> Confirm
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            className="cursor-pointer"
-            onClick={() => {
-              setShowDeleteDialog(true);
-            }}
-          >
-            <Trash2 /> Remove
-          </DropdownMenuItem>
+          <ConfirmReceivedFriendRequestItem requestId={requestId} />
+          <RemoveReceivedFriendRequestItem requestId={requestId} />
         </DropdownMenuContent>
       </DropdownMenu>
     </>

@@ -183,3 +183,21 @@ export const deleteUserSchema = z.object({
     }),
   }),
 });
+
+export const createFriendRequestSchema = z.object({
+  receiverUserId: z
+    .string({ message: 'Incorrect receiver user ID transmitted' })
+    .length(25, { message: 'Incorrect receiver user ID transmitted' }),
+});
+
+export const manageFriendRequestSchema = z.object({
+  requestId: z
+    .string({ message: 'Incorrect friend request ID transmitted' })
+    .length(25, { message: 'Incorrect friend request ID transmitted' }),
+});
+
+export const deleteFriendSchema = z.object({
+  friendId: z
+    .string({ message: 'Incorrect friend user ID transmitted' })
+    .length(25, { message: 'Incorrect friend user ID transmitted' }),
+});

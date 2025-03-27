@@ -1,7 +1,7 @@
 import { Separator } from '@/components/shadcn/separator';
 import {
   getExperienceForEdit,
-  selectExperienceExists,
+  selectExperienceExistsInsecure,
 } from '@/database/experiences';
 import { getCookie } from '@/util/cookies';
 import Link from 'next/link';
@@ -16,7 +16,7 @@ export default async function ChallengePage({ params }: Props) {
   const sessionToken = await getCookie('sessionToken');
 
   //  Check if the experience exists
-  if (!(await selectExperienceExists(experienceId))) {
+  if (!(await selectExperienceExistsInsecure(experienceId))) {
     return (
       <div>
         <h1>Error loading experience {experienceId}</h1>

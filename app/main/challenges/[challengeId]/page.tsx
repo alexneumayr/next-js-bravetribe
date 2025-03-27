@@ -1,5 +1,8 @@
 import { Separator } from '@/components/shadcn/separator';
-import { getChallenge, selectChallengeExists } from '@/database/challenges';
+import {
+  getChallenge,
+  selectChallengeExistsInsecure,
+} from '@/database/challenges';
 import { getCookie } from '@/util/cookies';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -15,7 +18,7 @@ export default async function ChallengePage({ params }: Props) {
   const sessionToken = await getCookie('sessionToken');
 
   //  If the challenge doesn't exist redirect to the challenge planner
-  if (!(await selectChallengeExists(challengeId))) {
+  if (!(await selectChallengeExistsInsecure(challengeId))) {
     redirect('/main/challenges');
   }
 

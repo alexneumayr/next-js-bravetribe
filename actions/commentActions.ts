@@ -147,8 +147,7 @@ export async function deleteCommentAction(
     );
     revalidatePath(`/main/experiences/${deletedComment.experienceId}`);
     return { success: true };
-  } catch (error) {
-    console.log('Error deleting comment:', error);
+  } catch {
     return {
       success: false,
       error: { general: 'Failed to delete comment' },

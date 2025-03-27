@@ -1,4 +1,5 @@
 'use client';
+import FriendDeleteDialog from '@/components/FriendDeleteDialog';
 import { Button } from '@/components/shadcn/button';
 import {
   DropdownMenu,
@@ -14,22 +15,19 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 type Props = {
-  experience: Experience;
-  user: User;
+  friendId: User['id'];
 };
 
-export default function FriendsButton({ experience, user }: Props) {
+export default function FriendsButton({ friendId }: Props) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const router = useRouter();
   return (
     <>
-      {/*     {showDeleteDialog && (
-        <ExperienceDeleteDialog
-          experience={experience}
-          user={user}
+      {showDeleteDialog && (
+        <FriendDeleteDialog
+          friendId={friendId}
           onClose={() => setShowDeleteDialog(false)}
         />
-      )} */}
+      )}
       <DropdownMenu>
         <DropdownMenuTrigger asChild className="flex-none">
           <div className="">

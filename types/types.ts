@@ -118,3 +118,13 @@ export type UserActionState = {
     general?: string;
   };
 };
+
+export type FriendActionState = {
+  success: boolean;
+  error?: {
+    receiverUserId?: string[];
+    requestId?: string[];
+    friendId?: string[];
+    general?: string;
+  };
+};

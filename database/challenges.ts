@@ -46,7 +46,9 @@ export async function getChallenge(
   return challenge;
 }
 
-export async function selectChallengeExists(challengeId: Challenge['id']) {
+export async function selectChallengeExistsInsecure(
+  challengeId: Challenge['id'],
+) {
   const challenge = await prisma.challenge.count({
     where: {
       id: challengeId,

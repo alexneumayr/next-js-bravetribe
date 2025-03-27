@@ -135,6 +135,15 @@ export async function getUserByIdInsecure(id: string) {
   return user;
 }
 
+export async function selectUserByIdExistsInsecure(id: string) {
+  const user = await prisma.user.count({
+    where: {
+      id: id,
+    },
+  });
+  return user > 0;
+}
+
 export async function updateUser(
   sessionToken: Session['token'],
   updatedUser: Pick<User, 'id'> &

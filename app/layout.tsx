@@ -1,4 +1,5 @@
 import './globals.css';
+import { Toaster } from '@/components/shadcn/toaster';
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
@@ -16,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="[&:has(dialog[open])]:overflow-hidden">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {children} <Toaster />
+      </body>
     </html>
   );
 }

@@ -7,7 +7,11 @@ import { Button } from '@/components/shadcn/button';
 import UserStats from '@/components/UserStats';
 import { getNewestExperiencesByUserInsecure } from '@/database/experiences';
 import { getValidSession } from '@/database/sessions';
-import { getUserByIdInsecure, getUserBySessionToken } from '@/database/users';
+import {
+  getUserByIdInsecure,
+  getUserBySessionToken,
+  selectUserByIdExistsInsecure,
+} from '@/database/users';
 import { getCookie } from '@/util/cookies';
 import levelNames from '@/util/levelNames';
 import { userExperiencesPerMonth } from '@/util/userExperiencesPerMonth';
@@ -21,15 +25,17 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import AddFriendButton from './AddFriendButton';
 import AnswerRequestButton from './AnswerRequestButton';
 import FriendsButton from './FriendsButton';
+import ProfileButtonsArea from './ProfileButtonsArea';
 
 type Props = {
   params: Promise<{ profileId: string }>;
 };
 
 export default async function IndividualProfilePage(props: Props) {
-  const profileUser = await getUserByIdInsecure((await props.params).profileId);
+  const profileUserId = (await props.params).profileId;
 
   const sessionTokenCookie = await getCookie('sessionToken');
   const currentUser =
@@ -37,52 +43,23 @@ export default async function IndividualProfilePage(props: Props) {
   if (!currentUser) {
     redirect('/access?mode=signin&returnTo=/main/experiences');
   }
+  //  Check if the experience exists
+  if (!(await selectUserByIdExistsInsecure(profileUserId))) {
+    return (
+      <div className="text-center">
+        <h1 className="font-bold text-2xl">Error loading profile</h1>
+        <div>The user does not exist</div>
+        <Link href="/main" className="text-[#0000FF] underline">
+          Back to homepage
+        </Link>
+      </div>
+    );
+  }
+  const profileUser = await getUserByIdInsecure(profileUserId);
   const chartData = await userExperiencesPerMonth(profileUser?.id || '');
   const newestExperienceReports = await getNewestExperiencesByUserInsecure(
     profileUser?.id || '',
   );
-
-  function friendshipStatus(
-    user: Prisma.UserGetPayload<{
-      include: {
-        receivedFriendRequests: true;
-        sentFriendRequests: true;
-        experiences: true;
-      };
-    }>,
-    userId: User['id'],
-  ) {
-    if (
-      user.sentFriendRequests.some(
-        (friend) =>
-          (friend.receiverUserId === userId ||
-            friend.requesterUserId === userId) &&
-          friend.isAccepted,
-      ) ||
-      user.receivedFriendRequests.some(
-        (friend) =>
-          (friend.receiverUserId === userId ||
-            friend.requesterUserId === userId) &&
-          friend.isAccepted,
-      )
-    ) {
-      return 'friends';
-    } else if (
-      user.sentFriendRequests.some(
-        (friend) => friend.receiverUserId === userId && !friend.isAccepted,
-      )
-    ) {
-      return 'pending-receiver';
-    } else if (
-      user.receivedFriendRequests.some(
-        (friend) => friend.requesterUserId === userId && !friend.isAccepted,
-      )
-    ) {
-      return 'pending-requester';
-    } else {
-      return 'none';
-    }
-  }
 
   return (
     <div className="space-y-5 max-w-[400px] mx-auto">
@@ -103,34 +80,8 @@ export default async function IndividualProfilePage(props: Props) {
           </p>
         </div>
       </div>
-      <div className="flex gap-5">
-        {/* Add friend requests later */}
-        {profileUser?.sentFriendRequests.some(
-          (friend) =>
-            friend.receiverUserId === currentUser.id && friend.isAccepted,
-        )}
-        {friendshipStatus(profileUser, currentUser.id) === 'friends' ? (
-          <FriendsButton />
-        ) : friendshipStatus(profileUser, currentUser.id) ===
-          'pending-requester' ? (
-          <Button variant="default">
-            <UserMinus /> Cancel request
-          </Button>
-        ) : friendshipStatus(profileUser, currentUser.id) ===
-          'pending-receiver' ? (
-          <AnswerRequestButton />
-        ) : (
-          <Button variant="secondary">
-            <UserPlus /> Add friend
-          </Button>
-        )}
-        {/* Add message functionality later */}
-        <Button variant="secondary">
-          <MessageSquareText />
-          Message
-        </Button>
-      </div>
-      <dl className="space-y-2">
+      <ProfileButtonsArea profileUser={profileUser} currentUser={currentUser} />
+      <dl>
         {profileUser?.gender && (
           <div className="flex gap-1">
             <dt className="text-sm font-bold">Gender: </dt>
@@ -151,7 +102,6 @@ export default async function IndividualProfilePage(props: Props) {
         </div>
       )}
       <div>
-        <h2 className="text-base font-semibold">Stats:</h2>
         <UserStats chartData={chartData} />
       </div>
       {newestExperienceReports.length > 0 && (

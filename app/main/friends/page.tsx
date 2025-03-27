@@ -42,9 +42,7 @@ export default async function FriendsPage({ searchParams }: Props) {
 
   const receivedFriendRequests = await getReceivedFriendRequests(session.token);
 
-  console.log('RECEIVED', receivedFriendRequests);
-
-  const filteredReceivedFriendRequests = receivedFriendRequests.map(
+  /*  const filteredReceivedFriendRequests = receivedFriendRequests.map(
     (friendRequest) => {
       if (friendRequest.receiverUserId !== session.userId) {
         return friendRequest.receiverUser;
@@ -52,7 +50,9 @@ export default async function FriendsPage({ searchParams }: Props) {
         return friendRequest.requesterUser;
       }
     },
-  );
+  ); */
+
+  console.log('receivedFriendRequests', receivedFriendRequests);
 
   return (
     <>
@@ -65,9 +65,9 @@ export default async function FriendsPage({ searchParams }: Props) {
         </p>
       </div>
       <Separator className="my-4" />
-      {filteredReceivedFriendRequests.length > 0 && (
+      {receivedFriendRequests.length > 0 && (
         <ReceivedFriendRequests
-          receivedFriendRequests={filteredReceivedFriendRequests}
+          receivedFriendRequests={receivedFriendRequests}
         />
       )}
       <MainFriendsContent

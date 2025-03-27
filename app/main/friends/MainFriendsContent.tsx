@@ -68,7 +68,7 @@ export default function MainFriendsContent({
                   >
                     <MessageSquareText />
                   </Button>
-                  <FriendsMenu />
+                  <FriendsMenu friendId={friend.id} />
                 </div>
                 <Separator className="my-4" />
               </div>

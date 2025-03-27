@@ -264,7 +264,9 @@ export async function createExperience(
   return experience;
 }
 
-export async function selectExperienceExists(experienceId: Experience['id']) {
+export async function selectExperienceExistsInsecure(
+  experienceId: Experience['id'],
+) {
   const experience = await prisma.experience.count({
     where: {
       id: experienceId,
