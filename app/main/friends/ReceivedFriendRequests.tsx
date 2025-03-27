@@ -4,13 +4,24 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@/components/shadcn/avatar';
-import { Button } from '@/components/shadcn/button';
-import { Check, Trash2, UserPlus } from 'lucide-react';
+import type { Prisma } from '@prisma/client';
 import Link from 'next/link';
 import ConfirmFriendRequestButton from './ConfirmFriendRequestButton';
 import RemoveFriendRequestButton from './RemoveFriendRequestButton';
 
-export default function ReceivedFriendRequests({ receivedFriendRequests }) {
+type Props = {
+  receivedFriendRequests: Prisma.UserGetPayload<{
+    select: {
+      receivedFriendRequests: {
+        include: { requesterUser: true };
+      };
+    };
+  }>['receivedFriendRequests'];
+};
+
+export default function ReceivedFriendRequests({
+  receivedFriendRequests,
+}: Props) {
   return (
     <div>
       {receivedFriendRequests.map((friendRequest) => {

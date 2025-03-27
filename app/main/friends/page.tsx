@@ -6,6 +6,7 @@ import {
 } from '@/database/friends';
 import { getValidSession } from '@/database/sessions';
 import { getCookie } from '@/util/cookies';
+import type { User } from '@prisma/client';
 import { redirect } from 'next/navigation';
 import MainFriendsContent from './MainFriendsContent';
 import ReceivedFriendRequests from './ReceivedFriendRequests';
@@ -32,27 +33,15 @@ export default async function FriendsPage({ searchParams }: Props) {
 
   const filteredFriends = friends.map((friend) => {
     if (friend.receiverUserId !== session.userId) {
-      return friend.receiverUser;
+      return friend.receiverUser as User;
     } else {
-      return friend.requesterUser;
+      return friend.requesterUser as User;
     }
   });
 
   const totalFriendsCount = await getTotalFriendsCount(session.token);
 
   const receivedFriendRequests = await getReceivedFriendRequests(session.token);
-
-  /*  const filteredReceivedFriendRequests = receivedFriendRequests.map(
-    (friendRequest) => {
-      if (friendRequest.receiverUserId !== session.userId) {
-        return friendRequest.receiverUser;
-      } else {
-        return friendRequest.requesterUser;
-      }
-    },
-  ); */
-
-  console.log('receivedFriendRequests', receivedFriendRequests);
 
   return (
     <>

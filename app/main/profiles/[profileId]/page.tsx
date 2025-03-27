@@ -3,31 +3,14 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@/components/shadcn/avatar';
-import { Button } from '@/components/shadcn/button';
 import UserStats from '@/components/UserStats';
 import { getNewestExperiencesByUserInsecure } from '@/database/experiences';
-import { getValidSession } from '@/database/sessions';
-import {
-  getUserByIdInsecure,
-  getUserBySessionToken,
-  selectUserByIdExistsInsecure,
-} from '@/database/users';
+import { getUserByIdInsecure, getUserBySessionToken } from '@/database/users';
 import { getCookie } from '@/util/cookies';
 import levelNames from '@/util/levelNames';
 import { userExperiencesPerMonth } from '@/util/userExperiencesPerMonth';
-import type { Prisma, User } from '@prisma/client';
-import {
-  MessageSquareText,
-  User as UserIcon,
-  UserMinus,
-  UserPlus,
-  UserRoundCheck,
-} from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import AddFriendButton from './AddFriendButton';
-import AnswerRequestButton from './AnswerRequestButton';
-import FriendsButton from './FriendsButton';
 import ProfileButtonsArea from './ProfileButtonsArea';
 
 type Props = {
@@ -36,6 +19,7 @@ type Props = {
 
 export default async function IndividualProfilePage(props: Props) {
   const profileUserId = (await props.params).profileId;
+  const profileUser = await getUserByIdInsecure(profileUserId);
 
   const sessionTokenCookie = await getCookie('sessionToken');
   const currentUser =
@@ -44,7 +28,7 @@ export default async function IndividualProfilePage(props: Props) {
     redirect('/access?mode=signin&returnTo=/main/experiences');
   }
   //  Check if the experience exists
-  if (!(await selectUserByIdExistsInsecure(profileUserId))) {
+  if (!profileUser) {
     return (
       <div className="text-center">
         <h1 className="font-bold text-2xl">Error loading profile</h1>
@@ -55,47 +39,47 @@ export default async function IndividualProfilePage(props: Props) {
       </div>
     );
   }
-  const profileUser = await getUserByIdInsecure(profileUserId);
-  const chartData = await userExperiencesPerMonth(profileUser?.id || '');
+  /*   const profileUser = await getUserByIdInsecure(profileUserId);
+   */ const chartData = await userExperiencesPerMonth(profileUser.id || '');
   const newestExperienceReports = await getNewestExperiencesByUserInsecure(
-    profileUser?.id || '',
+    profileUser.id || '',
   );
 
   return (
     <div className="space-y-5 max-w-[400px] mx-auto">
       <div className="flex gap-6 items-center">
         <Avatar className="w-[60px] h-[60px]">
-          <AvatarImage src={profileUser?.avatarImageUrl || undefined} />
+          <AvatarImage src={profileUser.avatarImageUrl || undefined} />
           <AvatarFallback>
-            {profileUser?.username.slice(0, 2).toUpperCase()}
+            {profileUser.username.slice(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold">
-            {profileUser?.username}
+            {profileUser.username}
           </h1>
           <p className="text-sm sm:text-lg font-medium">
-            {levelNames(profileUser?.experiences.length)} (
-            {profileUser?.experiences.length})
+            {levelNames(profileUser.experiences.length)} (
+            {profileUser.experiences.length})
           </p>
         </div>
       </div>
       <ProfileButtonsArea profileUser={profileUser} currentUser={currentUser} />
       <dl>
-        {profileUser?.gender && (
+        {profileUser.gender && (
           <div className="flex gap-1">
             <dt className="text-sm font-bold">Gender: </dt>
             <dd className="text-sm font-medium">{profileUser.gender}</dd>
           </div>
         )}
-        {profileUser?.location && (
+        {profileUser.location && (
           <div className="flex gap-1">
             <dt className="text-sm font-bold">Location: </dt>
             <dd className="text-sm font-medium">{profileUser.location}</dd>
           </div>
         )}
       </dl>
-      {profileUser?.aboutDescription && (
+      {profileUser.aboutDescription && (
         <div>
           <h2 className="text-sm font-bold">About:</h2>
           <p className="text-sm font-medium">{profileUser.aboutDescription}</p>

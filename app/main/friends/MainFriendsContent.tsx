@@ -6,7 +6,6 @@ import {
 import { Button } from '@/components/shadcn/button';
 import { PaginationWithLinks } from '@/components/shadcn/pagination-with-links';
 import { Separator } from '@/components/shadcn/separator';
-import levelNames from '@/util/levelNames';
 import type { User } from '@prisma/client';
 import { MessageSquareText } from 'lucide-react';
 import Link from 'next/link';
@@ -47,11 +46,6 @@ export default function MainFriendsContent({
                         {friend.username}
                       </p>
                     </Link>
-
-                    {/*  <p className="text-lg font-normal leading-tight">
-                    {levelNames(friend.experiences.length)} (
-                    {friend.experiences.length})
-                  </p> */}
                   </div>
                   {/* Add message functionality later */}
                   <Button

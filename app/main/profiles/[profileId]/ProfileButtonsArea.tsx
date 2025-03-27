@@ -1,6 +1,6 @@
 import { Button } from '@/components/shadcn/button';
 import type { Prisma, User } from '@prisma/client';
-import { MessageSquareText, UserMinus } from 'lucide-react';
+import { MessageSquareText } from 'lucide-react';
 import AddFriendButton from './AddFriendButton';
 import AnswerReceivedFriendRequestButton from './AnswerFriendRequestButton';
 import CancelSentFriendRequestButton from './CancelSentFriendRequestButton';
@@ -52,7 +52,21 @@ function getFriendshipStatus(
   }
 }
 
-export default function ProfileButtonsArea({ profileUser, currentUser }) {
+type Props = {
+  profileUser: Prisma.UserGetPayload<{
+    include: {
+      receivedFriendRequests: true;
+      sentFriendRequests: true;
+      experiences: true;
+    };
+  }>;
+  currentUser: User;
+};
+
+export default function ProfileButtonsArea({
+  profileUser,
+  currentUser,
+}: Props) {
   const { friendshipStatus, friendshipId } = getFriendshipStatus(
     profileUser,
     currentUser.id,
@@ -67,7 +81,7 @@ export default function ProfileButtonsArea({ profileUser, currentUser }) {
       ) : friendshipStatus === 'pending-requester' ? (
         <AnswerReceivedFriendRequestButton requestId={friendshipId || ''} />
       ) : (
-        <AddFriendButton receiverUserId={profileUser?.id} />
+        <AddFriendButton receiverUserId={profileUser.id} />
       )}
 
       {/* Add messaging functionality later */}

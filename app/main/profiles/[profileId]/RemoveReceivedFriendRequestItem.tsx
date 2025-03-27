@@ -1,15 +1,9 @@
 'use client';
-import {
-  confirmFriendRequestAction,
-  createFriendRequestAction,
-  deleteReceivedFriendRequestAction,
-} from '@/actions/friendsActions';
-import { Button } from '@/components/shadcn/button';
+import { deleteReceivedFriendRequestAction } from '@/actions/friendsActions';
 import { DropdownMenuItem } from '@/components/shadcn/dropdown-menu';
-import { confirmFriendRequest } from '@/database/friends';
 import { useToast } from '@/hooks/use-toast';
-import type { Friend, User } from '@prisma/client';
-import { Check, Trash2, UserMinus, UserPlus } from 'lucide-react';
+import type { Friend } from '@prisma/client';
+import { Trash2 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import React, { useActionState, useEffect } from 'react';
 
@@ -45,7 +39,7 @@ export default function RemoveReceivedFriendRequestItem({ requestId }: Props) {
 
   return (
     <form action={formAction}>
-      <button className="w-full">
+      <button className="w-full" disabled={pending}>
         <DropdownMenuItem className="cursor-pointer">
           <Trash2 /> Remove
         </DropdownMenuItem>

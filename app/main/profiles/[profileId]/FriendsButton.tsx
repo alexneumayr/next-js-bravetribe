@@ -9,9 +9,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/shadcn/dropdown-menu';
-import type { Experience, User } from '@prisma/client';
-import { Ellipsis, Flag, Pencil, Trash2, UserIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import type { User } from '@prisma/client';
+import { Trash2, UserIcon } from 'lucide-react';
 import { useState } from 'react';
 
 type Props = {

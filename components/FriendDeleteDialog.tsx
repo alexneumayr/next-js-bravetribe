@@ -1,4 +1,3 @@
-import { deleteExperienceAction } from '@/actions/experienceActions';
 import { deleteFriendAction } from '@/actions/friendsActions';
 import { Button } from '@/components/shadcn/button';
 import {
@@ -9,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/shadcn/dialog';
-import type { Experience, User } from '@prisma/client';
+import type { User } from '@prisma/client';
 import { usePathname } from 'next/navigation';
 import { useActionState } from 'react';
 

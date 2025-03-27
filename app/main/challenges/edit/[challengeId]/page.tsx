@@ -1,5 +1,8 @@
 import { Separator } from '@/components/shadcn/separator';
-import { getChallenge, selectChallengeExists } from '@/database/challenges';
+import {
+  getChallenge,
+  selectChallengeExistsInsecure,
+} from '@/database/challenges';
 import { getCookie } from '@/util/cookies';
 import Link from 'next/link';
 import EditChallengeForm from './EditChallengeForm';
@@ -13,7 +16,7 @@ export default async function ChallengePage({ params }: Props) {
   const sessionToken = await getCookie('sessionToken');
 
   //  Check if the challenge exists
-  if (!(await selectChallengeExists(challengeId))) {
+  if (!(await selectChallengeExistsInsecure(challengeId))) {
     return (
       <div className="text-center">
         <h1 className="font-bold text-2xl">

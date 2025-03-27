@@ -1,11 +1,6 @@
 'use server';
 
 import {
-  createComment,
-  deleteComment,
-  updateComment,
-} from '@/database/comments';
-import {
   alreadyFriendRequestExisting,
   confirmFriendRequest,
   createFriendRequest,
@@ -13,10 +8,9 @@ import {
   deleteReceivedFriendRequest,
   deleteSentFriendRequest,
 } from '@/database/friends';
-import type { CommentActionState, FriendActionState } from '@/types/types';
+import type { FriendActionState } from '@/types/types';
 import { getCookie } from '@/util/cookies';
 import {
-  commentSchema,
   createFriendRequestSchema,
   deleteFriendSchema,
   manageFriendRequestSchema,

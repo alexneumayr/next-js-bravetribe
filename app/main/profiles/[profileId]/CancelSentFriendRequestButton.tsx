@@ -1,14 +1,9 @@
 'use client';
-import {
-  confirmFriendRequestAction,
-  createFriendRequestAction,
-  deleteSentFriendRequestAction,
-} from '@/actions/friendsActions';
+import { deleteSentFriendRequestAction } from '@/actions/friendsActions';
 import { Button } from '@/components/shadcn/button';
-import { confirmFriendRequest } from '@/database/friends';
 import { useToast } from '@/hooks/use-toast';
-import type { Friend, User } from '@prisma/client';
-import { Check, UserMinus, UserPlus } from 'lucide-react';
+import type { Friend } from '@prisma/client';
+import { UserMinus } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import React, { useActionState, useEffect } from 'react';
 

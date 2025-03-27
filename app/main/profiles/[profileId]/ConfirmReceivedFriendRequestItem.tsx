@@ -1,14 +1,9 @@
 'use client';
-import {
-  confirmFriendRequestAction,
-  createFriendRequestAction,
-} from '@/actions/friendsActions';
-import { Button } from '@/components/shadcn/button';
+import { confirmFriendRequestAction } from '@/actions/friendsActions';
 import { DropdownMenuItem } from '@/components/shadcn/dropdown-menu';
-import { confirmFriendRequest } from '@/database/friends';
 import { useToast } from '@/hooks/use-toast';
-import type { Friend, User } from '@prisma/client';
-import { Check, CircleCheck, UserPlus } from 'lucide-react';
+import type { Friend } from '@prisma/client';
+import { CircleCheck } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import React, { useActionState, useEffect } from 'react';
 
@@ -44,7 +39,7 @@ export default function ConfirmReceivedFriendRequestItem({ requestId }: Props) {
 
   return (
     <form action={formAction} className="ml-auto">
-      <button>
+      <button disabled={pending}>
         <DropdownMenuItem className="cursor-pointer">
           <CircleCheck /> Confirm
         </DropdownMenuItem>
