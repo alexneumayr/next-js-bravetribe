@@ -41,7 +41,7 @@ export async function getUserByEmailInsecure(email: User['email']) {
 export async function getUserByUsernameInsecure(username: User['username']) {
   const user = await prisma.user.findUnique({
     where: {
-      username: username,
+      username: username.trim(),
     },
     select: {
       id: true,
@@ -57,7 +57,7 @@ export async function getUserWithPasswordHashInsecure(
 ) {
   const user = await prisma.user.findUnique({
     where: {
-      username: username,
+      username: username.trim(),
     },
   });
   return user;
@@ -70,7 +70,7 @@ export async function createUserInsecure(
 ) {
   const user = await prisma.user.create({
     data: {
-      username: username,
+      username: username.trim(),
       email: email,
       passwordHash: passwordHash,
     },
@@ -162,7 +162,7 @@ export async function updateUser(
       },
     },
     data: {
-      username: updatedUser.username || undefined,
+      username: updatedUser.username?.trim() || undefined,
       email: updatedUser.email || undefined,
       aboutDescription: updatedUser.aboutDescription || undefined,
       gender: updatedUser.gender || undefined,
