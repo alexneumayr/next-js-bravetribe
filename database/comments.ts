@@ -16,6 +16,19 @@ export async function createComment(
       experienceId: newComment.experienceId,
       userId: user.id,
     },
+    include: {
+      experience: {
+        select: {
+          title: true,
+          userId: true,
+        },
+      },
+      user: {
+        select: {
+          username: true,
+        },
+      },
+    },
   });
   return comment;
 }

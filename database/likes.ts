@@ -15,6 +15,19 @@ export async function createLike(
       experienceId: newLike.experienceId,
       userId: user.id,
     },
+    include: {
+      user: {
+        select: {
+          username: true,
+        },
+      },
+      experience: {
+        select: {
+          title: true,
+          userId: true,
+        },
+      },
+    },
   });
   return like;
 }

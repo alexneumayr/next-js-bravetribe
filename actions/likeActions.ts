@@ -4,7 +4,10 @@ import { createLike, deleteLike } from '@/database/likes';
 import type { LikeActionState } from '@/types/types';
 import { getCookie } from '@/util/cookies';
 import { likeSchema } from '@/util/schemas';
+import { Knock } from '@knocklabs/node';
 import { revalidatePath } from 'next/cache';
+
+const knock = new Knock(process.env.KNOCK_API_SECRET);
 
 export async function createLikeAction(
   currentPath: string,
@@ -45,6 +48,17 @@ export async function createLikeAction(
         error: { general: 'Like creation returned no data' },
       };
     }
+    await knock.workflows.trigger('experience-liked', {
+      data: {
+        name: newLike.user.username,
+        value: newLike.experience.title,
+      },
+      recipients: [
+        {
+          id: newLike.experience.userId,
+        },
+      ],
+    });
     revalidatePath(currentPath);
     return { success: true };
   } catch {

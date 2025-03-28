@@ -241,15 +241,22 @@ export async function createFriendRequest(
       receiverUserId: receiverUserId,
       requesterUserId: currentUser.id,
     },
+    include: {
+      requesterUser: {
+        select: {
+          username: true,
+        },
+      },
+    },
   });
   return newFriendRequest;
 }
 
-export async function confirmFriendRequest(
+export async function acceptFriendRequest(
   sessionToken: Session['token'],
   requestId: Friend['id'],
 ) {
-  const confirmedFriendRequest = await prisma.friend.update({
+  const acceptedFriendRequest = await prisma.friend.update({
     where: {
       id: requestId,
       receiverUser: {
@@ -264,8 +271,15 @@ export async function confirmFriendRequest(
     data: {
       isAccepted: true,
     },
+    include: {
+      receiverUser: {
+        select: {
+          username: true,
+        },
+      },
+    },
   });
-  return confirmedFriendRequest;
+  return acceptedFriendRequest;
 }
 
 export async function deleteReceivedFriendRequest(

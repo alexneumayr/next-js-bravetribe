@@ -1,8 +1,8 @@
 'use server';
 
 import {
+  acceptFriendRequest,
   alreadyFriendRequestExisting,
-  confirmFriendRequest,
   createFriendRequest,
   deleteFriend,
   deleteReceivedFriendRequest,
@@ -15,7 +15,10 @@ import {
   deleteFriendSchema,
   manageFriendRequestSchema,
 } from '@/util/schemas';
+import { Knock } from '@knocklabs/node';
 import { revalidatePath } from 'next/cache';
+
+const knock = new Knock(process.env.KNOCK_API_SECRET);
 
 export async function createFriendRequestAction(
   currentPath: string,
@@ -69,6 +72,16 @@ export async function createFriendRequestAction(
         error: { general: 'Friend request creation returned no data' },
       };
     }
+    await knock.workflows.trigger('friend-request-sent', {
+      data: {
+        name: newFriendRequest.requesterUser.username,
+      },
+      recipients: [
+        {
+          id: newFriendRequest.receiverUserId,
+        },
+      ],
+    });
     revalidatePath(currentPath);
     revalidatePath('/main/friends');
     return { success: true };
@@ -80,7 +93,7 @@ export async function createFriendRequestAction(
   }
 }
 
-export async function confirmFriendRequestAction(
+export async function acceptriendRequestAction(
   currentPath: string,
   prevState: any,
   formData: FormData,
@@ -100,7 +113,7 @@ export async function confirmFriendRequestAction(
   // 3. Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
 
-  // 4. Confirm the friend request
+  // 4. Accept the friend request
 
   if (!sessionToken) {
     return {
@@ -110,13 +123,22 @@ export async function confirmFriendRequestAction(
   }
 
   try {
-    const confirmedFriendRequest = await confirmFriendRequest(
+    const acceptedFriendRequest = await acceptFriendRequest(
       sessionToken,
       validatedFields.data.requestId,
     );
-
+    await knock.workflows.trigger('friend-request-accepted', {
+      data: {
+        name: acceptedFriendRequest.receiverUser.username,
+      },
+      recipients: [
+        {
+          id: acceptedFriendRequest.requesterUserId,
+        },
+      ],
+    });
     revalidatePath(currentPath);
-    revalidatePath(`/main/profiles/${confirmedFriendRequest.receiverUserId}`);
+    revalidatePath(`/main/profiles/${acceptedFriendRequest.receiverUserId}`);
 
     return { success: true };
   } catch {

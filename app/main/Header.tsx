@@ -1,3 +1,4 @@
+import NotificationFeed from '@/components/knock/NotificationFeed';
 import HamburgerMenuMain from '@/components/shadcn/HamburgerMenuMain';
 import { getUserBySessionToken } from '@/database/users';
 import { getCookie } from '@/util/cookies';
@@ -23,10 +24,13 @@ export default async function Header() {
                 alt="BraveTribe logo"
               />
             </Link>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1 sm:gap-4">
+              <div>
+                <NotificationFeed user={user} />
+              </div>
               <Link
                 href="/main/search"
-                className="xl:hidden hover:bg-zinc-100 rounded-md sm:rounded-full p-[7px] sm:p-3"
+                className="xl:hidden hover:bg-zinc-100 rounded-md sm:rounded-full p-[7px] sm:p-3 transition-colors"
               >
                 <Search className="flex-none w-[18px] h-[18px] sm:w-[25px] sm:h-[25px]" />
               </Link>

@@ -8,7 +8,10 @@ import {
 import type { CommentActionState } from '@/types/types';
 import { getCookie } from '@/util/cookies';
 import { commentSchema } from '@/util/schemas';
+import { Knock } from '@knocklabs/node';
 import { revalidatePath } from 'next/cache';
+
+const knock = new Knock(process.env.KNOCK_API_SECRET);
 
 export async function createCommentAction(
   prevState: any,
@@ -50,9 +53,21 @@ export async function createCommentAction(
         error: { general: 'Comment creation returned no data' },
       };
     }
+    await knock.workflows.trigger('experience-commented', {
+      data: {
+        name: newComment.user?.username,
+        value: newComment.experience.title,
+      },
+      recipients: [
+        {
+          id: newComment.experience.userId,
+        },
+      ],
+    });
     revalidatePath(`/main/experiences/${validatedFields.data.experienceId}`);
     return { success: true };
-  } catch {
+  } catch (error) {
+    console.log(error);
     return {
       success: false,
       error: { general: 'Failed to create comment' },
