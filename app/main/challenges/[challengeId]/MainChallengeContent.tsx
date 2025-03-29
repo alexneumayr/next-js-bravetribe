@@ -11,7 +11,12 @@ export default function MainChallengeContent({ challenge }: Props) {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-medium">{challenge.title}</h2>
+        <h2
+          className="text-2xl font-medium"
+          data-test-id="challenge-details-title"
+        >
+          {challenge.title}
+        </h2>
         <ChallengeDetailsMenu challenge={challenge} />
       </div>
       <dl className="space-y-2">
@@ -29,7 +34,10 @@ export default function MainChallengeContent({ challenge }: Props) {
         </div>
         <div>
           <dt className="text-sm font-bold">Description:</dt>
-          <dd className="text-sm font-medium whitespace-pre-wrap">
+          <dd
+            className="text-sm font-medium whitespace-pre-wrap"
+            data-test-id="challenge-details-description"
+          >
             {challenge.description}
           </dd>
         </div>

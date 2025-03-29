@@ -4,6 +4,7 @@
 
 import { buttonVariants } from '@/components/shadcn/button';
 import { cn } from '@/lib/utils';
+import type { Route } from 'next';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -28,7 +29,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
       {items.map((item) => (
         <Link
           key={item.href}
-          href={item.href}
+          href={item.href as Route}
           className={cn(
             buttonVariants({ variant: 'ghost' }),
             'font-semibold lg:text-lg',

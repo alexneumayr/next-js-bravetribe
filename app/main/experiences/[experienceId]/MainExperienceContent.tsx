@@ -112,10 +112,13 @@ export default function MainExperienceContent({ experience, user }: Props) {
               )}
             </dl>
           </div>
-          <div className="w-full ">
+          <div className="w-full">
             <div className="flex justify-between items-start">
               <div className="">
-                <h2 className="text-sm sm:text-base font-semibold sm:font-bold mt-1 sm:mt-0">
+                <h2
+                  className="text-sm sm:text-base font-semibold sm:font-bold mt-1 sm:mt-0"
+                  data-test-id="experience-report-challenge-title"
+                >
                   {experience.challenge.title}
                 </h2>
               </div>
@@ -142,7 +145,10 @@ export default function MainExperienceContent({ experience, user }: Props) {
                   />
                 </div>
               )}
-              <h3 className="text-xl sm:text-3xl font-semibold ">
+              <h3
+                className="text-xl sm:text-3xl font-semibold"
+                data-test-id="experience-report-experience-title"
+              >
                 {experience.title}
               </h3>
 
@@ -151,14 +157,20 @@ export default function MainExperienceContent({ experience, user }: Props) {
               </div>
 
               <h4 className="text-sm font-bold text-secondary">Challenge:</h4>
-              <p className="text-sm font-medium whitespace-pre-wrap">
+              <p
+                className="text-sm font-medium whitespace-pre-wrap"
+                data-test-id="experience-report-challenge-description"
+              >
                 {experience.challenge.description}
               </p>
             </div>
             <h4 className="text-sm font-bold text-secondary mt-1">
               Experience:
             </h4>
-            <p className="text-sm font-medium whitespace-pre-wrap">
+            <p
+              className="text-sm font-medium whitespace-pre-wrap"
+              data-test-id="experience-report-experience-story"
+            >
               {experience.story}
             </p>
             {experience.imageUrl && (

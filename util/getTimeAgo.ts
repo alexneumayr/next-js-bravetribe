@@ -1,6 +1,9 @@
 import { DateTime, Interval } from 'luxon';
 
 export function getTimeAgo(date: Date) {
+  if (!(date instanceof Date)) {
+    throw new Error('Parameter must be a DateTime object');
+  }
   const now = DateTime.now();
   const convertedDate = DateTime.fromJSDate(date);
   const i = Interval.fromDateTimes(convertedDate, now);
@@ -11,6 +14,10 @@ export function getTimeAgo(date: Date) {
   const weeks = Math.floor(i.length('weeks'));
   const months = Math.floor(i.length('months'));
   const years = Math.floor(i.length('years'));
+
+  if (convertedDate > now) {
+    throw new Error('Date must not be in the future');
+  }
 
   // Check if the duration is 0
   if (seconds === 0) {

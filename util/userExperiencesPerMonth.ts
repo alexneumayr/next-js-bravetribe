@@ -21,92 +21,83 @@ export async function userExperiencesPerMonth(id: string) {
       case 1:
         const januaryItem = chartData.find(
           (item) => item.month === monthNames[0],
-        );
-        if (januaryItem) {
-          januaryItem.experiences++;
-        }
+        )!;
+        januaryItem.experiences++;
+
         break;
       case 2:
         const februaryItem = chartData.find(
           (item) => item.month === monthNames[1],
-        );
-        if (februaryItem) {
-          februaryItem.experiences++;
-        }
+        )!;
+        februaryItem.experiences++;
+
         break;
       case 3:
         const marchItem = chartData.find(
           (item) => item.month === monthNames[2],
-        );
-        if (marchItem) {
-          marchItem.experiences++;
-        }
+        )!;
+        marchItem.experiences++;
+
         break;
       case 4:
         const aprilItem = chartData.find(
           (item) => item.month === monthNames[3],
-        );
-        if (aprilItem) {
-          aprilItem.experiences++;
-        }
+        )!;
+        aprilItem.experiences++;
+
         break;
       case 5:
-        const mayItem = chartData.find((item) => item.month === monthNames[4]);
-        if (mayItem) {
-          mayItem.experiences++;
-        }
+        const mayItem = chartData.find((item) => item.month === monthNames[4])!;
+        mayItem.experiences++;
+
         break;
       case 6:
-        const juneItem = chartData.find((item) => item.month === monthNames[5]);
-        if (juneItem) {
-          juneItem.experiences++;
-        }
+        const juneItem = chartData.find(
+          (item) => item.month === monthNames[5],
+        )!;
+        juneItem.experiences++;
         break;
       case 7:
-        const julyItem = chartData.find((item) => item.month === monthNames[6]);
-        if (julyItem) {
-          julyItem.experiences++;
-        }
+        const julyItem = chartData.find(
+          (item) => item.month === monthNames[6],
+        )!;
+        julyItem.experiences++;
+
         break;
       case 8:
         const augustItem = chartData.find(
           (item) => item.month === monthNames[7],
-        );
-        if (augustItem) {
-          augustItem.experiences++;
-        }
+        )!;
+        augustItem.experiences++;
+
         break;
       case 9:
         const septemberItem = chartData.find(
           (item) => item.month === monthNames[8],
-        );
-        if (septemberItem) {
-          septemberItem.experiences++;
-        }
+        )!;
+        septemberItem.experiences++;
+
         break;
       case 10:
         const octoberItem = chartData.find(
           (item) => item.month === monthNames[9],
-        );
-        if (octoberItem) {
-          octoberItem.experiences++;
-        }
+        )!;
+        octoberItem.experiences++;
+
         break;
       case 11:
         const novemberItem = chartData.find(
           (item) => item.month === monthNames[10],
-        );
-        if (novemberItem) {
-          novemberItem.experiences++;
-        }
+        )!;
+        novemberItem.experiences++;
+
         break;
       case 12:
         const decemberItem = chartData.find(
           (item) => item.month === monthNames[11],
-        );
-        if (decemberItem) {
-          decemberItem.experiences++;
-        }
+        )!;
+        decemberItem.experiences++;
+
         break;
       default:
         console.log('Error checking the months');

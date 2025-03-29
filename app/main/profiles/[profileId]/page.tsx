@@ -39,8 +39,7 @@ export default async function IndividualProfilePage(props: Props) {
       </div>
     );
   }
-  /*   const profileUser = await getUserByIdInsecure(profileUserId);
-   */ const chartData = await userExperiencesPerMonth(profileUser.id || '');
+  const chartData = await userExperiencesPerMonth(profileUser.id);
   const newestExperienceReports = await getNewestExperiencesByUserInsecure(
     profileUser.id || '',
   );

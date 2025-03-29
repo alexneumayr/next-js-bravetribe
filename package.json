@@ -74,6 +74,8 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@jest/globals": "30.0.0-alpha.7",
+    "@playwright/test": "^1.50.1",
     "@types/bcrypt": "^5.0.2",
     "@types/google.maps": "^3.58.1",
     "@types/lodash": "^4.17.16",
@@ -83,9 +85,12 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/react-stars": "^2.2.4",
+    "esbuild-register": "3.6.0",
     "eslint": "^9.22.0",
     "eslint-config-upleveled": "^9.2.1",
     "eslint-import-resolver-typescript": "^3.8.5",
+    "jest": "30.0.0-alpha.7",
+    "jest-environment-jsdom": "30.0.0-alpha.7",
     "postcss": "^8",
     "prettier": "^3.5.3",
     "prisma": "^6.4.1",

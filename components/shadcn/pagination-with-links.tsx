@@ -2,6 +2,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import type { Route } from 'next';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { type ReactNode, useCallback } from 'react';
 import {
@@ -74,7 +75,7 @@ export function PaginationWithLinks({
       const newSearchParams = new URLSearchParams(searchParams || undefined);
       newSearchParams.set(key, String(newPageSize));
       newSearchParams.delete(pageSearchParam || 'page'); // Clear the page number when changing page size
-      router.push(`${pathname}?${newSearchParams.toString()}`);
+      router.push(`${pathname}?${newSearchParams.toString()}` as Route);
     },
     [searchParams, pathname],
   );

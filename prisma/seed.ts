@@ -212,7 +212,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     title: 'Selfie Challenge',
     description:
       'Take selfies with as many strangers as possible within 10 minutes.',
-    plannedDate: '2026-03-11T00:00:00.000Z',
+    plannedDate: '2025-01-10T00:00:00.000Z',
     user: {
       connect: { email: 'lisa.taylor@email.com' },
     },
@@ -222,26 +222,11 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
         story:
           'I was hesitant at first, but after the first few people agreed, it became fun! Some even made silly faces for the pictures.',
         rating: 5,
-        date: '2025-03-11T00:00:00.000Z',
+        date: '2025-01-10T00:00:00.000Z',
         imageUrl:
           'https://res.cloudinary.com/duayl4vkp/image/upload/v1743066790/nb0iq65mqf6ttgr4kikg.jpg',
         user: {
           connect: { email: 'lisa.taylor@email.com' },
-        },
-        comments: {
-          create: {
-            content: "Very cool! That's really awesome!",
-            user: {
-              connect: { email: 'david.roberts@email.com' },
-            },
-          },
-        },
-        likes: {
-          create: {
-            user: {
-              connect: { email: 'david.roberts@email.com' },
-            },
-          },
         },
       },
     },
@@ -250,7 +235,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     title: 'Solo Travel Challenge',
     description:
       "Take a solo trip to a place where you don't speak the language and document your journey.",
-    plannedDate: '2026-03-13T00:00:00.000Z',
+    plannedDate: '2024-10-05T00:00:00.000Z',
     user: {
       connect: { email: 'sophia.miller@email.com' },
     },
@@ -260,26 +245,11 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
         story:
           "I visited a country where I didn't speak the language, and despite some challenges, it was an eye-opening experience. I learned so much about myself and the world.",
         rating: 5,
-        date: '2025-03-12T00:00:00.000Z',
+        date: '2024-10-05T00:00:00.000Z',
         imageUrl:
           'https://res.cloudinary.com/duayl4vkp/image/upload/v1743066625/nctvboqhu41q7xe7et5p.jpg',
         user: {
           connect: { email: 'sophia.miller@email.com' },
-        },
-        comments: {
-          create: {
-            content: "Incredible journey! I'm inspired to do the same.",
-            user: {
-              connect: { email: 'emma.johnson@email.com' },
-            },
-          },
-        },
-        likes: {
-          create: {
-            user: {
-              connect: { email: 'emma.johnson@email.com' },
-            },
-          },
         },
       },
     },
@@ -288,7 +258,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     title: 'Public Speaking Challenge',
     description:
       "Give a short speech in front of a group of strangers on a topic you're passionate about.",
-    plannedDate: '2026-03-12T00:00:00.000Z',
+    plannedDate: '2024-11-12T00:00:00.000Z',
     user: {
       connect: { email: 'jason.lee@email.com' },
     },
@@ -298,26 +268,11 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
         story:
           'I was nervous at first, but once I started speaking about tech, I felt more confident. It was empowering to share my knowledge with others.',
         rating: 4,
-        date: '2025-03-13T00:00:00.000Z',
+        date: '2024-11-12T00:00:00.000Z',
         imageUrl:
           'https://res.cloudinary.com/duayl4vkp/image/upload/v1743067293/atrbwp3ox0yquxpwusuo.jpg',
         user: {
           connect: { email: 'jason.lee@email.com' },
-        },
-        comments: {
-          create: {
-            content: 'Great job! You really nailed it!',
-            user: {
-              connect: { email: 'sophia.miller@email.com' },
-            },
-          },
-        },
-        likes: {
-          create: {
-            user: {
-              connect: { email: 'sophia.miller@email.com' },
-            },
-          },
         },
       },
     },
@@ -326,7 +281,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     title: 'Gym Conversation Challenge',
     description:
       'Start conversations with random people at the gym and ask them about their fitness journey.',
-    plannedDate: '2026-03-15T00:00:00.000Z',
+    plannedDate: '2025-02-08T00:00:00.000Z',
     user: {
       connect: { email: 'emma.johnson@email.com' },
     },
@@ -336,26 +291,11 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
         story:
           'At first, I was intimidated, but once I started talking to people, I realized how easy it was to connect with others in the gym.',
         rating: 4,
-        date: '2025-03-14T00:00:00.000Z',
+        date: '2025-02-08T00:00:00.000Z',
         imageUrl:
           'https://res.cloudinary.com/duayl4vkp/image/upload/v1743066007/rlldzwpizwztvhaqyrf5.jpg',
         user: {
           connect: { email: 'emma.johnson@email.com' },
-        },
-        comments: {
-          create: {
-            content: 'Nice job! I need to try this next time at the gym.',
-            user: {
-              connect: { email: 'lisa.taylor@email.com' },
-            },
-          },
-        },
-        likes: {
-          create: {
-            user: {
-              connect: { email: 'lisa.taylor@email.com' },
-            },
-          },
         },
       },
     },
@@ -364,7 +304,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     title: 'Open Mic Comedy Challenge',
     description:
       'Perform stand-up comedy at an open mic night and make the audience laugh.',
-    plannedDate: '2026-03-14T00:00:00.000Z',
+    plannedDate: '2025-03-01T00:00:00.000Z',
     user: {
       connect: { email: 'david.roberts@email.com' },
     },
@@ -374,26 +314,11 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
         story:
           "It was nerve-wracking at first, but once the audience laughed, I felt on top of the world. I can't wait to perform again!",
         rating: 5,
-        date: '2025-03-15T00:00:00.000Z',
+        date: '2025-03-01T00:00:00.000Z',
         imageUrl:
           'https://res.cloudinary.com/duayl4vkp/image/upload/v1743068617/syhfovbtmemu1uwuqazx.jpg',
         user: {
           connect: { email: 'david.roberts@email.com' },
-        },
-        comments: {
-          create: {
-            content: 'You crushed it! I was laughing the whole time.',
-            user: {
-              connect: { email: 'jason.lee@email.com' },
-            },
-          },
-        },
-        likes: {
-          create: {
-            user: {
-              connect: { email: 'jason.lee@email.com' },
-            },
-          },
         },
       },
     },
