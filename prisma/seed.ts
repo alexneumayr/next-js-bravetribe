@@ -216,6 +216,7 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
     user: {
       connect: { email: 'lisa.taylor@email.com' },
     },
+
     experiences: {
       create: {
         title: 'Overcoming Hesitation: A Selfie Journey',
@@ -227,6 +228,21 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
           'https://res.cloudinary.com/duayl4vkp/image/upload/v1743066790/nb0iq65mqf6ttgr4kikg.jpg',
         user: {
           connect: { email: 'lisa.taylor@email.com' },
+        },
+        comments: {
+          create: {
+            content: "Very cool! That's really awesome!",
+            user: {
+              connect: { email: 'david.roberts@email.com' },
+            },
+          },
+        },
+        likes: {
+          create: {
+            user: {
+              connect: { email: 'david.roberts@email.com' },
+            },
+          },
         },
       },
     },
@@ -251,6 +267,21 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
         user: {
           connect: { email: 'sophia.miller@email.com' },
         },
+        comments: {
+          create: {
+            content: "Incredible journey! I'm inspired to do the same.",
+            user: {
+              connect: { email: 'emma.johnson@email.com' },
+            },
+          },
+        },
+        likes: {
+          create: {
+            user: {
+              connect: { email: 'emma.johnson@email.com' },
+            },
+          },
+        },
       },
     },
   },
@@ -273,6 +304,21 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
           'https://res.cloudinary.com/duayl4vkp/image/upload/v1743067293/atrbwp3ox0yquxpwusuo.jpg',
         user: {
           connect: { email: 'jason.lee@email.com' },
+        },
+        comments: {
+          create: {
+            content: 'Great job! You really nailed it!',
+            user: {
+              connect: { email: 'sophia.miller@email.com' },
+            },
+          },
+        },
+        likes: {
+          create: {
+            user: {
+              connect: { email: 'sophia.miller@email.com' },
+            },
+          },
         },
       },
     },
@@ -297,6 +343,21 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
         user: {
           connect: { email: 'emma.johnson@email.com' },
         },
+        comments: {
+          create: {
+            content: 'Nice job! I need to try this next time at the gym.',
+            user: {
+              connect: { email: 'lisa.taylor@email.com' },
+            },
+          },
+        },
+        likes: {
+          create: {
+            user: {
+              connect: { email: 'lisa.taylor@email.com' },
+            },
+          },
+        },
       },
     },
   },
@@ -319,6 +380,21 @@ const initChallenges: Prisma.ChallengeCreateInput[] = [
           'https://res.cloudinary.com/duayl4vkp/image/upload/v1743068617/syhfovbtmemu1uwuqazx.jpg',
         user: {
           connect: { email: 'david.roberts@email.com' },
+        },
+        comments: {
+          create: {
+            content: 'You crushed it! I was laughing the whole time.',
+            user: {
+              connect: { email: 'jason.lee@email.com' },
+            },
+          },
+        },
+        likes: {
+          create: {
+            user: {
+              connect: { email: 'jason.lee@email.com' },
+            },
+          },
         },
       },
     },

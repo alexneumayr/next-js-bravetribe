@@ -35,7 +35,7 @@ export default function AvatarDialog({
   openDialog,
   onOpenDialogChange,
 }: Props) {
-  const [imageUrl, setImageUrl] = useState(user.avatarImageUrl || undefined);
+  const [imageUrl, setImageUrl] = useState(user.avatarImageUrl || '');
 
   useEffect(() => {
     // Disable Radix ui dialog pointer events lockout
