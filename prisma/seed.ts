@@ -450,8 +450,9 @@ const initFriends: Prisma.FriendCreateInput[] = [
 ];
 
 async function main() {
-  console.log(`Start seeding...`);
-
+  /*
+  // Deletion block:
+  // Only needed for resetting existing tables
   await prisma.template.deleteMany();
   await prisma.session.deleteMany();
   await prisma.goal.deleteMany();
@@ -460,7 +461,9 @@ async function main() {
   await prisma.experience.deleteMany();
   await prisma.challenge.deleteMany();
   await prisma.friend.deleteMany();
-  await prisma.user.deleteMany();
+  await prisma.user.deleteMany(); */
+
+  console.log(`Start seeding...`);
 
   for (const template of initTemplates) {
     const newTemplate = await prisma.template.create({
