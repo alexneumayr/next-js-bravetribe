@@ -12,7 +12,7 @@ jobs:
       PGDATABASE: bravetribe
       PGUSERNAME: bravetribe
       PGPASSWORD: bravetribe
-      DATABASE_URL: 'postgresql://next_js_bravetribe:next_js_bravetribe@localhost:5432/next_js_bravetribe?schema=next_js_bravetribe'
+      DATABASE_URL: 'postgresql://bravetribe:bravetribe@localhost:5432/bravetribe?schema=bravetribe'
       NEXTAUTH_SECRET: xxxxxxxxxxxxxxx
       NEXTAUTH_URL: xxxxxxxxxxxxxxx
       CLOUDINARY_CLOUD_NAME: xxxxxxxxxxxxxxx
