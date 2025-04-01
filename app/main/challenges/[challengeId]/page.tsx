@@ -22,7 +22,7 @@ export default async function ChallengePage({ params }: Props) {
     redirect('/main/challenges');
   }
 
-  // Query the challenge with the session token and challengeId
+  // Query the challenge table with the session token and challengeId
   const challenge =
     sessionToken && (await getChallenge(sessionToken, challengeId));
 

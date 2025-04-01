@@ -22,7 +22,6 @@ const config: PlaywrightTestConfig = {
     testIdAttribute: 'data-test-id',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    trace: 'on',
   },
 };
 
