@@ -127,8 +127,9 @@ test('Registering as a new user, creating a new challenge and adding an experien
   await page.getByRole('button', { name: 'Planned Date:' }).click();
   await page.getByRole('button', { name: 'Go to next month' }).click();
   await page.getByRole('button', { name: 'Go to next month' }).click();
-  await page.getByRole('gridcell', { name: '1', exact: true }).click();
+  await page.getByRole('gridcell', { name: '1', exact: true }).first().click();
   await page.getByRole('textbox', { name: 'Description:' }).click();
+
   await page
     .getByRole('textbox', { name: 'Description:' })
     .fill('Take selfies with as many strangers as possible within 10 minutes.');
