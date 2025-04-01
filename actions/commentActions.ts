@@ -52,6 +52,8 @@ export async function createCommentAction(
         error: { general: 'Comment creation returned no data' },
       };
     }
+
+    // Send a notification to the user
     await knock.workflows.trigger('experience-commented', {
       data: {
         name: newComment.user?.username,
@@ -78,7 +80,7 @@ export async function updateCommentAction(
   prevState: any,
   formData: FormData,
 ): Promise<CommentActionState> {
-  // 1. Formdaten validieren
+  // Validate form data
   const validatedFields = commentSchema.omit({ experienceId: true }).safeParse({
     id: formData.get('id'),
     content: formData.get('content'),
@@ -91,10 +93,8 @@ export async function updateCommentAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Update the comment
 
   if (!sessionToken) {
     return {
@@ -102,6 +102,8 @@ export async function updateCommentAction(
       error: { general: 'Failed to access session token' },
     };
   }
+
+  // Update the comment
   try {
     const updatedComment = await updateComment(sessionToken, {
       content: validatedFields.data.content,
@@ -127,6 +129,7 @@ export async function deleteCommentAction(
   prevState: any,
   formData: FormData,
 ): Promise<CommentActionState> {
+  // Validate form data
   const validatedFields = commentSchema
     .pick({
       id: true,
@@ -142,10 +145,8 @@ export async function deleteCommentAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Delete the comment
 
   if (!sessionToken) {
     return {
@@ -154,6 +155,7 @@ export async function deleteCommentAction(
     };
   }
 
+  // Delete the comment
   try {
     const deletedComment = await deleteComment(
       validatedFields.data.id,

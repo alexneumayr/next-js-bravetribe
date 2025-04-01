@@ -25,7 +25,7 @@ export async function createFriendRequestAction(
   prevState: any,
   formData: FormData,
 ): Promise<FriendActionState> {
-  // 1. Formdaten validieren
+  // Validate form data
   const validatedFields = createFriendRequestSchema.safeParse({
     receiverUserId: formData.get('id'),
   });
@@ -37,10 +37,8 @@ export async function createFriendRequestAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Create the friend request
 
   if (!sessionToken) {
     return {
@@ -48,6 +46,8 @@ export async function createFriendRequestAction(
       error: { general: 'Failed to access session token' },
     };
   }
+
+  // Check if there is already a friend request between the users
   if (
     await alreadyFriendRequestExisting(
       sessionToken,
@@ -61,6 +61,8 @@ export async function createFriendRequestAction(
       },
     };
   }
+
+  // Create the friend request
   try {
     const newFriendRequest = await createFriendRequest(
       sessionToken,
@@ -72,6 +74,8 @@ export async function createFriendRequestAction(
         error: { general: 'Friend request creation returned no data' },
       };
     }
+
+    // Send a notification to the user
     await knock.workflows.trigger('friend-request-sent', {
       data: {
         name: newFriendRequest.requesterUser.username,
@@ -93,7 +97,7 @@ export async function createFriendRequestAction(
   }
 }
 
-export async function acceptriendRequestAction(
+export async function acceptFriendRequestAction(
   currentPath: string,
   prevState: any,
   formData: FormData,

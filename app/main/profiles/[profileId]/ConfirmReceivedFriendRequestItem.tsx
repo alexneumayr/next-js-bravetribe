@@ -1,5 +1,5 @@
 'use client';
-import { acceptriendRequestAction } from '@/actions/friendsActions';
+import { acceptFriendRequestAction } from '@/actions/friendsActions';
 import { DropdownMenuItem } from '@/components/shadcn/dropdown-menu';
 import { useToast } from '@/hooks/use-toast';
 import type { Friend } from '@prisma/client';
@@ -20,7 +20,7 @@ export default function ConfirmReceivedFriendRequestItem({ requestId }: Props) {
     error: {},
   };
   const acceptFriendRequestActionWithCurrentPath =
-    acceptriendRequestAction.bind(null, currentPath);
+    acceptFriendRequestAction.bind(null, currentPath);
 
   const [state, formAction, pending] = useActionState(
     acceptFriendRequestActionWithCurrentPath,

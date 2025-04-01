@@ -15,7 +15,7 @@ export async function createExperienceAction(
   prevState: any,
   formData: FormData,
 ): Promise<ExperienceActionState> {
-  // 1. Formdaten validieren
+  // Validate form data
   const validatedFields = experienceSchema.omit({ id: true }).safeParse({
     title: formData.get('title'),
     story: formData.get('story'),
@@ -33,10 +33,8 @@ export async function createExperienceAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Create the experience
 
   if (!sessionToken) {
     return {
@@ -45,6 +43,7 @@ export async function createExperienceAction(
     };
   }
 
+  // Create the experience
   try {
     const newExperience = await createExperience(
       sessionToken,
