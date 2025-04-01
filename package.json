@@ -6,9 +6,9 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "postinstall": "prisma generate && prisma migrate deploy",
     "lint": "next lint",
-    "start": "next start",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build"
+    "start": "next start"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
