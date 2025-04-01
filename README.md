@@ -19,7 +19,7 @@ A platform where people support each other in taking on comfort zone challenges.
 - Playwright
 - Vercel
 
-## Database Setup
+## Database Setup (development)
 
 If you haven't installed PostgreSQL you can follow the instructions from UpLeveled: https://github.com/upleveled/system-setup/blob/main/readme.md
 
@@ -60,6 +60,10 @@ For the next step make sure that your current working directory is the folder of
 ```
 pnpx prisma migrate deploy
 ```
+
+## Database Setup (production)
+
+For production, Neon is used as the database provider. Ensure that your environment variables in the .env file are correctly configured to connect to your Neon Postgres database.
 
 ## Tests
 
