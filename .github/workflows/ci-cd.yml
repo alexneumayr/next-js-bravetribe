@@ -43,6 +43,8 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+      - name: Generate Prisma client
+        run: pnpm prisma generate
       - name: Jest unit tests
         run: pnpm jest
       - name: Run database migrations
