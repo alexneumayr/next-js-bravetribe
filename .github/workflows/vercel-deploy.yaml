@@ -15,6 +15,8 @@ jobs:
         run: |
           corepack enable
           corepack prepare pnpm@latest --activate
+      - name: Create global bin directory
+        run: pnpm setup
       - name: Install Vercel CLI
         run: pnpm add --global vercel@latest
       - name: Pull Vercel Environment Information
