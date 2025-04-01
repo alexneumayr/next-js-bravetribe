@@ -24,8 +24,9 @@ export default async function IndividualProfilePage(props: Props) {
   const sessionTokenCookie = await getCookie('sessionToken');
   const currentUser =
     sessionTokenCookie && (await getUserBySessionToken(sessionTokenCookie));
+  // If the user is not logged in redirect to login page
   if (!currentUser) {
-    redirect('/access?mode=signin&returnTo=/main/experiences');
+    redirect(`/access?mode=signin&returnTo=/main/profiles/${profileUserId}`);
   }
   //  Check if the user exists
   if (!profileUser) {
