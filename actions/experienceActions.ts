@@ -79,7 +79,7 @@ export async function updateExperienceAction(
   prevState: any,
   formData: FormData,
 ): Promise<ExperienceActionState> {
-  // 1. Formdaten validieren
+  // Validate form data
   const validatedFields = experienceSchema
     .omit({ challengeId: true })
     .safeParse({
@@ -99,10 +99,8 @@ export async function updateExperienceAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Update the experience
 
   if (!sessionToken) {
     return {
@@ -111,6 +109,7 @@ export async function updateExperienceAction(
     };
   }
 
+  // Update the experience
   try {
     const updatedExperience = await updateExperience(
       sessionToken,
@@ -146,6 +145,7 @@ export async function deleteExperienceAction(
   prevState: any,
   formData: FormData,
 ): Promise<ExperienceActionState> {
+  // Validate form data
   const validatedFields = experienceSchema.pick({ id: true }).safeParse({
     id: formData.get('id'),
   });
@@ -157,10 +157,8 @@ export async function deleteExperienceAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Delete the experience
 
   if (!sessionToken) {
     return {
@@ -169,6 +167,7 @@ export async function deleteExperienceAction(
     };
   }
 
+  // Delete the experience
   try {
     await deleteExperience(validatedFields.data.id, sessionToken);
     revalidatePath(currentPath);

@@ -18,12 +18,11 @@ const config: PlaywrightTestConfig = {
     ? 'github'
     : [['html', { outputFolder: 'playwright/report/' }]],
   outputDir: 'playwright/test-results/',
-  retries: 1,
   use: {
     testIdAttribute: 'data-test-id',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    trace: 'on-first-retry',
+    trace: 'on',
   },
 };
 

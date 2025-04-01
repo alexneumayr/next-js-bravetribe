@@ -102,7 +102,7 @@ export async function acceptFriendRequestAction(
   prevState: any,
   formData: FormData,
 ): Promise<FriendActionState> {
-  // 1. Formdaten validieren
+  // Validate form data
   const validatedFields = manageFriendRequestSchema.safeParse({
     requestId: formData.get('id'),
   });
@@ -114,10 +114,8 @@ export async function acceptFriendRequestAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Accept the friend request
 
   if (!sessionToken) {
     return {
@@ -126,11 +124,13 @@ export async function acceptFriendRequestAction(
     };
   }
 
+  // Accept the friend request
   try {
     const acceptedFriendRequest = await acceptFriendRequest(
       sessionToken,
       validatedFields.data.requestId,
     );
+    // Send a notification to the user
     await knock.workflows.trigger('friend-request-accepted', {
       data: {
         name: acceptedFriendRequest.receiverUser.username,
@@ -158,7 +158,7 @@ export async function deleteReceivedFriendRequestAction(
   prevState: any,
   formData: FormData,
 ): Promise<FriendActionState> {
-  // 1. Formdaten validieren
+  // Validate form data
   const validatedFields = manageFriendRequestSchema.safeParse({
     requestId: formData.get('id'),
   });
@@ -170,10 +170,8 @@ export async function deleteReceivedFriendRequestAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Create the friend request
 
   if (!sessionToken) {
     return {
@@ -182,6 +180,7 @@ export async function deleteReceivedFriendRequestAction(
     };
   }
 
+  // Create the friend request
   try {
     await deleteReceivedFriendRequest(
       sessionToken,
@@ -205,7 +204,7 @@ export async function deleteSentFriendRequestAction(
   prevState: any,
   formData: FormData,
 ): Promise<FriendActionState> {
-  // 1. Formdaten validieren
+  // Validate form data
   const validatedFields = manageFriendRequestSchema.safeParse({
     requestId: formData.get('id'),
   });
@@ -217,10 +216,8 @@ export async function deleteSentFriendRequestAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Create the friend request
 
   if (!sessionToken) {
     return {
@@ -229,6 +226,7 @@ export async function deleteSentFriendRequestAction(
     };
   }
 
+  // Delete the friend request
   try {
     await deleteSentFriendRequest(sessionToken, validatedFields.data.requestId);
 
@@ -249,6 +247,7 @@ export async function deleteFriendAction(
   prevState: any,
   formData: FormData,
 ): Promise<FriendActionState> {
+  // Validate form data
   const validatedFields = deleteFriendSchema.safeParse({
     friendId: formData.get('id'),
   });
@@ -260,10 +259,8 @@ export async function deleteFriendAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Delete the friend
 
   if (!sessionToken) {
     return {
@@ -272,6 +269,7 @@ export async function deleteFriendAction(
     };
   }
 
+  // Delete the friend
   try {
     await deleteFriend(sessionToken, validatedFields.data.friendId);
     revalidatePath(currentPath);
