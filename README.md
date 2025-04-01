@@ -17,7 +17,7 @@ A platform where people support each other in taking on comfort zone challenges.
 - Postgres
 - Jest
 - Playwright
-- Fly.io
+- Vercel
 
 ## Database Setup
 

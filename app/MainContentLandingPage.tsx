@@ -10,7 +10,7 @@ export default function MainContentLandingPage() {
     <div className="mx-auto max-w-[1300px] px-4 sm:px-10">
       <header className="max-w-[1000px] mx-auto">
         <h1 className="text-4xl md:text-6xl lg:text-[100px] font-bold text-center leading-tight mt-8">
-          Are you ready to <span className="text-secondary">challenge </span>
+          Are you ready to <span className="text-secondary">!challenge </span>
           yourself?
         </h1>
         <div className="mt-6 md:mt-10 lg:mt-14 flex justify-center gap-20">
