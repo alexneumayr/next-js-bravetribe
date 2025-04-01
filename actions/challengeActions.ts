@@ -15,7 +15,7 @@ export async function createChallengeAction(
   prevState: any,
   formData: FormData,
 ): Promise<ChallengeActionState> {
-  // 1. Formdaten validieren
+  // Validate the form data
   const validatedFields = challengeSchema
     .omit({ id: true, isCompleted: true })
     .safeParse({
@@ -31,10 +31,8 @@ export async function createChallengeAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Create the challenge
 
   if (!sessionToken) {
     return {
@@ -43,6 +41,7 @@ export async function createChallengeAction(
     };
   }
 
+  //  Create the challenge
   try {
     const newChallenge = await createChallenge(sessionToken, {
       title: validatedFields.data.title,
@@ -72,7 +71,7 @@ export async function updateChallengeAction(
   prevState: any,
   formData: FormData,
 ): Promise<ChallengeActionState> {
-  // 1. Formdaten validieren
+  // Validate form data
   const validatedFields = challengeSchema
     .omit({ isCompleted: true })
     .safeParse({
@@ -89,10 +88,8 @@ export async function updateChallengeAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Update the challenge
 
   if (!sessionToken) {
     return {
@@ -101,6 +98,7 @@ export async function updateChallengeAction(
     };
   }
 
+  // Update the challenge
   try {
     const updatedChallenge = await updateChallenge(sessionToken, {
       id: validatedFields.data.id,
@@ -130,7 +128,7 @@ export async function updateChallengeStatusAction(
   prevState: any,
   formData: FormData,
 ): Promise<ChallengeActionState> {
-  // 1. Formdaten validieren
+  // Validate form data
   const validatedFields = challengeSchema.pick({ id: true }).safeParse({
     id: formData.get('id'),
   });
@@ -142,10 +140,8 @@ export async function updateChallengeStatusAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Update the challenge
 
   if (!sessionToken) {
     return {
@@ -154,6 +150,7 @@ export async function updateChallengeStatusAction(
     };
   }
 
+  // Update the challenge
   try {
     const updatedChallenge = await updateChallengeStatus(sessionToken, {
       id: validatedFields.data.id,
@@ -181,6 +178,7 @@ export async function deleteChallengeAction(
   prevState: any,
   formData: FormData,
 ): Promise<ChallengeActionState> {
+  // Validate form data
   const validatedFields = challengeSchema.pick({ id: true }).safeParse({
     id: formData.get('id'),
   });
@@ -192,10 +190,8 @@ export async function deleteChallengeAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Delete the challenge
 
   if (!sessionToken) {
     return {
@@ -204,6 +200,7 @@ export async function deleteChallengeAction(
     };
   }
 
+  // Delete the challenge
   try {
     await deleteChallenge(validatedFields.data.id, sessionToken);
     revalidatePath('/main/challenges');

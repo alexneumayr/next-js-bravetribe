@@ -17,7 +17,7 @@ export async function createCommentAction(
   prevState: any,
   formData: FormData,
 ): Promise<CommentActionState> {
-  // 1. Formdaten validieren
+  // Validate form data
   const validatedFields = commentSchema.omit({ id: true }).safeParse({
     content: formData.get('content'),
     experienceId: formData.get('experienceId'),
@@ -30,10 +30,8 @@ export async function createCommentAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Create the comment
 
   if (!sessionToken) {
     return {
@@ -42,6 +40,7 @@ export async function createCommentAction(
     };
   }
 
+  // Create the comment
   try {
     const newComment = await createComment(sessionToken, {
       content: validatedFields.data.content,

@@ -22,7 +22,7 @@ export async function registerUserAction(
   prevState: any,
   formData: FormData,
 ): Promise<RegisterActionState> {
-  // 1. Userdaten validieren
+  // Validate user data
   const validatedFields = registrationSchema.safeParse({
     username: formData.get('username'),
     email: formData.get('email'),
@@ -37,7 +37,7 @@ export async function registerUserAction(
     };
   }
 
-  // 2. Checken, ob User schon existiert
+  // Check if user already exists
   const userByEmail = await getUserByEmailInsecure(validatedFields.data.email);
   if (userByEmail) {
     return {
@@ -54,11 +54,11 @@ export async function registerUserAction(
       error: { general: 'Username already taken' },
     };
   }
-  // Wenn er nicht existiert:
-  // 3. Passwort hashen:
+
+  // If he does not exist create a hashed password
   const passwordHash = await bcrypt.hash(validatedFields.data.password, 12);
 
-  // 4. Userinfo mit gehashtem Passwort in Datenbank speichern
+  // Safe user data with the hashed password in the database
   let newUser;
   try {
     newUser = await createUserInsecure(
@@ -73,10 +73,10 @@ export async function registerUserAction(
     };
   }
 
-  // 5. Token erstellen
+  // Create the token
   const token = crypto.randomBytes(100).toString('base64');
 
-  // 6. Session-Eintrag erstellen (weil der User gleich eingeloggt sein soll)
+  // Create a session (to automatically login the user after registration)
   let session;
   try {
     session = await createSessionInsecure(token, newUser.id);
@@ -99,7 +99,7 @@ export async function loginUserAction(
   prevState: any,
   formData: FormData,
 ): Promise<LoginActionState> {
-  // 1. Userdaten validieren
+  // Validate user data
   const validatedFields = signinSchema.safeParse({
     username: formData.get('username'),
     password: formData.get('password'),
@@ -112,7 +112,7 @@ export async function loginUserAction(
     };
   }
 
-  // 3. Verify the user credentials
+  // Verify user credentials
   const userWithPasswordHash = await getUserWithPasswordHashInsecure(
     validatedFields.data.username,
   );
@@ -123,7 +123,7 @@ export async function loginUserAction(
     };
   }
 
-  // 4. Validate the user password by comparing with hashed password
+  // Validate the user password by comparing with hashed password
   const isPasswordValid = await bcrypt.compare(
     validatedFields.data.password,
     userWithPasswordHash.passwordHash,
@@ -136,10 +136,10 @@ export async function loginUserAction(
     };
   }
 
-  // At this stage we have already confirmed that the user is who they say they are
+  // When the password is correct create a token for the following session creation
   const token = crypto.randomBytes(100).toString('base64');
 
-  // Session-Eintrag erstellen
+  // Create the session
   let session;
   try {
     session = await createSessionInsecure(token, userWithPasswordHash.id);
@@ -159,19 +159,18 @@ export async function loginUserAction(
 }
 
 export async function logoutUserAction(): Promise<LogoutActionState> {
-  // Task: Implement the user logout workflow
   const cookieStore = await cookies();
 
-  // 1. Get the session token from the cookie
+  // Get the session token from the cookie
   const token = cookieStore.get('sessionToken');
 
-  // 2. Delete the session from the database based on the token
+  // Delete the session from the database based on the token
 
   if (token) {
     try {
       await deleteSession(token.value);
 
-      // 3. Delete the session cookie from the browser
+      // Delete the session cookie from the browser
       cookieStore.delete(token.name);
 
       return { success: true };
