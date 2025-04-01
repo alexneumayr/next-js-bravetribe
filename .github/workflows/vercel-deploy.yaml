@@ -12,11 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-      - name: Create global bin directory
-        run: pnpm setup
+        uses: pnpm/action-setup@v4
       - name: Install Vercel CLI
         run: pnpm add --global vercel@latest
       - name: Pull Vercel Environment Information
