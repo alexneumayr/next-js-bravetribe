@@ -13,11 +13,12 @@ jobs:
       PGUSERNAME: bravetribe
       PGPASSWORD: bravetribe
       DATABASE_URL: 'postgresql://bravetribe:bravetribe@localhost:5432/bravetribe?schema=bravetribe'
-      NEXTAUTH_SECRET: xxxxxxxxxxxxxxx
-      NEXTAUTH_URL: xxxxxxxxxxxxxxx
-      CLOUDINARY_CLOUD_NAME: xxxxxxxxxxxxxxx
-      CLOUDINARY_API_KEY: xxxxxxxxxxxxxxx
+      NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: xxxxxxxxxxxxxxx
+      NEXT_PUBLIC_CLOUDINARY_API_KEY: xxxxxxxxxxxxxxx
       CLOUDINARY_API_SECRET: xxxxxxxxxxxxxxx
+      NEXT_PUBLIC_KNOCK_API_KEY: xxxxxxxxxxxxxxx
+      KNOCK_API_SECRET: xxxxxxxxxxxxxxx
+      NEXT_PUBLIC_KNOCK_FEED_CHANNEL_ID: xxxxxxxxxxxxxxx
 
     steps:
       - name: Start preinstalled PostgreSQL on Ubuntu

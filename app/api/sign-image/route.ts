@@ -5,6 +5,7 @@ type ResponseBodyCloudinarySignImage = {
   signature: string;
 };
 
+// API Route to sign cloudinary requests
 export async function POST(
   request: Request,
 ): Promise<NextResponse<ResponseBodyCloudinarySignImage>> {

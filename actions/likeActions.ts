@@ -14,7 +14,7 @@ export async function createLikeAction(
   prevState: any,
   formData: FormData,
 ): Promise<LikeActionState> {
-  // 1. Formdaten validieren
+  // Validate form data
   const validatedFields = likeSchema.pick({ experienceId: true }).safeParse({
     experienceId: formData.get('experienceId'),
   });
@@ -26,10 +26,8 @@ export async function createLikeAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Create the like
 
   if (!sessionToken) {
     return {
@@ -37,6 +35,7 @@ export async function createLikeAction(
       error: { general: 'Failed to access session token' },
     };
   }
+  // Create the like
   try {
     const newLike = await createLike(sessionToken, {
       experienceId: validatedFields.data.experienceId,
@@ -48,6 +47,7 @@ export async function createLikeAction(
         error: { general: 'Like creation returned no data' },
       };
     }
+    // Send notification to the user
     await knock.workflows.trigger('experience-liked', {
       data: {
         name: newLike.user.username,
@@ -74,6 +74,7 @@ export async function deleteLikeAction(
   prevState: any,
   formData: FormData,
 ): Promise<LikeActionState> {
+  // Validate form data
   const validatedFields = likeSchema.pick({ id: true }).safeParse({
     id: formData.get('id'),
   });
@@ -85,10 +86,8 @@ export async function deleteLikeAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Delete the like
 
   if (!sessionToken) {
     return {
@@ -97,6 +96,7 @@ export async function deleteLikeAction(
     };
   }
 
+  // Delete the like
   try {
     await deleteLike(validatedFields.data.id, sessionToken);
     revalidatePath(currentPath);

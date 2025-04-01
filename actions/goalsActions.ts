@@ -10,7 +10,7 @@ export async function createGoalAction(
   prevState: any,
   formData: FormData,
 ): Promise<GoalActionState> {
-  // 1. Formdaten validieren
+  // Validate form data
   const validatedFields = goalSchema.omit({ id: true }).safeParse({
     title: formData.get('title'),
     deadline: formData.get('deadline'),
@@ -24,10 +24,8 @@ export async function createGoalAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Create the goal
 
   if (!sessionToken) {
     return {
@@ -35,6 +33,7 @@ export async function createGoalAction(
       error: { general: 'Failed to access session token' },
     };
   }
+  // Create the goal
   try {
     const newGoal = await createGoal(sessionToken, {
       title: validatedFields.data.title,
@@ -61,7 +60,7 @@ export async function updateGoalAction(
   prevState: any,
   formData: FormData,
 ): Promise<GoalActionState> {
-  // 1. Formdaten validieren
+  // Validate form data
   const validatedFields = goalSchema.safeParse({
     id: formData.get('id'),
     title: formData.get('title'),
@@ -76,10 +75,10 @@ export async function updateGoalAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
 
-  // 4. Update the goal
+  // Update the goal
 
   if (!sessionToken) {
     return {
@@ -115,6 +114,7 @@ export async function deleteGoalAction(
   prevState: any,
   formData: FormData,
 ): Promise<GoalActionState> {
+  // Validate form data
   const validatedFields = goalSchema.pick({ id: true }).safeParse({
     id: formData.get('id'),
   });
@@ -126,10 +126,8 @@ export async function deleteGoalAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Delete the goal
 
   if (!sessionToken) {
     return {
@@ -138,6 +136,7 @@ export async function deleteGoalAction(
     };
   }
 
+  // Delete the goal
   try {
     await deleteGoal(validatedFields.data.id, sessionToken);
     revalidatePath('/main/goals');

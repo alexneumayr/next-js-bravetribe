@@ -20,7 +20,7 @@ export async function updateUserAction(
   prevState: any,
   formData: FormData,
 ): Promise<UserActionState> {
-  // 1. Formdaten validieren
+  // Validate form data
   const validatedFields = userSchema.safeParse({
     id: formData.get('id'),
     username: formData.get('username'),
@@ -38,10 +38,8 @@ export async function updateUserAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Update the user
 
   if (!sessionToken) {
     return {
@@ -50,6 +48,7 @@ export async function updateUserAction(
     };
   }
 
+  // Update the user
   try {
     await updateUser(sessionToken, {
       id: validatedFields.data.id,
@@ -75,7 +74,7 @@ export async function updateUserPasswordAction(
   prevState: any,
   formData: FormData,
 ): Promise<UserActionState> {
-  // 1. Formdaten validieren
+  // Validate form data
   const validatedFields = changeUserPasswordSchema.safeParse({
     id: formData.get('id'),
     currentPassword: formData.get('current-password'),
@@ -90,7 +89,7 @@ export async function updateUserPasswordAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
 
   if (!sessionToken) {
@@ -100,6 +99,7 @@ export async function updateUserPasswordAction(
     };
   }
 
+  // Get current user data
   const user = sessionToken && (await getUserBySessionToken(sessionToken));
 
   if (!user) {
@@ -121,8 +121,10 @@ export async function updateUserPasswordAction(
     };
   }
 
+  // Hash the new password
   const passwordHash = await bcrypt.hash(validatedFields.data.newPassword, 12);
 
+  // Update user data
   try {
     await updateUser(sessionToken, {
       id: validatedFields.data.id,
@@ -142,6 +144,7 @@ export async function toggleAreExperiencesPublicAction(
   prevState: any,
   user: Pick<User, 'id' | 'areExperiencesPublic'>,
 ): Promise<UserActionState> {
+  // Validate form data
   const validatedFields = userSchema.safeParse({
     id: user.id,
     areExperiencesPublic: user.areExperiencesPublic,
@@ -153,7 +156,7 @@ export async function toggleAreExperiencesPublicAction(
       error: validatedFields.error.flatten().fieldErrors,
     };
   }
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
   if (!sessionToken) {
     return {
@@ -162,6 +165,7 @@ export async function toggleAreExperiencesPublicAction(
     };
   }
 
+  // Update user data
   try {
     await updateUser(sessionToken, {
       id: validatedFields.data.id,
@@ -184,6 +188,7 @@ export async function deleteUserAction(
   prevState: any,
   formData: FormData,
 ): Promise<UserActionState> {
+  // Validate form data
   const validatedFields = deleteUserSchema.safeParse({
     id: formData.get('id'),
     deleteConfirmation: formData.get('delete-confirmation'),
@@ -196,10 +201,8 @@ export async function deleteUserAction(
     };
   }
 
-  // 3. Get the token from the cookie
+  // Get the token from the cookie
   const sessionToken = await getCookie('sessionToken');
-
-  // 4. Delete the user
 
   if (!sessionToken) {
     return {
@@ -208,6 +211,7 @@ export async function deleteUserAction(
     };
   }
 
+  // Delete the user
   try {
     await deleteUser(validatedFields.data.id, sessionToken);
     revalidatePath('/main/settings');
