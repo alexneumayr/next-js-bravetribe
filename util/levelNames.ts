@@ -1,3 +1,4 @@
+// Return a string containing the level name corresponding to the amount of experiences
 export default function levelNames(experiencesAmount: number) {
   if (typeof experiencesAmount !== 'number') {
     throw new Error('Parameter must be a number');

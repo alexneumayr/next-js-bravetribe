@@ -16,7 +16,7 @@ type Props = {
 };
 
 export default function SearchArea({ searchParams }: Props) {
-  const currentPath = usePathname(); // Stores the current path
+  const currentPath = usePathname();
   const [searchText, setSearchText] = useState(searchParams.text || '');
   const router = useRouter();
 

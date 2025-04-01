@@ -84,7 +84,7 @@ export default function ProfileButtonsArea({
         <AddFriendButton receiverUserId={profileUser.id} />
       )}
 
-      {/* Add messaging functionality later */}
+      {/* Messaging functionality will be added later */}
       <Button variant="secondary">
         <MessageSquareText />
         Message

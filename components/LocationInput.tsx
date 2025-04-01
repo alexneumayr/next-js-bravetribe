@@ -38,11 +38,12 @@ export default function LocationInput({
     }[];
   };
 
+  /* Fetches the suggestions from Places Autocomplete (Google Places API).
+  It uses debounce to avoid fetching on every single key stroke. */
   const debouncedFetchSuggestions = useMemo(
     () =>
       debounce(async (placeName: string) => {
         try {
-          console.log('Fetching');
           const data = await fetch(
             'https://places.googleapis.com/v1/places:autocomplete',
             {
@@ -86,7 +87,6 @@ export default function LocationInput({
   function handleLocationInputChange(
     event: React.ChangeEvent<HTMLInputElement>,
   ) {
-    console.log(event.currentTarget.value);
     onChange(event);
 
     if (event.currentTarget.value) {

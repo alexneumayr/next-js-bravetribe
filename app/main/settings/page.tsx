@@ -7,6 +7,7 @@ import SettingsTabs from './SettingsTabs';
 export default async function SettingsPage() {
   const sessionTokenCookie = await getCookie('sessionToken');
 
+  // If the user is not logged in redirect to login page
   const user =
     sessionTokenCookie && (await getUserBySessionToken(sessionTokenCookie));
   if (!user) {

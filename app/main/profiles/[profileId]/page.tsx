@@ -27,7 +27,7 @@ export default async function IndividualProfilePage(props: Props) {
   if (!currentUser) {
     redirect('/access?mode=signin&returnTo=/main/experiences');
   }
-  //  Check if the experience exists
+  //  Check if the user exists
   if (!profileUser) {
     return (
       <div className="text-center">

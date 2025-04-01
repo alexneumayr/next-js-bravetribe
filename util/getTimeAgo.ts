@@ -1,5 +1,6 @@
 import { DateTime, Interval } from 'luxon';
 
+// Returns a string which says how much time has passed since the time contained in the date variable
 export function getTimeAgo(date: Date) {
   if (!(date instanceof Date)) {
     throw new Error('Parameter must be a DateTime object');

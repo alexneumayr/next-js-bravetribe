@@ -47,7 +47,7 @@ export default function MainFriendsContent({
                       </p>
                     </Link>
                   </div>
-                  {/* Add message functionality later */}
+                  {/* Message functionality will be added later */}
                   <Button
                     variant="secondary"
                     className="ml-auto hidden sm:flex"

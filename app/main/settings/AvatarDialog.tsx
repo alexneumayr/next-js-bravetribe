@@ -38,7 +38,7 @@ export default function AvatarDialog({
   const [imageUrl, setImageUrl] = useState(user.avatarImageUrl || '');
 
   useEffect(() => {
-    // Disable Radix ui dialog pointer events lockout
+    // Disable Radix ui dialog pointer events lockout (otherwise the Cloudinary Widget would not work)
     setTimeout(() => (document.body.style.pointerEvents = ''), 0);
   });
 
@@ -91,8 +91,8 @@ export default function AvatarDialog({
               }}
               options={{
                 sources: ['local'],
-                cropping: true, // Zuschneiden aktivieren
-                croppingAspectRatio: 1, // 1:1 für quadratischen Ausschnitt
+                cropping: true, // enables cropping
+                croppingAspectRatio: 1, // chooses square cropping
                 showSkipCropButton: false,
                 multiple: false,
                 maxFileSize: 1024 * 1024 * 5,

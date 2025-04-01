@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 export const secureCookieOptions = {
   httpOnly: true,
   path: '/',
-  maxAge: 60 * 60 * 24, // Expires 24 hours
+  maxAge: 60 * 60 * 24, // Expires in 24 hours
   sameSite: 'lax',
   secure: process.env.NODE_ENV === 'production',
 } as const;

@@ -22,6 +22,7 @@ export default async function TemplatesPage({ searchParams }: Props) {
   const sessionTokenCookie = await getCookie('sessionToken');
   const session =
     sessionTokenCookie && (await getValidSession(sessionTokenCookie));
+  // If the user is not logged in redirect to login page
   if (!session) {
     redirect('/access?mode=signin&returnTo=/main/challenge/templates');
   }
@@ -36,7 +37,6 @@ export default async function TemplatesPage({ searchParams }: Props) {
   const resultsCount = await getTotalAmountOfChallengeTemplatesInsecure(
     searchText || '',
   );
-  console.log('results', resultsCount);
   return (
     <>
       <div>

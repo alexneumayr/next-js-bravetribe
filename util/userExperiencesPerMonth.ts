@@ -2,8 +2,10 @@ import { getExperiencesFromLast12MonthsByUserIdInsecure } from '@/database/exper
 import { DateTime } from 'luxon';
 import { monthNames } from './monthNames';
 
-export async function userExperiencesPerMonth(id: string) {
-  const experiences = await getExperiencesFromLast12MonthsByUserIdInsecure(id);
+/* Returns an array with the names of the last 12 months and the corresponding number of experience reports from the specified user. */
+export async function userExperiencesPerMonth(userId: string) {
+  const experiences =
+    await getExperiencesFromLast12MonthsByUserIdInsecure(userId);
 
   const currentMonth = new Date().getMonth();
 

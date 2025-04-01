@@ -18,6 +18,7 @@ export default async function SearchPage({ searchParams }: Props) {
   const user =
     sessionTokenCookie && (await getUserBySessionToken(sessionTokenCookie));
 
+  // If the user is not logged in redirect to login page
   if (!user) {
     redirect('/access?mode=signin&returnTo=/main/search');
   }

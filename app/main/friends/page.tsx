@@ -25,12 +25,14 @@ export default async function FriendsPage({ searchParams }: Props) {
   const sessionTokenCookie = await getCookie('sessionToken');
   const session =
     sessionTokenCookie && (await getValidSession(sessionTokenCookie));
+  // If the user is not logged in redirect to login page
   if (!session) {
     redirect('/access?mode=signin&returnTo=/main');
   }
 
   const friends = await getFriends(session.token, currentPage, pageSize);
 
+  // Filter the friends array because the result of the previous database query also contains the current user itself in every friend request (either as the requester or receiver of the friend request)
   const filteredFriends = friends.map((friend) => {
     if (friend.receiverUserId !== session.userId) {
       return friend.receiverUser as User;
@@ -40,7 +42,6 @@ export default async function FriendsPage({ searchParams }: Props) {
   });
 
   const totalFriendsCount = await getTotalFriendsCount(session.token);
-
   const receivedFriendRequests = await getReceivedFriendRequests(session.token);
 
   return (

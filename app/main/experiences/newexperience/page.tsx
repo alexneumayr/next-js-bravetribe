@@ -19,6 +19,7 @@ export default async function NewExperiencePage({ searchParams }: Props) {
   const sessionTokenCookie = await getCookie('sessionToken');
   const session =
     sessionTokenCookie && (await getValidSession(sessionTokenCookie));
+  // If the user is not logged in redirect to login page
   if (!session) {
     redirect('/access?mode=signin&returnTo=/main/experiences/newexperience');
   }
