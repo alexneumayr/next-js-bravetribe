@@ -63,7 +63,7 @@ pnpx prisma migrate deploy
 
 ## Database Setup (production)
 
-For production, Neon is used as the database provider. Ensure that your environment variables in the .env file are correctly configured to connect to your Neon Postgres database.
+For production, Neon is used as the database provider. Ensure that the environment variables in the .env file are correctly configured to connect to your Neon Postgres database.
 
 ## Tests
 
