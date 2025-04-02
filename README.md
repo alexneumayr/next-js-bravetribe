@@ -4,24 +4,30 @@ A platform where people support each other in taking on comfort zone challenges.
 
 ![Screenshot of the home page](./public/screenshots/screenshot.png)
 
-## Technologies
+## Technologies:
 
+- Next.js
 - Tailwind
 - shadcn/ui
-- Cloudinary
-- Google Maps JavaScript API
-- Google Places API
-- Knock
-- Next.js
+- PostgreSQL
 - Prisma
-- Postgres
 - Jest
 - Playwright
+
+## Services:
+
+- Figma
+- DrawSQL
+- Google Maps JavaScript API
+- Google Places API
+- Cloudinary
+- Knock
+- Neon
 - Vercel
 
 ## Database Setup (development)
 
-If you haven't installed PostgreSQL you can follow the instructions from UpLeveled: https://github.com/upleveled/system-setup/blob/main/readme.md
+For development a local PostgreSQL server was used. If you haven't installed PostgreSQL you can follow the instructions from UpLeveled: https://github.com/upleveled/system-setup/blob/main/readme.md
 
 Copy the contents of the file .env.example to a new file .env (which should be ignored by GitHub) and fill in all the information. This is not only important for the database to run but also for NextAuth and Cloudinary to function properly.
 
@@ -63,7 +69,7 @@ pnpx prisma migrate deploy
 
 ## Database Setup (production)
 
-For production, Neon is used as the database provider. Ensure that the environment variables in the .env file are correctly configured to connect to your Neon Postgres database.
+For production, Neon is used as the database provider. Ensure that the environment variables in the .env file are correctly configured to connect to your Neon database.
 
 ## Tests
 
