@@ -451,7 +451,7 @@ const initFriends: Prisma.FriendCreateInput[] = [
 
 async function main() {
   /*
-  // Deletion block:
+  // Deletion block for re-seeding:
   // Only needed for resetting existing tables
   await prisma.template.deleteMany();
   await prisma.session.deleteMany();
