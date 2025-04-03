@@ -77,7 +77,7 @@ export interface UserWithExperiences extends User {
 }
 
 export interface FullComment extends Comment {
-  user: UserWithExperiences;
+  user: UserWithExperiences | null;
 }
 
 export type CommentActionState = {
