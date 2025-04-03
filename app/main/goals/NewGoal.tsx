@@ -54,14 +54,21 @@ export default function NewGoal() {
     initialState,
   );
 
+  const { reset } = form;
+
   useEffect(() => {
     if (state.success) {
       setIsDialogOpen(false);
     }
   }, [state]);
 
+  function handleDialogOpenChange(isOpen: boolean) {
+    setIsDialogOpen(isOpen);
+    reset();
+  }
+
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+    <Dialog open={isDialogOpen} onOpenChange={handleDialogOpenChange}>
       <DialogTrigger>
         <div className="bg-secondary flex items-center justify-center rounded-[5px] text-secondary-foreground w-[52px] h-[30px] text-xs font-medium">
           New
