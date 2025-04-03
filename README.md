@@ -9,6 +9,7 @@ A platform where people support each other in taking on comfort zone challenges.
 - Next.js
 - Tailwind
 - shadcn/ui
+- TanStack
 - PostgreSQL
 - Prisma
 - Jest
