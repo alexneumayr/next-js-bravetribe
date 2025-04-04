@@ -11,7 +11,7 @@ export default function MainContentLandingPage() {
       <header className="max-w-[1000px] mx-auto">
         <h1 className="text-4xl md:text-6xl lg:text-[100px] font-bold text-center leading-tight mt-8">
           Are you ready to{' '}
-          <span className="text-secondary">!AAAchallenge </span>
+          <span className="text-secondary">!XXXchallenge </span>
           yourself?
         </h1>
         <div className="mt-6 md:mt-10 lg:mt-14 flex justify-center gap-20">
