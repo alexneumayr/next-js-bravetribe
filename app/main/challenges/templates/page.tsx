@@ -27,7 +27,7 @@ export default async function TemplatesPage({ searchParams }: Props) {
     redirect('/access?mode=signin&returnTo=/main/challenge/templates');
   }
   const searchText = awaitedSearchParams.text;
-  const pageSize = Number(awaitedSearchParams.pageSize) || 9;
+  const pageSize = Number(awaitedSearchParams.pageSize) || 8;
   const currentPage = Number(awaitedSearchParams.page) || 1;
   const challengeTemplates = await getChallengeTemplatesInsecure(
     searchText || '',
